@@ -4,6 +4,7 @@ using OpenTK.Windowing.Common;
 using OpenTK.Graphics.OpenGL4;
 using StbImageSharp;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using BedrockReplay.Graphics;
 
 namespace BedrockReplay
 {
@@ -77,7 +78,7 @@ namespace BedrockReplay
             new Vector2(0f, 0f)
         };
 
-        uint[] indices =
+        List<uint> indices = new List<uint>()
         {
             //Front Face
             //Top Triangle
@@ -117,12 +118,10 @@ namespace BedrockReplay
         };
 
         //Render Pipeline Variables
-        int vao;
-        int vbo;
-        int texVbo;
-        int shaderProgram;
-        int ebo;
-        int textureID;
+        VAO vao;
+        IBO ibo;
+        ShaderProgram shader;
+        Texture texture;
 
         //Transform variables
         float yRot = 0f;
@@ -143,79 +142,15 @@ namespace BedrockReplay
         {
             base.OnLoad();
 
-            //Gen VAO
-            vao = GL.GenVertexArray();
-            //Bind VAO
-            GL.BindVertexArray(vao);
+            vao = new VAO();
+            var vbo = new VBO(vertices);
+            vao.LinkToVao(0, 3, vbo);
+            VBO uvVBO = new VBO(textCoords);
+            vao.LinkToVao(1, 2, uvVBO);
 
-            //Gen VBO
-            vbo = GL.GenBuffer();
-            //Bind VBO
-            GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
-            GL.BufferData(BufferTarget.ArrayBuffer, vertices.Count * Vector3.SizeInBytes, vertices.ToArray(), BufferUsageHint.StaticDraw);
-
-            //Put the vertex VBO in slot 0 of our VAO
-            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 0, 0);
-            GL.EnableVertexArrayAttrib(vao, 0);
-
-            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
-
-            //Texture VBO
-            texVbo = GL.GenBuffer();
-            GL.BindBuffer(BufferTarget.ArrayBuffer, texVbo);
-            GL.BufferData(BufferTarget.ArrayBuffer, textCoords.Count * Vector2.SizeInBytes, textCoords.ToArray(), BufferUsageHint.StaticDraw);
-
-            //Put the texture VBO in slot 1 of our VAO
-            GL.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, 0, 0);
-            GL.EnableVertexArrayAttrib(vao, 1);
-
-            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
-
-
-            GL.BindVertexArray(0); //Unbind VAO
-
-            ebo = GL.GenBuffer();
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, ebo);
-            GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
-
-            shaderProgram = GL.CreateProgram();
-
-            int vertexShader = GL.CreateShader(ShaderType.VertexShader);
-            GL.ShaderSource(vertexShader, LoadShaderSource("Default.vert"));
-            GL.CompileShader(vertexShader);
-            int fragmentShader = GL.CreateShader(ShaderType.FragmentShader);
-            GL.ShaderSource(fragmentShader, LoadShaderSource("Default.frag"));
-            GL.CompileShader(fragmentShader);
-
-            GL.AttachShader(shaderProgram, vertexShader);
-            GL.AttachShader(shaderProgram, fragmentShader);
-
-            GL.LinkProgram(shaderProgram);
-
-            //Delete shaders
-            GL.DeleteShader(vertexShader);
-            GL.DeleteShader(fragmentShader);
-
-            //TEXTURES
-            textureID = GL.GenTexture();
-            //activate the texture in the unit
-            GL.ActiveTexture(TextureUnit.Texture0);
-            GL.BindTexture(TextureTarget.Texture2D, textureID);
-
-            //Texture Parameters
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Nearest);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Nearest);
-
-            //Load image
-            StbImage.stbi_set_flip_vertically_on_load(1);
-            ImageResult bookshelfTexture = ImageResult.FromStream(File.OpenRead("./Textures/bookshelf.png"), ColorComponents.RedGreenBlueAlpha);
-
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, bookshelfTexture.Width, bookshelfTexture.Height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, bookshelfTexture.Data);
-            //Unbind Texture
-            GL.BindTexture(TextureTarget.Texture2D, 0);
+            ibo = new IBO(indices);
+            shader = new ShaderProgram("Default.vert", "Default.frag");
+            texture = new Texture("bookshelf.png");
 
             GL.Enable(EnableCap.DepthTest);
 
@@ -244,11 +179,10 @@ namespace BedrockReplay
             GL.ClearColor(0.4f, 0.6f, 0.8f, 1f);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            //Draw triangle
-            GL.UseProgram(shaderProgram);
-            GL.BindTexture(TextureTarget.Texture2D, textureID);
-            GL.BindVertexArray(vao);
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, ebo);
+            shader.Bind();
+            vao.Bind();
+            ibo.Bind();
+            texture.Bind();
 
             //Transformation matrices
             Matrix4 model = Matrix4.Identity;
@@ -256,18 +190,17 @@ namespace BedrockReplay
             Matrix4 projection = camera.GetProjectionMatrix();
 
             model = Matrix4.CreateRotationY(yRot);
-            yRot += 0.001f;
             model *= Matrix4.CreateTranslation(0, 0, -3f);
 
-            int modelLocation = GL.GetUniformLocation(shaderProgram, "model");
-            int viewLocation = GL.GetUniformLocation(shaderProgram, "view");
-            int projectionLocation = GL.GetUniformLocation(shaderProgram, "projection");
+            int modelLocation = GL.GetUniformLocation(shader.ID, "model");
+            int viewLocation = GL.GetUniformLocation(shader.ID, "view");
+            int projectionLocation = GL.GetUniformLocation(shader.ID, "projection");
 
             GL.UniformMatrix4(modelLocation, true, ref model);
             GL.UniformMatrix4(viewLocation, true, ref view);
             GL.UniformMatrix4(projectionLocation, true, ref projection);
 
-            GL.DrawElements(PrimitiveType.Triangles, indices.Length, DrawElementsType.UnsignedInt, 0);
+            GL.DrawElements(PrimitiveType.Triangles, indices.Count, DrawElementsType.UnsignedInt, 0);
             //GL.DrawArrays(PrimitiveType.Triangles, 0, 4);
 
             Context.SwapBuffers();
@@ -277,31 +210,10 @@ namespace BedrockReplay
         protected override void OnUnload()
         {
             base.OnUnload();
-
-            GL.DeleteVertexArray(vao);
-            GL.DeleteBuffer(vbo);
-            GL.DeleteBuffer(ebo);
-            GL.DeleteTexture(textureID);
-            GL.DeleteProgram(shaderProgram);
-        }
-
-        public static string LoadShaderSource(string filePath)
-        {
-            string shaderSource = "";
-
-            try
-            {
-                using(StreamReader reader = new StreamReader("./Shaders/" + filePath))
-                {
-                    shaderSource = reader.ReadToEnd();
-                }
-            }
-            catch
-            {
-                //Nothing RN
-            }
-
-            return shaderSource;
+            vao.Delete();
+            ibo.Delete();
+            texture.Delete();
+            shader.Delete();
         }
     }
 }

@@ -11,7 +11,7 @@ namespace BedrockReplay
         private float SPEED = 8f;
         private float SCREEN_WIDTH;
         private float SCREEN_HEIGHT;
-        private float SENSITIVITY = 180f;
+        private float SENSITIVITY = 30f;
 
         private Vector3 Up = Vector3.UnitY;
         private Vector3 Forward = -Vector3.UnitZ;
