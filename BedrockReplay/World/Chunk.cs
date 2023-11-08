@@ -11,7 +11,7 @@ namespace BedrockReplay.World
         private List<uint> ChunkIndices;
 
         const int SIZE = 16;
-        const int HEIGHT = 320;
+        const int HEIGHT = 384;
         public Vector3 Position;
 
         private uint IndexCount;
