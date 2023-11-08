@@ -2,6 +2,13 @@
 
 namespace BedrockReplay.World
 {
+    public enum BlockType
+    {
+        Air,
+        BookShelf,
+        Dirt,
+        Grass
+    }
     public enum Faces
     {
         FRONT,
@@ -14,8 +21,8 @@ namespace BedrockReplay.World
 
     public struct FaceData
     {
-        public List<Vector3> vertices;
-        public List<Vector2> uv;
+        public List<Vector3> Vertices;
+        public List<Vector2> UV;
     }
 
     public struct RawFaceData
@@ -31,17 +38,17 @@ namespace BedrockReplay.World
             } },
             { Faces.BACK, new List<Vector3>()
             {
-                new Vector3(-0.5f, 0.5f, -0.5f), //Top Left Vert
-                new Vector3(0.5f, 0.5f, -0.5f), //Top Right Vert
-                new Vector3(0.5f, -0.5f, -0.5f), //Bottom Right Vert
-                new Vector3(-0.5f, -0.5f, -0.5f), //Bottom Left Vert
+                new Vector3(0.5f, 0.5f, -0.5f), //Top Left Vert
+                new Vector3(-0.5f, 0.5f, -0.5f), //Top Right Vert
+                new Vector3(-0.5f, -0.5f, -0.5f), //Bottom Right Vert
+                new Vector3(0.5f, -0.5f, -0.5f), //Bottom Left Vert
             } },
             { Faces.LEFT, new List<Vector3>()
             {
-                new Vector3(-0.5f, 0.5f, 0.5f), //Top Left Vert
-                new Vector3(-0.5f, 0.5f, -0.5f), //Top Right Vert
-                new Vector3(-0.5f, -0.5f, -0.5f), //Bottom Right Vert
-                new Vector3(-0.5f, -0.5f, 0.5f), //Bottom Left Vert
+                new Vector3(-0.5f, 0.5f, -0.5f), //Top Left Vert
+                new Vector3(-0.5f, 0.5f, 0.5f), //Top Right Vert
+                new Vector3(-0.5f, -0.5f, 0.5f), //Bottom Right Vert
+                new Vector3(-0.5f, -0.5f, -0.5f), //Bottom Left Vert
             } },
             { Faces.RIGHT, new List<Vector3>()
             {
@@ -59,11 +66,11 @@ namespace BedrockReplay.World
             } },
             { Faces.BOTTOM, new List<Vector3>()
             {
-                new Vector3(-0.5f, -0.5f, -0.5f), //Top Left Vert
-                new Vector3(0.5f, -0.5f, -0.5f), //Top Right Vert
-                new Vector3(0.5f, -0.5f, 0.5f), //Bottom Right Vert
-                new Vector3(-0.5f, -0.5f, 0.5f), //Bottom Left Vert
-            } },
+                new Vector3(-0.5f, -0.5f, 0.5f), //Top Left Vert
+                new Vector3(0.5f, -0.5f, 0.5f), //Top Right Vert
+                new Vector3(0.5f, -0.5f, -0.5f), //Bottom Right Vert
+                new Vector3(-0.5f, -0.5f, -0.5f), //Bottom Left Vert
+            } }
         };
     }
 }
