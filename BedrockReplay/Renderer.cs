@@ -10,9 +10,7 @@ namespace BedrockReplay
 {
     public class Renderer : GameWindow
     {
-        Chunk chunk;
-        Chunk chunk2;
-
+        Dimension dimension;
         //Camera
         Camera camera;
         ShaderProgram shader;
@@ -29,9 +27,7 @@ namespace BedrockReplay
         protected override void OnLoad()
         {
             base.OnLoad();
-
-            chunk = new Chunk(new Vector3(0, 0, 0));
-            chunk2 = new Chunk(new Vector3(16, 0, 0));
+            dimension = new Dimension();
             shader = new ShaderProgram("Default.vert", "Default.frag");
 
             GL.Enable(EnableCap.DepthTest);
@@ -77,8 +73,7 @@ namespace BedrockReplay
             GL.UniformMatrix4(viewLocation, true, ref view);
             GL.UniformMatrix4(projectionLocation, true, ref projection);
 
-            chunk.Render(shader);
-            chunk2.Render(shader);
+            dimension.Draw(shader);
 
             Context.SwapBuffers();
             base.OnRenderFrame(args);

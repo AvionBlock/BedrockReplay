@@ -11,12 +11,12 @@ namespace BedrockReplay.World
         public Dictionary<Faces, FaceData> Faces;
         public Dictionary<Faces, List<Vector2>> TexUV = new Dictionary<Faces, List<Vector2>>()
         {
-            { World.Faces.FRONT, new List<Vector2>() },
-            { World.Faces.BACK, new List<Vector2>() },
-            { World.Faces.LEFT, new List<Vector2>() },
-            { World.Faces.RIGHT, new List<Vector2>() },
-            { World.Faces.TOP, new List<Vector2>() },
-            { World.Faces.BOTTOM, new List<Vector2>() }
+            { BedrockReplay.World.Faces.FRONT, new List<Vector2>() },
+            { BedrockReplay.World.Faces.BACK, new List<Vector2>() },
+            { BedrockReplay.World.Faces.LEFT, new List<Vector2>() },
+            { BedrockReplay.World.Faces.RIGHT, new List<Vector2>() },
+            { BedrockReplay.World.Faces.TOP, new List<Vector2>() },
+            { BedrockReplay.World.Faces.BOTTOM, new List<Vector2>() }
         };
 
         public Dictionary<Faces, List<Vector2>> GetUVsFromCoordinates(Dictionary<Faces, Vector2> coords, float textureSize = 16)
@@ -49,29 +49,29 @@ namespace BedrockReplay.World
 
             Faces = new Dictionary<Faces, FaceData>()
             {
-                { World.Faces.FRONT, new FaceData {
-                    Vertices = AddTransformedVertices(RawFaceData.rawVertexData[World.Faces.FRONT]),
-                    UV = TexUV[World.Faces.FRONT]
+                { BedrockReplay.World.Faces.FRONT, new FaceData {
+                    Vertices = AddTransformedVertices(RawFaceData.rawVertexData[BedrockReplay.World.Faces.FRONT]),
+                    UV = TexUV[BedrockReplay.World.Faces.FRONT]
                 } },
-                { World.Faces.BACK, new FaceData {
-                    Vertices = AddTransformedVertices(RawFaceData.rawVertexData[World.Faces.BACK]),
-                    UV = TexUV[World.Faces.BACK]
+                { BedrockReplay.World.Faces.BACK, new FaceData {
+                    Vertices = AddTransformedVertices(RawFaceData.rawVertexData[BedrockReplay.World.Faces.BACK]),
+                    UV = TexUV[BedrockReplay.World.Faces.BACK]
                 } },
-                { World.Faces.LEFT, new FaceData {
-                    Vertices = AddTransformedVertices(RawFaceData.rawVertexData[World.Faces.LEFT]),
-                    UV = TexUV[World.Faces.LEFT]
+                { BedrockReplay.World.Faces.LEFT, new FaceData {
+                    Vertices = AddTransformedVertices(RawFaceData.rawVertexData[BedrockReplay.World.Faces.LEFT]),
+                    UV = TexUV[BedrockReplay.World.Faces.LEFT]
                 } },
-                { World.Faces.RIGHT, new FaceData {
-                    Vertices = AddTransformedVertices(RawFaceData.rawVertexData[World.Faces.RIGHT]),
-                    UV = TexUV[World.Faces.RIGHT]
+                { BedrockReplay.World.Faces.RIGHT, new FaceData {
+                    Vertices = AddTransformedVertices(RawFaceData.rawVertexData[BedrockReplay.World.Faces.RIGHT]),
+                    UV = TexUV[BedrockReplay.World.Faces.RIGHT]
                 } },
-                { World.Faces.TOP, new FaceData {
-                    Vertices = AddTransformedVertices(RawFaceData.rawVertexData[World.Faces.TOP]),
-                    UV = TexUV[World.Faces.TOP]
+                { BedrockReplay.World.Faces.TOP, new FaceData {
+                    Vertices = AddTransformedVertices(RawFaceData.rawVertexData[BedrockReplay.World.Faces.TOP]),
+                    UV = TexUV[BedrockReplay.World.Faces.TOP]
                 } },
-                { World.Faces.BOTTOM, new FaceData {
-                    Vertices = AddTransformedVertices(RawFaceData.rawVertexData[World.Faces.BOTTOM]),
-                    UV = TexUV[World.Faces.BOTTOM]
+                { BedrockReplay.World.Faces.BOTTOM, new FaceData {
+                    Vertices = AddTransformedVertices(RawFaceData.rawVertexData[BedrockReplay.World.Faces.BOTTOM]),
+                    UV = TexUV[BedrockReplay.World.Faces.BOTTOM]
                 } }
             };
         }
@@ -85,7 +85,7 @@ namespace BedrockReplay.World
             }
             return transformedVertices;
         }
-        public FaceData GetFace(Faces face)
+        public FaceData AddFace(Faces face)
         {
             return Faces[face];
         }

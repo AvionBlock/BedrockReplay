@@ -14,7 +14,6 @@ namespace BedrockReplay.Graphics
 
         public void LinkToVao(int location, int size, VBO vbo)
         {
-            Bind();
             vbo.Bind();
             GL.VertexAttribPointer(location, size, VertexAttribPointerType.Float, false, 0, 0);
             GL.EnableVertexAttribArray(location);

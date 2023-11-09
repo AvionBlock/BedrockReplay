@@ -12,6 +12,7 @@ namespace BedrockReplay.Graphics
             ID = GL.GenBuffer();
             GL.BindBuffer(BufferTarget.ArrayBuffer, ID);
             GL.BufferData(BufferTarget.ArrayBuffer, data.Count * Vector3.SizeInBytes, data.ToArray(), BufferUsageHint.StaticDraw);
+            Unbind();
         }
 
         public VBO(List<Vector2> data)
@@ -19,6 +20,7 @@ namespace BedrockReplay.Graphics
             ID = GL.GenBuffer();
             GL.BindBuffer(BufferTarget.ArrayBuffer, ID);
             GL.BufferData(BufferTarget.ArrayBuffer, data.Count * Vector2.SizeInBytes, data.ToArray(), BufferUsageHint.StaticDraw);
+            Unbind();
         }
 
         public void Bind() => GL.BindBuffer(BufferTarget.ArrayBuffer, ID);

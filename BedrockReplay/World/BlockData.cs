@@ -23,6 +23,7 @@ namespace BedrockReplay.World
     {
         public List<Vector3> Vertices;
         public List<Vector2> UV;
+        public List<float> Brightness;
     }
 
     public struct RawFaceData
