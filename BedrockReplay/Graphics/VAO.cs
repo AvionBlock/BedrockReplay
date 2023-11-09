@@ -17,7 +17,6 @@ namespace BedrockReplay.Graphics
             vbo.Bind();
             GL.VertexAttribPointer(location, size, VertexAttribPointerType.Float, false, 0, 0);
             GL.EnableVertexAttribArray(location);
-            Unbind();
         }
 
         public void Bind() => GL.BindVertexArray(ID);
