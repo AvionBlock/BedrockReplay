@@ -1,4 +1,4 @@
-﻿using BedrockReplay.World;
+﻿using BedrockReplay.Blocks;
 using OpenTK.Mathematics;
 
 namespace BedrockReplay.Textures

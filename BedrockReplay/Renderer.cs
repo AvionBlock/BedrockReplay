@@ -4,13 +4,13 @@ using OpenTK.Windowing.Common;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using BedrockReplay.Graphics;
-using BedrockReplay.World;
+using BedrockReplay.Worlds;
 
 namespace BedrockReplay
 {
     public class Renderer : GameWindow
     {
-        Dimension dimension;
+        World world;
         //Camera
         Camera camera;
         ShaderProgram shader;
@@ -27,7 +27,7 @@ namespace BedrockReplay
         protected override void OnLoad()
         {
             base.OnLoad();
-            dimension = new Dimension();
+            world = new World();
             shader = new ShaderProgram("Default.vert", "Default.frag");
 
             GL.Enable(EnableCap.DepthTest);
@@ -73,7 +73,7 @@ namespace BedrockReplay
             GL.UniformMatrix4(viewLocation, true, ref view);
             GL.UniformMatrix4(projectionLocation, true, ref projection);
 
-            dimension.Draw(shader);
+            world.Draw(shader);
 
             Context.SwapBuffers();
             base.OnRenderFrame(args);

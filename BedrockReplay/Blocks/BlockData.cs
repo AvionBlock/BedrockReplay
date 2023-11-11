@@ -1,6 +1,6 @@
 ﻿using OpenTK.Mathematics;
 
-namespace BedrockReplay.World
+namespace BedrockReplay.Blocks
 {
     public enum BlockType
     {
