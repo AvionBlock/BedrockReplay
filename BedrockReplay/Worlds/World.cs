@@ -17,6 +17,8 @@ namespace BedrockReplay.Worlds
             Registry = new BlockRegistry();
             Chunks.Add(new Chunk(new Vector3(0, 0, 0), 256, this));
             Chunks.Add(new Chunk(new Vector3(1, 0, 0), 256, this));
+            Chunks.Add(new Chunk(new Vector3(1, 0, 1), 256, this));
+            Chunks.Add(new Chunk(new Vector3(0, 0, 1), 256, this));
         }
 
         /// <summary>
