@@ -9,6 +9,7 @@
         {
             Blocks.Add(DefaultBlock);
             Blocks.Add(new Block(BlockType.Grass));
+            Blocks.Add(new Block(BlockType.BookShelf));
         }
 
         public int GetIndexForBlockId(BlockType type)

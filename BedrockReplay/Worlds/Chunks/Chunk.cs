@@ -10,26 +10,28 @@ namespace BedrockReplay.Worlds.Chunks
         public const int Width = 16;
 
         public readonly int Height = 256;
+        public readonly int MinHeight = 0;
         public readonly World _World;
-        public Vector3 Position;
+        public Vector2i Position;
         public int ChunkSections => Sections.Length;
 
-        protected IChunkData?[] Sections;
+        protected IChunkData[] Sections;
 
-        public Chunk(Vector3 position, int height, World world)
+        public Chunk(World world, Vector2i position, int minHeight = 0, int height = 256)
         {
             Position = position;
+            MinHeight = minHeight;
             Height = height;
 
-            if (Height % ChunkData.SIZE != 0)
-                throw new Exception($"The chunk height of {Height} is not divisible by subchunk height of {ChunkData.SIZE}");
+            if (Height % Width != 0)
+                throw new Exception($"The chunk height of {Height} is not divisible by chunk width of {Width}");
 
-            Sections = new IChunkData[Height / ChunkData.SIZE];
+            Sections = new IChunkData[Height / Width];
             _World = world;
 
             for (int i = 0; i < Sections.Length; i++)
             {
-                Sections[i] = null;
+                Sections[i] = new SingleBlockChunkData(this, (byte)i);
             }
 
             Sections[0] = new ChunkData(this, 0);
@@ -37,13 +39,11 @@ namespace BedrockReplay.Worlds.Chunks
 
         public Block GetBlock(int localX, int localY, int localZ)
         {
-            IChunkData? subchunk = Sections[(int)(localY - Position.Y) >> 4];
-            if (subchunk == null) return _World.Registry.DefaultBlock;
-            //Convert to subchunk coordinates and get the block.
+            IChunkData subchunk = Sections[localY - Position.Y >> 4];
             return subchunk.GetBlock(
                 (byte)MathF.Abs(localX - Position.X),
                 (byte)MathF.Abs(localY - Position.Y),
-                (byte)MathF.Abs(localZ - Position.Z));
+                (byte)MathF.Abs(localZ - Position.Y));
         }
 
         /// <summary>

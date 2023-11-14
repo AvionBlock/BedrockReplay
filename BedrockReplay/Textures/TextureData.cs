@@ -26,6 +26,16 @@ namespace BedrockReplay.Textures
                 { Faces.TOP, new Vector2(7,13) },
                 { Faces.BOTTOM, new Vector2(2,15) }
             }
+            },
+            { BlockType.BookShelf, new Dictionary<Faces, Vector2>()
+            {
+                { Faces.FRONT, new Vector2(3,13) },
+                { Faces.LEFT, new Vector2(3,13) },
+                { Faces.RIGHT, new Vector2(3,13) },
+                { Faces.BACK, new Vector2(3,13) },
+                { Faces.TOP, new Vector2(4,15) },
+                { Faces.BOTTOM, new Vector2(4,15) }
+            }
             }
         };
     }

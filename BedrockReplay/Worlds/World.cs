@@ -15,10 +15,17 @@ namespace BedrockReplay.Worlds
         {
             ImgTexture = new Texture("atlas.png");
             Registry = new BlockRegistry();
-            Chunks.Add(new Chunk(new Vector3(0, 0, 0), 256, this));
-            Chunks.Add(new Chunk(new Vector3(1, 0, 0), 256, this));
-            Chunks.Add(new Chunk(new Vector3(1, 0, 1), 256, this));
-            Chunks.Add(new Chunk(new Vector3(0, 0, 1), 256, this));
+            Chunks.Add(new Chunk(this, new Vector2i(0, 0)));
+            Chunks.Add(new Chunk(this, new Vector2i(0, 1)));
+            Chunks.Add(new Chunk(this,new Vector2i(0, 2)));
+            Chunks.Add(new Chunk(this, new Vector2i(0, 3)));
+            Chunks.Add(new Chunk(this, new Vector2i(0, 4)));
+            Chunks.Add(new Chunk(this, new Vector2i(0, 5)));
+            Chunks.Add(new Chunk(this, new Vector2i(0, 6)));
+            Chunks.Add(new Chunk(this, new Vector2i(0, 7)));
+            Chunks.Add(new Chunk(this, new Vector2i(0, 8)));
+            Chunks.Add(new Chunk(this, new Vector2i(0, 9)));
+            Chunks.Add(new Chunk(this, new Vector2i(0, 10)));
         }
 
         /// <summary>
