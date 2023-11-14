@@ -3,7 +3,6 @@ using BedrockReplay.Graphics;
 using BedrockReplay.Interfaces;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
-using System.Drawing;
 
 namespace BedrockReplay.Worlds.Chunks
 {

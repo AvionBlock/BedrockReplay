@@ -28,6 +28,12 @@ namespace BedrockReplay.Worlds
             Chunks.Add(new Chunk(this, new Vector2i(0, 10)));
         }
 
+        public Block GetBlock(Vector3 position)
+        {
+            //Temporary
+            return Registry.DefaultBlock;
+        }
+
         /// <summary>
         /// Draw the chunk
         /// </summary>
