@@ -1,6 +1,6 @@
 ﻿using OpenTK.Graphics.OpenGL4;
 
-namespace SharpVE.Rendering
+namespace SharpVE.Graphics
 {
     public class Shader
     {
@@ -32,7 +32,7 @@ namespace SharpVE.Rendering
             GL.DeleteShader(fragmentShader);
         }
 
-        public void Bind() => GL.UseProgram(ID);
+        public void Use() => GL.UseProgram(ID);
         public void Unbind() => GL.UseProgram(0);
         public void Delete() => GL.DeleteShader(ID);
 
