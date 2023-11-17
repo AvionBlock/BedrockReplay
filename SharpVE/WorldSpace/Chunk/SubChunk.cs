@@ -1,6 +1,11 @@
-﻿namespace SharpVE.WorldSpace.Chunk
+﻿using BedrockReplay.Interfaces;
+
+namespace SharpVE.WorldSpace.Chunk
 {
-    public class SubChunk
+    public class SubChunk : IChunkData
     {
+        public ILayerData[] Layers;
+
+        //Palette Data - TODO
     }
 }
