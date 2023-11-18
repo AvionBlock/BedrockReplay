@@ -1,23 +1,34 @@
 ﻿using BedrockReplay.Interfaces;
 using BedrockReplay.Worlds.Chunks;
 using OpenTK.Mathematics;
+using SharpVE.Blocks;
 
 namespace SharpVE.WorldSpace.Chunk
 {
     public class SubChunk : IChunkData
     {
         public ILayerData[] Layers;
-
-        //Palette Data - TODO
+        public Dictionary<short, BlockState> BlockStates;
 
         public SubChunk()
         {
-            Layers = new SingleBlockChunkLayer[ChunkColumn.SIZE * ChunkColumn.SIZE * ChunkColumn.SIZE];
+            Layers = new ChunkLayer[ChunkColumn.SIZE * ChunkColumn.SIZE * ChunkColumn.SIZE];
+            BlockStates = new Dictionary<short, BlockState>();
         }
 
-        public void GetBlock(Vector3i localPosition)
+        public BlockState? GetBlock(Vector3i localPosition)
         {
-            throw new NotImplementedException();
+            if (localPosition.X >= ChunkColumn.SIZE || localPosition.Y >= ChunkColumn.SIZE || localPosition.Z >= ChunkColumn.SIZE)
+            {
+                //Temporary
+                throw new Exception($"The requested block at {localPosition.X}, {localPosition.Y}, {localPosition.Z} is outside of the subchunk data!");
+            }
+
+            foreach(var layer in Layers)
+            {
+                if (layer.GetYLevel() == localPosition.Y) return layer.GetBlock(new Vector2i(localPosition.X, localPosition.Z));
+            }
+            return null;
         }
     }
 }

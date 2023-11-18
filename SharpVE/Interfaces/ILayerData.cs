@@ -1,9 +1,11 @@
 ﻿using OpenTK.Mathematics;
+using SharpVE.Blocks;
 
 namespace BedrockReplay.Interfaces
 {
     public interface ILayerData
     {
-        public void GetBlock(Vector2i localPosition);
+        public short GetYLevel();
+        public BlockState? GetBlock(Vector2i localPosition);
     }
 }

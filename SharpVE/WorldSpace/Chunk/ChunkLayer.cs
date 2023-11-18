@@ -1,23 +1,35 @@
 ﻿using BedrockReplay.Interfaces;
 using BedrockReplay.Worlds.Chunks;
 using OpenTK.Mathematics;
+using SharpVE.Blocks;
 
 namespace SharpVE.WorldSpace.Chunk
 {
     public class ChunkLayer : ILayerData
     {
-        public short[] Data;
-        public readonly SubChunk ParentChunk;
+        private short YLevel;
+        private short[] Data;
+        private readonly SubChunk Chunk;
 
-        public ChunkLayer(SubChunk parent)
+        public ChunkLayer(SubChunk parent, short yLevel)
         {
-            ParentChunk = parent;
+            Chunk = parent;
+            YLevel = yLevel;
             Data = new short[ChunkColumn.SIZE * ChunkColumn.SIZE];
         }
 
-        public void GetBlock(Vector2i localPosition)
+        public BlockState? GetBlock(Vector2i localPosition)
         {
-            throw new NotImplementedException();
+            int idx = (localPosition.X * ChunkColumn.SIZE * ChunkColumn.SIZE) + localPosition.Y; //Yes. Y is Z value.
+            short blockId = Data[idx];
+
+            Chunk.BlockStates.TryGetValue(blockId, out var blockState);
+            return blockState;
+        }
+
+        public short GetYLevel()
+        {
+            return YLevel;
         }
     }
 }
