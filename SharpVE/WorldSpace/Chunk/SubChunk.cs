@@ -7,15 +7,18 @@ namespace SharpVE.WorldSpace.Chunk
 {
     public class SubChunk : IChunkData
     {
-        public ILayerData[] Layers;
-        public Dictionary<short, BlockState> BlockStates;
-        public ChunkColumn Chunk;
+        private ILayerData[] Layers;
+        private ChunkColumn Chunk;
 
-        public SubChunk(ChunkColumn chunk)
+        public readonly short YLevel;
+        public readonly Dictionary<short, BlockState> BlockStates;
+
+        public SubChunk(ChunkColumn chunk, short yLevel)
         {
             Layers = new ChunkLayer[ChunkColumn.SIZE * ChunkColumn.SIZE * ChunkColumn.SIZE];
             BlockStates = new Dictionary<short, BlockState>();
             Chunk = chunk;
+            YLevel = yLevel;
         }
 
         public BlockState? GetBlock(Vector3i localPosition)

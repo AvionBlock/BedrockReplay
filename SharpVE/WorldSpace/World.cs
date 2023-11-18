@@ -13,10 +13,5 @@ namespace SharpVE.WorldSpace
             Chunks = new List<ChunkColumn>();
             Registry = new BlockRegistry();
         }
-
-        public void Render()
-        {
-
-        }
     }
 }

@@ -7,21 +7,22 @@ namespace SharpVE.WorldSpace.Chunk
 {
     public class SingleBlockSubChunk : IChunkData
     {
-        public BlockState Block;
-        public ChunkColumn Chunk;
+        private BlockState Block;
+        private ChunkColumn Chunk;
+        private short YLevel;
 
-        public SingleBlockSubChunk(ChunkColumn chunk, BlockState block)
+        public SingleBlockSubChunk(ChunkColumn chunk, BlockState block, short yLevel)
         {
             Block = block;
             Chunk = chunk;
+            YLevel = yLevel;
         }
 
         public BlockState? GetBlock(Vector3i localPosition)
         {
             if (localPosition.X >= ChunkColumn.SIZE || localPosition.Y >= ChunkColumn.SIZE || localPosition.Z >= ChunkColumn.SIZE)
             {
-                //Temporary
-                throw new Exception($"The requested block at {localPosition.X}, {localPosition.Y}, {localPosition.Z} is outside of the subchunk data!");
+                return null;
             }
 
             return Block;
