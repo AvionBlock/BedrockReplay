@@ -8,7 +8,7 @@ namespace BedrockReplay.Worlds.Chunks
         #region Constants
         public const ushort SIZE = 16;
         public const ushort HEIGHT = 256;
-        public const ushort MINY = 0;
+        public const short MINY = 0;
         #endregion;
 
         public readonly Vector2i Position;
@@ -21,14 +21,6 @@ namespace BedrockReplay.Worlds.Chunks
 
             Sections = new List<SubChunk>();
             Position = position;
-        }
-
-        public void Render()
-        {
-            foreach(var subchunk in Sections)
-            {
-                //TODO
-            }
         }
     }
 }

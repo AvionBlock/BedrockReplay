@@ -9,11 +9,13 @@ namespace SharpVE.WorldSpace.Chunk
     {
         public ILayerData[] Layers;
         public Dictionary<short, BlockState> BlockStates;
+        public ChunkColumn Chunk;
 
-        public SubChunk()
+        public SubChunk(ChunkColumn chunk)
         {
             Layers = new ChunkLayer[ChunkColumn.SIZE * ChunkColumn.SIZE * ChunkColumn.SIZE];
             BlockStates = new Dictionary<short, BlockState>();
+            Chunk = chunk;
         }
 
         public BlockState? GetBlock(Vector3i localPosition)

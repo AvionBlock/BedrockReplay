@@ -8,11 +8,12 @@ namespace SharpVE.WorldSpace.Chunk
     public class SingleBlockSubChunk : IChunkData
     {
         public BlockState Block;
+        public ChunkColumn Chunk;
 
-
-        public SingleBlockSubChunk(BlockState block)
+        public SingleBlockSubChunk(ChunkColumn chunk, BlockState block)
         {
             Block = block;
+            Chunk = chunk;
         }
 
         public BlockState? GetBlock(Vector3i localPosition)
