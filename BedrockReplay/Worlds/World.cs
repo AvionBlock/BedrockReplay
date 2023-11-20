@@ -1,9 +1,9 @@
-﻿using BedrockReplay.Blocks;
-using BedrockReplay.Graphics;
-using BedrockReplay.Worlds.Chunks;
+﻿using SharpVE.Blocks;
+using SharpVE.Graphics;
+using SharpVE.Worlds.Chunks;
 using OpenTK.Mathematics;
 
-namespace BedrockReplay.Worlds
+namespace SharpVE.Worlds
 {
     public class World
     {

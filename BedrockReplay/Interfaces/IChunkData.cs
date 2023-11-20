@@ -1,7 +1,7 @@
-﻿using BedrockReplay.Blocks;
-using BedrockReplay.Graphics;
+﻿using SharpVE.Blocks;
+using SharpVE.Graphics;
 
-namespace BedrockReplay.Interfaces
+namespace SharpVE.Interfaces
 {
     public interface IChunkData
     {

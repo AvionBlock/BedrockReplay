@@ -105,7 +105,6 @@ namespace SharpVE
             GL.UniformMatrix4(projectionLocation, true, ref ProjectionMatrix);
 
             UseShaders();
-            MainWorld.Render();
         }
         #endregion
     }

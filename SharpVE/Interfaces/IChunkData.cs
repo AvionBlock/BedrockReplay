@@ -1,7 +1,7 @@
 ﻿using OpenTK.Mathematics;
 using SharpVE.Blocks;
 
-namespace BedrockReplay.Interfaces
+namespace SharpVE.Interfaces
 {
     public interface IChunkData
     {

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -14,6 +14,10 @@
 
   <ItemGroup>
     <Folder Include="Shaders\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SharpVE\SharpVE.csproj" />
   </ItemGroup>
 
   <ItemGroup>

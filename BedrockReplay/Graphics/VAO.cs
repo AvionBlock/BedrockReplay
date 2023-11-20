@@ -1,6 +1,6 @@
 ﻿using OpenTK.Graphics.OpenGL4;
 
-namespace BedrockReplay.Graphics
+namespace SharpVE.Graphics
 {
     public class VAO
     {

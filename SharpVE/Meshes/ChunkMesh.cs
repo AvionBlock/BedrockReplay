@@ -1,18 +1,18 @@
-﻿using BedrockReplay.Worlds.Chunks;
-using SharpVE.WorldSpace.Chunk;
+﻿using SharpVE.Interfaces;
+using SharpVE.Worlds.Chunks;
 
 namespace SharpVE.Meshes
 {
     public class ChunkMesh
     {
-        public SubChunk Chunk;
+        public IChunkData Chunk;
 
-        public ChunkMesh(SubChunk chunk)
+        public ChunkMesh(IChunkData chunk)
         {
             Chunk = chunk;
         }
 
-        private void BuildMesh()
+        public void BuildMesh()
         {
             for(int x = 0; x < ChunkColumn.SIZE; x++)
             {
@@ -20,7 +20,8 @@ namespace SharpVE.Meshes
                 {
                     for (int z = 0; z < ChunkColumn.SIZE; z++)
                     {
-                        //TODO
+                        var block = Chunk.GetBlock(new OpenTK.Mathematics.Vector3i(x, y, z));
+                        Console.WriteLine($"{block?.Name}, {x}, {y}, {z}");
                     }
                 }
             }

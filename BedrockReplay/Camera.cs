@@ -2,7 +2,7 @@
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 
-namespace BedrockReplay
+namespace SharpVE
 {
     public class Camera
     {

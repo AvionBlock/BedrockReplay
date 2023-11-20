@@ -1,10 +1,10 @@
-﻿using BedrockReplay.Interfaces;
+﻿using SharpVE.Interfaces;
 using OpenTK.Mathematics;
 using SharpVE.Blocks;
 using SharpVE.WorldSpace;
 using SharpVE.WorldSpace.Chunk;
 
-namespace BedrockReplay.Worlds.Chunks
+namespace SharpVE.Worlds.Chunks
 {
     public class ChunkColumn
     {
@@ -21,21 +21,23 @@ namespace BedrockReplay.Worlds.Chunks
         public ChunkColumn(Vector2i position, World world)
         {
             //Do chunk checks first
+            if (SIZE > byte.MaxValue) throw new Exception($"Chunk size of {SIZE} cannot be larger than subchunk byte size of {byte.MaxValue}!");
             if (HEIGHT % SIZE != 0) throw new Exception($"Chunk height of {HEIGHT} is not divisible by chunk size of {SIZE}!");
+            if (MINY % SIZE != 0) throw new Exception($"Minimum chunk Y level of {MINY} is not divisible by chunk size of {SIZE}!");
 
             Sections = new IChunkData[HEIGHT/SIZE];
             Position = position;
             ParentWorld = world;
 
-            for (int i = 0; i < HEIGHT; i++)
+            for (int i = 0; i < HEIGHT / SIZE; i++)
             {
-                Sections[i] = new SingleBlockSubChunk(this, ParentWorld.Registry.DefaultBlock.GetBlockState(), (short)((i * SIZE) + MINY));
+                Sections[i] = new SingleBlockSubChunk(this, ParentWorld.Registry.DefaultBlock.GetBlockState(), (byte)(i + (MINY / SIZE)));
             }
         }
 
         public BlockState? GetBlock(Vector3i localPosition)
         {
-            int yPosSection = localPosition.Y - SIZE;
+            int yPosSection = localPosition.Y / SIZE;
             if(yPosSection < 0 || yPosSection >= Sections.Length)
             {
                 return null;

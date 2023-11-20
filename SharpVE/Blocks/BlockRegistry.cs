@@ -9,8 +9,8 @@
         public BlockRegistry(Block? defaultBlock = null, Block? unknownBlock = null)
         {
             Blocks = new Dictionary<string, Block>();
-            DefaultBlock = defaultBlock ?? new Block();
-            UnknownBlock = unknownBlock ?? new Block();
+            DefaultBlock = defaultBlock ?? new Block("air");
+            UnknownBlock = unknownBlock ?? new Block("unknown");
         }
 
         public Block GetBlock(string identifier)

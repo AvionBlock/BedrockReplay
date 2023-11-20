@@ -1,6 +1,6 @@
 ﻿using OpenTK.Mathematics;
 
-namespace BedrockReplay.Blocks
+namespace SharpVE.Blocks
 {
     public enum BlockType
     {

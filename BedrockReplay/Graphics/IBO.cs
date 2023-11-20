@@ -1,7 +1,7 @@
 ﻿using OpenTK.Graphics.OpenGL4;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace BedrockReplay.Graphics
+namespace SharpVE.Graphics
 {
     public class IBO
     {

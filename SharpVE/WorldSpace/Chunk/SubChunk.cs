@@ -1,5 +1,5 @@
-﻿using BedrockReplay.Interfaces;
-using BedrockReplay.Worlds.Chunks;
+﻿using SharpVE.Interfaces;
+using SharpVE.Worlds.Chunks;
 using OpenTK.Mathematics;
 using SharpVE.Blocks;
 
@@ -10,12 +10,12 @@ namespace SharpVE.WorldSpace.Chunk
         private ILayerData[] Layers;
         private ChunkColumn Chunk;
 
-        public readonly short YLevel;
+        public readonly byte YLevel;
         public readonly Dictionary<short, BlockState> BlockStates;
 
-        public SubChunk(ChunkColumn chunk, short yLevel)
+        public SubChunk(ChunkColumn chunk, byte yLevel)
         {
-            Layers = new ChunkLayer[ChunkColumn.SIZE * ChunkColumn.SIZE * ChunkColumn.SIZE];
+            Layers = new SingleBlockChunkLayer[ChunkColumn.SIZE * ChunkColumn.SIZE * ChunkColumn.SIZE];
             BlockStates = new Dictionary<short, BlockState>();
             Chunk = chunk;
             YLevel = yLevel;
@@ -23,10 +23,9 @@ namespace SharpVE.WorldSpace.Chunk
 
         public BlockState? GetBlock(Vector3i localPosition)
         {
-            if (localPosition.X >= ChunkColumn.SIZE || localPosition.Y >= ChunkColumn.SIZE || localPosition.Z >= ChunkColumn.SIZE)
+            if (localPosition.Y >= ChunkColumn.SIZE)
             {
-                //Temporary
-                throw new Exception($"The requested block at {localPosition.X}, {localPosition.Y}, {localPosition.Z} is outside of the subchunk data!");
+                return null;
             }
 
             foreach(var layer in Layers)

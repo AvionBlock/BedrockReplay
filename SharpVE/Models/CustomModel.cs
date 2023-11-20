@@ -2,6 +2,11 @@
 {
     public struct CustomModel
     {
-        //TODO. This needs to support both the minecraft geometry format AND custom culling format...
+        public List<Face> Faces;
+
+        public CustomModel()
+        {
+            Faces = new List<Face>();
+        }
     }
 }

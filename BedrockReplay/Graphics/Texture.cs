@@ -1,7 +1,7 @@
 ﻿using OpenTK.Graphics.OpenGL4;
 using StbImageSharp;
 
-namespace BedrockReplay.Graphics
+namespace SharpVE.Graphics
 {
     public class Texture
     {

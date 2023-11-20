@@ -1,4 +1,4 @@
-﻿using BedrockReplay.Interfaces;
+﻿using SharpVE.Interfaces;
 using OpenTK.Mathematics;
 using SharpVE.Blocks;
 
@@ -6,11 +6,11 @@ namespace SharpVE.WorldSpace.Chunk
 {
     public class SingleBlockChunkLayer : ILayerData
     {
-        private short YLevel;
+        private byte YLevel;
         private SubChunk Chunk;
         private short BlockId;
         
-        public SingleBlockChunkLayer(SubChunk chunk, short yLevel, short blockId)
+        public SingleBlockChunkLayer(SubChunk chunk, byte yLevel, short blockId)
         {
             Chunk = chunk;
             YLevel = yLevel;
@@ -23,7 +23,7 @@ namespace SharpVE.WorldSpace.Chunk
             return blockState;
         }
 
-        public short GetYLevel()
+        public byte GetYLevel()
         {
             return YLevel;
         }

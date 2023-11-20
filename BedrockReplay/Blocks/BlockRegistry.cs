@@ -1,4 +1,4 @@
-﻿namespace BedrockReplay.Blocks
+﻿namespace SharpVE.Blocks
 {
     public class BlockRegistry
     {

@@ -1,7 +1,7 @@
-﻿using BedrockReplay.Blocks;
+﻿using SharpVE.Blocks;
 using OpenTK.Mathematics;
 
-namespace BedrockReplay.Textures
+namespace SharpVE.Textures
 {
     public class TextureData
     {

@@ -1,5 +1,5 @@
-﻿using BedrockReplay.Interfaces;
-using BedrockReplay.Worlds.Chunks;
+﻿using SharpVE.Interfaces;
+using SharpVE.Worlds.Chunks;
 using OpenTK.Mathematics;
 using SharpVE.Blocks;
 
@@ -9,9 +9,9 @@ namespace SharpVE.WorldSpace.Chunk
     {
         private BlockState Block;
         private ChunkColumn Chunk;
-        private short YLevel;
+        private byte YLevel;
 
-        public SingleBlockSubChunk(ChunkColumn chunk, BlockState block, short yLevel)
+        public SingleBlockSubChunk(ChunkColumn chunk, BlockState block, byte yLevel)
         {
             Block = block;
             Chunk = chunk;
