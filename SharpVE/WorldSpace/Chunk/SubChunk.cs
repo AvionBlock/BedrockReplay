@@ -8,9 +8,9 @@ namespace SharpVE.WorldSpace.Chunk
     public class SubChunk : IChunkData
     {
         private ILayerData[] Layers;
-        private ChunkColumn Chunk;
+        public ChunkColumn Chunk { get; }
+        public byte YLevel { get; }
 
-        public readonly byte YLevel;
         public readonly Dictionary<short, BlockState> BlockStates;
 
         public SubChunk(ChunkColumn chunk, byte yLevel)

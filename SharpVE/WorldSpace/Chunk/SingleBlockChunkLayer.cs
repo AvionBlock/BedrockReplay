@@ -7,10 +7,10 @@ namespace SharpVE.WorldSpace.Chunk
 {
     public class SingleBlockChunkLayer : ILayerData
     {
-        private byte YLevel;
-        private SubChunk Chunk;
         private short BlockId;
-        
+        public SubChunk Chunk { get; }
+        public byte YLevel { get; }
+
         public SingleBlockChunkLayer(SubChunk chunk, byte yLevel, short blockId)
         {
             Chunk = chunk;

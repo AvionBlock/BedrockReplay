@@ -8,8 +8,8 @@ namespace SharpVE.WorldSpace.Chunk
     public class SingleBlockSubChunk : IChunkData
     {
         private BlockState Block;
-        private ChunkColumn Chunk;
-        private byte YLevel;
+        public ChunkColumn Chunk { get; }
+        public byte YLevel { get; }
 
         public SingleBlockSubChunk(ChunkColumn chunk, BlockState block, byte yLevel)
         {
