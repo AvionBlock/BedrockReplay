@@ -1,6 +1,7 @@
 ﻿using SharpVE.Interfaces;
 using OpenTK.Mathematics;
 using SharpVE.Blocks;
+using SharpVE.Worlds.Chunks;
 
 namespace SharpVE.WorldSpace.Chunk
 {
@@ -19,6 +20,8 @@ namespace SharpVE.WorldSpace.Chunk
 
         public BlockState? GetBlock(Vector2i localPosition)
         {
+            if (localPosition.X >= ChunkColumn.SIZE || localPosition.Y >= ChunkColumn.SIZE) return null;
+
             Chunk.BlockStates.TryGetValue(BlockId, out var blockState);
             return blockState;
         }

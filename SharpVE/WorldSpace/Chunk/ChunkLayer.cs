@@ -22,7 +22,7 @@ namespace SharpVE.WorldSpace.Chunk
         {
             if(localPosition.X >= ChunkColumn.SIZE || localPosition.Y >= ChunkColumn.SIZE) return null;
 
-            int idx = (localPosition.X * ChunkColumn.SIZE * ChunkColumn.SIZE) + localPosition.Y; //Yes. Y is Z value.
+            int idx = (localPosition.X * ChunkColumn.SIZE) + localPosition.Y; //Yes. Y is Z value.
             short blockId = Data[idx];
 
             Chunk.BlockStates.TryGetValue(blockId, out var blockState);
