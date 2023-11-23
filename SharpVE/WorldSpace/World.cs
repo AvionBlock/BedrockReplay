@@ -11,6 +11,8 @@ namespace SharpVE.WorldSpace
         public World()
         {
             Chunks = new List<ChunkColumn>();
+            var chunk = new ChunkColumn(new Vector2i(0, 0), this);
+            Chunks.Add(chunk);
         }
 
         public BlockState? GetBlock(Vector3i globalPosition)

@@ -4,6 +4,8 @@ using OpenTK.Mathematics;
 using SharpVE.Blocks;
 using SharpVE.Models;
 using SharpVE.WorldSpace;
+using SharpVE.Graphics;
+using OpenTK.Graphics.OpenGL4;
 
 namespace SharpVE.Meshes
 {
@@ -19,16 +21,27 @@ namespace SharpVE.Meshes
         private uint IndexCount;
         #endregion
 
-        public ChunkMesh(IChunkData chunk, BlockRegistry registry)
+        #region Render Pipeline
+        VAO vao;
+        VBO? vbo;
+        VBO? textureVbo;
+        IBO? ibo;
+        Texture atlas;
+        #endregion
+
+        public ChunkMesh(IChunkData chunk, BlockRegistry registry, Texture textureAtlas)
         {
             Chunk = chunk;
             Registry = registry;
             Vertices = new List<Vector3>();
             UV = new List<Vector2>();
             Indices = new List<uint>();
+
+            vao = new VAO();
+            atlas = textureAtlas;
         }
 
-        public void BuildMesh()
+        public void GenerateMesh()
         {
             ClearMesh();
             var chunkPosition = Chunk.GetGlobalPosition();
@@ -111,6 +124,9 @@ namespace SharpVE.Meshes
                             if (!Registry.GetBlock(world.GetBlock(new Vector3i(globalBPos.X, globalBPos.Y - 1, globalBPos.Z))?.Name).IsOpaque)
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                         break;
+                    case CullCheck.None:
+                        AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
+                        break;
                 }
             }
         }
@@ -135,6 +151,31 @@ namespace SharpVE.Meshes
             Indices.Add(0 + IndexCount);
 
             IndexCount += 4;
+        }
+
+        public void BuildMesh()
+        {
+            //Build VBO vertex and bind it.
+            vbo = new VBO(Vertices);
+            //Build VBO uv/texture and bind it.
+            textureVbo = new VBO(UV);
+
+            vao.LinkToVao(0, 3, vbo);
+            vao.LinkToVao(1, 2, textureVbo);
+
+            vao.Unbind();
+
+            ibo = new IBO(Indices);
+        }
+
+        public void Draw()
+        {
+            vao?.Bind();
+            ibo?.Bind();
+            GL.DrawElements(PrimitiveType.Triangles, Indices.Count, DrawElementsType.UnsignedInt, 0);
+
+            vao?.Unbind();
+            ibo?.Unbind();
         }
     }
 }

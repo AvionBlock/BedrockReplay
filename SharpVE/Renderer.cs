@@ -4,6 +4,7 @@ using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using SharpVE.Blocks;
 using SharpVE.Graphics;
+using SharpVE.Meshes;
 using SharpVE.WorldSpace;
 
 namespace SharpVE
@@ -17,10 +18,13 @@ namespace SharpVE
         public readonly Shader ProjectionShader;
         public readonly World MainWorld;
         public readonly List<Shader> Shaders;
+        public readonly Texture TextureAtlas;
 
         private Matrix4 ProjectionMatrix;
 
         public readonly BlockRegistry Blocks;
+
+        public List<ChunkMesh> Meshes;
 
         public Renderer(ushort width, ushort height, Shader projectionShader, World? world = null)
         {
@@ -30,13 +34,20 @@ namespace SharpVE
             ProjectionShader = projectionShader;
             MainWorld = world ?? new World();
             Shaders = new List<Shader>();
+            Meshes = new List<ChunkMesh>();
 
             ClearColor = new Color4(0.4f, 0.6f, 0.8f, 1f);
 
             Blocks = new BlockRegistry();
+            TextureAtlas = new Texture("atlas.png");
             
             //Matrix Setup
             ProjectionMatrix = MainCamera.GetProjectionMatrix();
+            var chunk = MainWorld.Chunks[0].Sections[0];
+            var mesh = new ChunkMesh(chunk, Blocks, TextureAtlas);
+            mesh.GenerateMesh();
+            mesh.BuildMesh();
+            Meshes.Add(mesh);
         }
 
         #region Shader Management
@@ -91,12 +102,17 @@ namespace SharpVE
         public void UpdateFrame(MouseState mouse, KeyboardState keyboard, FrameEventArgs frameEvent)
         {
             MainCamera.Update(keyboard, mouse, frameEvent);
+            Task.Run(() => {
+                Console.WriteLine(MainCamera.Position);
+            });
         }
 
         public void RenderFrame()
         {
             GL.ClearColor(ClearColor);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+
+            TextureAtlas.Bind();
 
             Matrix4 model = Matrix4.Identity;
             Matrix4 view = MainCamera.GetViewMatrix();
@@ -108,6 +124,11 @@ namespace SharpVE
             GL.UniformMatrix4(modelLocation, true, ref model);
             GL.UniformMatrix4(viewLocation, true, ref view);
             GL.UniformMatrix4(projectionLocation, true, ref ProjectionMatrix);
+
+            foreach (var mesh in Meshes)
+            {
+                mesh.Draw();
+            }
 
             UseShaders();
         }
