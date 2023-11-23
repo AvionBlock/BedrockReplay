@@ -12,15 +12,19 @@ namespace SharpVE.Meshes
         public IChunkData Chunk;
         public BlockRegistry Registry;
 
+        #region Mesh
         private List<Vector3> Vertices;
+        private List<Vector2> UV;
         private List<uint> Indices;
         private uint IndexCount;
+        #endregion
 
         public ChunkMesh(IChunkData chunk, BlockRegistry registry)
         {
             Chunk = chunk;
             Registry = registry;
             Vertices = new List<Vector3>();
+            UV = new List<Vector2>();
             Indices = new List<uint>();
         }
 
@@ -36,9 +40,8 @@ namespace SharpVE.Meshes
                     {
                         var blockState = Chunk.GetBlock(new Vector3i(x, y, z));
                         var block = Registry.GetBlock(blockState?.Name);
-                        var model = block.Model?.Faces ?? Cube.Faces;
 
-                        AddBlockModel(new Vector3i(x, y, z), chunkPosition, Chunk.Chunk.ParentWorld, model);
+                        AddBlockModel(new Vector3i(x, y, z), chunkPosition, Chunk.Chunk.ParentWorld, block);
                     }
                 }
             }
@@ -51,71 +54,74 @@ namespace SharpVE.Meshes
             IndexCount = 0;
         }
 
-        private void AddBlockModel(Vector3i bPos, Vector3i cPos, World world, List<Face> model)
+        private void AddBlockModel(Vector3i bPos, Vector3i cPos, World world, Block block)
         {
+            var model = block.Model?.Faces ?? Cube.Faces;
             var globalBPos = new Vector3i(bPos.X + cPos.X, bPos.Y + cPos.Y, bPos.Z + cPos.Z);
             foreach (var face in model)
             {
+                var uv = block.UV[face.UsesUV];
                 switch (face.CullDirection)
                 {
                     case CullCheck.PosX:
                         if (bPos.X < ChunkColumn.SIZE - 1)
                             if (!Registry.GetBlock(Chunk.GetBlock(new Vector3i(bPos.X + 1, bPos.Y, bPos.Z))?.Name).IsOpaque)
-                                AddFace(face, globalBPos);
+                                AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                         else
                             if (!Registry.GetBlock(world.GetBlock(new Vector3i(globalBPos.X + 1, globalBPos.Y, globalBPos.Z))?.Name).IsOpaque)
-                                AddFace(face, globalBPos);
+                                AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                         break;
                     case CullCheck.NegX:
                         if (bPos.X > 0)
                             if (!Registry.GetBlock(Chunk.GetBlock(new Vector3i(bPos.X - 1, bPos.Y, bPos.Z))?.Name).IsOpaque)
-                                AddFace(face, globalBPos);
+                                AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                             else
                             if (!Registry.GetBlock(world.GetBlock(new Vector3i(globalBPos.X - 1, globalBPos.Y, globalBPos.Z))?.Name).IsOpaque)
-                                AddFace(face, globalBPos);
+                                AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                         break;
                     case CullCheck.PosZ:
                         if (bPos.Z < ChunkColumn.SIZE - 1)
                             if (!Registry.GetBlock(Chunk.GetBlock(new Vector3i(bPos.X, bPos.Y, bPos.Z + 1))?.Name).IsOpaque)
-                                AddFace(face, globalBPos);
+                                AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                             else
                             if (!Registry.GetBlock(world.GetBlock(new Vector3i(globalBPos.X, globalBPos.Y, globalBPos.Z + 1))?.Name).IsOpaque)
-                                AddFace(face, globalBPos);
+                                AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                         break;
                     case CullCheck.NegZ:
                         if (bPos.Z > 0)
                             if (!Registry.GetBlock(Chunk.GetBlock(new Vector3i(bPos.X, bPos.Y, bPos.Z - 1))?.Name).IsOpaque)
-                                AddFace(face, globalBPos);
+                                AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                             else
                             if (!Registry.GetBlock(world.GetBlock(new Vector3i(globalBPos.X, globalBPos.Y, globalBPos.Z - 1))?.Name).IsOpaque)
-                                AddFace(face, globalBPos);
+                                AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                         break;
                     case CullCheck.PosY:
                         if (bPos.Y < ChunkColumn.SIZE - 1)
                             if (!Registry.GetBlock(Chunk.GetBlock(new Vector3i(bPos.X, bPos.Y + 1, bPos.Z))?.Name).IsOpaque)
-                                AddFace(face, globalBPos);
+                                AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                             else
                             if (!Registry.GetBlock(world.GetBlock(new Vector3i(globalBPos.X, globalBPos.Y + 1, globalBPos.Z))?.Name).IsOpaque)
-                                AddFace(face, globalBPos);
+                                AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                         break;
                     case CullCheck.NegY:
                         if (bPos.Y > 0)
                             if (!Registry.GetBlock(Chunk.GetBlock(new Vector3i(bPos.X, bPos.Y - 1, bPos.Z))?.Name).IsOpaque)
-                                AddFace(face, globalBPos);
+                                AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                             else
                             if (!Registry.GetBlock(world.GetBlock(new Vector3i(globalBPos.X, globalBPos.Y - 1, globalBPos.Z))?.Name).IsOpaque)
-                                AddFace(face, globalBPos);
+                                AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                         break;
                 }
             }
         }
 
-        private void AddFace(Face face, Vector3i globalBPos)
+        private void AddFace(Face face, Vector3i globalBPos, List<Vector2> uvs)
         {
             foreach (var vertice in face.Vertices)
             {
                 Vertices.Add(vertice + globalBPos);
             }
+            UV.AddRange(uvs);
             AddFaceIndice();
         }
 

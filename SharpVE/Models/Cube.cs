@@ -15,7 +15,8 @@ namespace SharpVE.Models
                     new Vector3(0.5f, 0.5f, 0.5f), //Top Right Vert
                     new Vector3(0.5f, -0.5f, 0.5f), //Bottom Right Vert
                     new Vector3(-0.5f, -0.5f, 0.5f), //Bottom Left Vert
-                }
+                },
+                UsesUV = 0
             },
             new Face()
             {
@@ -26,7 +27,8 @@ namespace SharpVE.Models
                     new Vector3(-0.5f, 0.5f, -0.5f), //Top Right Vert
                     new Vector3(-0.5f, -0.5f, -0.5f), //Bottom Right Vert
                     new Vector3(0.5f, -0.5f, -0.5f), //Bottom Left Vert
-                }
+                },
+                UsesUV = 1
             },
             new Face()
             {
@@ -37,7 +39,8 @@ namespace SharpVE.Models
                     new Vector3(-0.5f, 0.5f, 0.5f), //Top Right Vert
                     new Vector3(-0.5f, -0.5f, 0.5f), //Bottom Right Vert
                     new Vector3(-0.5f, -0.5f, -0.5f), //Bottom Left Vert
-                }
+                },
+                UsesUV = 2
             },
             new Face()
             {
@@ -48,7 +51,8 @@ namespace SharpVE.Models
                     new Vector3(0.5f, 0.5f, -0.5f), //Top Right Vert
                     new Vector3(0.5f, -0.5f, -0.5f), //Bottom Right Vert
                     new Vector3(0.5f, -0.5f, 0.5f), //Bottom Left Vert
-                }
+                },
+                UsesUV = 3
             },
             new Face()
             {
@@ -59,7 +63,8 @@ namespace SharpVE.Models
                     new Vector3(0.5f, 0.5f, -0.5f), //Top Right Vert
                     new Vector3(0.5f, 0.5f, 0.5f), //Bottom Right Vert
                     new Vector3(-0.5f, 0.5f, 0.5f), //Bottom Left Vert
-                }
+                },
+                UsesUV = 4
             },
             new Face()
             {
@@ -70,7 +75,8 @@ namespace SharpVE.Models
                     new Vector3(0.5f, -0.5f, 0.5f), //Top Right Vert
                     new Vector3(0.5f, -0.5f, -0.5f), //Bottom Right Vert
                     new Vector3(-0.5f, -0.5f, -0.5f), //Bottom Left Vert
-                }
+                },
+                UsesUV = 5
             }
         };
     };

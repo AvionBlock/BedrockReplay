@@ -6,6 +6,7 @@ namespace SharpVE.Models
     {
         public Vector3[] Vertices;
         public CullCheck CullDirection;
+        public byte UsesUV;
 
         public Face()
         {
