@@ -1,8 +1,14 @@
 ﻿namespace SharpVE.Blocks
 {
-    public class BlockState
+    public struct BlockState
     {
-        public string Name { get; set; } = string.Empty;
-        public Dictionary<string, dynamic> States { get; set; } = new Dictionary<string, dynamic>();
+        public string Name;
+        public Dictionary<string, dynamic> States;
+
+        public BlockState()
+        {
+            Name = string.Empty;
+            States = new Dictionary<string, dynamic>();
+        }
     }
 }

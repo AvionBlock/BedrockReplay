@@ -3,8 +3,6 @@ using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.GraphicsLibraryFramework;
-using SharpVE.Worlds;
-using SharpVE;
 using SharpVE.Graphics;
 
 namespace SharpVE
