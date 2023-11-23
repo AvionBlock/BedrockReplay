@@ -26,6 +26,7 @@ namespace SharpVE.Meshes
 
         public void BuildMesh()
         {
+            ClearMesh();
             var chunkPosition = Chunk.GetGlobalPosition();
             for (int x = 0; x < ChunkColumn.SIZE; x++)
             {
@@ -41,6 +42,13 @@ namespace SharpVE.Meshes
                     }
                 }
             }
+        }
+
+        public void ClearMesh()
+        {
+            Vertices.Clear();
+            Indices.Clear();
+            IndexCount = 0;
         }
 
         private void AddBlockModel(Vector3i bPos, Vector3i cPos, World world, List<Face> model)
