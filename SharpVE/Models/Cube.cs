@@ -8,7 +8,7 @@ namespace SharpVE.Models
         {
             new Face()
             {
-                CullDirection = CullCheck.None,
+                CullDirection = CullCheck.PosZ,
                 Vertices = new Vector3[]
                 {
                     new Vector3(-0.5f, 0.5f, 0.5f), //Top Left Vert
@@ -20,7 +20,7 @@ namespace SharpVE.Models
             },
             new Face()
             {
-                CullDirection = CullCheck.None,
+                CullDirection = CullCheck.NegZ,
                 Vertices = new Vector3[]
                 {
                     new Vector3(0.5f, 0.5f, -0.5f), //Top Left Vert
@@ -32,7 +32,7 @@ namespace SharpVE.Models
             },
             new Face()
             {
-                CullDirection = CullCheck.None,
+                CullDirection = CullCheck.NegX,
                 Vertices = new Vector3[]
                 {
                     new Vector3(-0.5f, 0.5f, -0.5f), //Top Left Vert
@@ -44,7 +44,7 @@ namespace SharpVE.Models
             },
             new Face()
             {
-                CullDirection = CullCheck.None,
+                CullDirection = CullCheck.PosX,
                 Vertices = new Vector3[]
                 {
                     new Vector3(0.5f, 0.5f, 0.5f), //Top Left Vert
@@ -56,7 +56,7 @@ namespace SharpVE.Models
             },
             new Face()
             {
-                CullDirection = CullCheck.None,
+                CullDirection = CullCheck.PosY,
                 Vertices = new Vector3[]
                 {
                     new Vector3(-0.5f, 0.5f, -0.5f), //Top Left Vert
@@ -68,7 +68,7 @@ namespace SharpVE.Models
             },
             new Face()
             {
-                CullDirection = CullCheck.None,
+                CullDirection = CullCheck.NegY,
                 Vertices = new Vector3[]
                 {
                     new Vector3(-0.5f, -0.5f, 0.5f), //Top Left Vert

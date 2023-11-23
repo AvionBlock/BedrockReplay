@@ -43,11 +43,15 @@ namespace SharpVE
             
             //Matrix Setup
             ProjectionMatrix = MainCamera.GetProjectionMatrix();
-            var chunk = MainWorld.Chunks[0].Sections[0];
-            var mesh = new ChunkMesh(chunk, Blocks, TextureAtlas);
-            mesh.GenerateMesh();
-            mesh.BuildMesh();
-            Meshes.Add(mesh);
+            var chunk = MainWorld.Chunks[0];
+            for(int i = 0; i < 1; i++)
+            {
+                var section = chunk.Sections[i];
+                var mesh = new ChunkMesh(section, Blocks);
+                mesh.GenerateMesh();
+                mesh.BuildMesh();
+                Meshes.Add(mesh);
+            }
         }
 
         #region Shader Management
@@ -112,6 +116,8 @@ namespace SharpVE
             GL.ClearColor(ClearColor);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
+            UseShaders();
+            ProjectionShader.Use();
             TextureAtlas.Bind();
 
             Matrix4 model = Matrix4.Identity;
@@ -129,8 +135,6 @@ namespace SharpVE
             {
                 mesh.Draw();
             }
-
-            UseShaders();
         }
         #endregion
     }

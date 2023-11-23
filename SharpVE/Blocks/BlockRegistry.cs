@@ -9,16 +9,16 @@
         public BlockRegistry(Block? defaultBlock = null, Block? unknownBlock = null)
         {
             Blocks = new Dictionary<string, Block>();
-            DefaultBlock = defaultBlock ?? new Block("air");
+            DefaultBlock = defaultBlock ?? new Block("air") { IsOpaque = false };
             UnknownBlock = unknownBlock ?? new Block("unknown");
         }
 
-        public Block GetBlock(string? identifier)
+        public Block GetBlock(string? identifier, bool returnDefault = false)
         {
-            if (identifier == null) return UnknownBlock;
+            if (identifier == null) return returnDefault ? DefaultBlock : UnknownBlock;
 
             Blocks.TryGetValue(identifier, out var block);
-            if (block == null) return UnknownBlock;
+            if (block == null) return returnDefault? DefaultBlock : UnknownBlock;
             return block;
         }
     }

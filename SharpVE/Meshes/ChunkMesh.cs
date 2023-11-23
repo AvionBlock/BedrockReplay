@@ -22,23 +22,19 @@ namespace SharpVE.Meshes
         #endregion
 
         #region Render Pipeline
-        VAO vao;
+        VAO? vao;
         VBO? vbo;
         VBO? textureVbo;
         IBO? ibo;
-        Texture atlas;
         #endregion
 
-        public ChunkMesh(IChunkData chunk, BlockRegistry registry, Texture textureAtlas)
+        public ChunkMesh(IChunkData chunk, BlockRegistry registry)
         {
             Chunk = chunk;
             Registry = registry;
             Vertices = new List<Vector3>();
             UV = new List<Vector2>();
             Indices = new List<uint>();
-
-            vao = new VAO();
-            atlas = textureAtlas;
         }
 
         public void GenerateMesh()
@@ -78,51 +74,75 @@ namespace SharpVE.Meshes
                 {
                     case CullCheck.PosX:
                         if (bPos.X < ChunkColumn.SIZE - 1)
+                        {
                             if (!Registry.GetBlock(Chunk.GetBlock(new Vector3i(bPos.X + 1, bPos.Y, bPos.Z))?.Name).IsOpaque)
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
+                        }
                         else
-                            if (!Registry.GetBlock(world.GetBlock(new Vector3i(globalBPos.X + 1, globalBPos.Y, globalBPos.Z))?.Name).IsOpaque)
+                        {
+                            if (!Registry.GetBlock(world.GetBlock(new Vector3i(globalBPos.X + 1, globalBPos.Y, globalBPos.Z))?.Name, true).IsOpaque)
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
+                        }
                         break;
                     case CullCheck.NegX:
                         if (bPos.X > 0)
+                        {
                             if (!Registry.GetBlock(Chunk.GetBlock(new Vector3i(bPos.X - 1, bPos.Y, bPos.Z))?.Name).IsOpaque)
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
-                            else
-                            if (!Registry.GetBlock(world.GetBlock(new Vector3i(globalBPos.X - 1, globalBPos.Y, globalBPos.Z))?.Name).IsOpaque)
+                        }
+                        else
+                        {
+                            if (!Registry.GetBlock(world.GetBlock(new Vector3i(globalBPos.X - 1, globalBPos.Y, globalBPos.Z))?.Name, true).IsOpaque)
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
+                        }
                         break;
                     case CullCheck.PosZ:
                         if (bPos.Z < ChunkColumn.SIZE - 1)
+                        {
                             if (!Registry.GetBlock(Chunk.GetBlock(new Vector3i(bPos.X, bPos.Y, bPos.Z + 1))?.Name).IsOpaque)
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
-                            else
-                            if (!Registry.GetBlock(world.GetBlock(new Vector3i(globalBPos.X, globalBPos.Y, globalBPos.Z + 1))?.Name).IsOpaque)
+                        }
+                        else
+                        {
+                            if (!Registry.GetBlock(world.GetBlock(new Vector3i(globalBPos.X, globalBPos.Y, globalBPos.Z + 1))?.Name, true).IsOpaque)
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
+                        }
                         break;
                     case CullCheck.NegZ:
                         if (bPos.Z > 0)
+                        {
                             if (!Registry.GetBlock(Chunk.GetBlock(new Vector3i(bPos.X, bPos.Y, bPos.Z - 1))?.Name).IsOpaque)
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
-                            else
-                            if (!Registry.GetBlock(world.GetBlock(new Vector3i(globalBPos.X, globalBPos.Y, globalBPos.Z - 1))?.Name).IsOpaque)
+                        }
+                        else
+                        {
+                            if (!Registry.GetBlock(world.GetBlock(new Vector3i(globalBPos.X, globalBPos.Y, globalBPos.Z - 1))?.Name, true).IsOpaque)
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
+                        }
                         break;
                     case CullCheck.PosY:
                         if (bPos.Y < ChunkColumn.SIZE - 1)
+                        {
                             if (!Registry.GetBlock(Chunk.GetBlock(new Vector3i(bPos.X, bPos.Y + 1, bPos.Z))?.Name).IsOpaque)
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
-                            else
-                            if (!Registry.GetBlock(world.GetBlock(new Vector3i(globalBPos.X, globalBPos.Y + 1, globalBPos.Z))?.Name).IsOpaque)
+                        }
+                        else
+                        {
+                            if (!Registry.GetBlock(world.GetBlock(new Vector3i(globalBPos.X, globalBPos.Y + 1, globalBPos.Z))?.Name, true).IsOpaque)
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
+                        }
                         break;
                     case CullCheck.NegY:
                         if (bPos.Y > 0)
+                        {
                             if (!Registry.GetBlock(Chunk.GetBlock(new Vector3i(bPos.X, bPos.Y - 1, bPos.Z))?.Name).IsOpaque)
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
-                            else
-                            if (!Registry.GetBlock(world.GetBlock(new Vector3i(globalBPos.X, globalBPos.Y - 1, globalBPos.Z))?.Name).IsOpaque)
+                        }
+                        else
+                        {
+                            if (!Registry.GetBlock(world.GetBlock(new Vector3i(globalBPos.X, globalBPos.Y - 1, globalBPos.Z))?.Name, true).IsOpaque)
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
+                        }
                         break;
                     case CullCheck.None:
                         AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
@@ -155,6 +175,8 @@ namespace SharpVE.Meshes
 
         public void BuildMesh()
         {
+            vao = new VAO();
+
             //Build VBO vertex and bind it.
             vbo = new VBO(Vertices);
             //Build VBO uv/texture and bind it.
