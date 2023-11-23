@@ -7,7 +7,7 @@ namespace SharpVE.WorldSpace.Chunk
 {
     public class ChunkLayer : ILayerData
     {
-        private short[] Data;
+        private ushort[] Data;
         public SubChunk Chunk { get; }
         public byte YLevel { get; }
 
@@ -15,7 +15,7 @@ namespace SharpVE.WorldSpace.Chunk
         {
             Chunk = parent;
             YLevel = yLevel;
-            Data = new short[ChunkColumn.SIZE * ChunkColumn.SIZE];
+            Data = new ushort[ChunkColumn.SIZE * ChunkColumn.SIZE];
         }
 
         public BlockState? GetBlock(Vector2i localPosition)
@@ -23,7 +23,7 @@ namespace SharpVE.WorldSpace.Chunk
             if(localPosition.X >= ChunkColumn.SIZE || localPosition.Y >= ChunkColumn.SIZE) return null;
 
             int idx = (localPosition.X * ChunkColumn.SIZE) + localPosition.Y; //Yes. Y is Z value.
-            short blockId = Data[idx];
+            ushort blockId = Data[idx];
 
             Chunk.BlockStates.TryGetValue(blockId, out var blockState);
             return blockState;

@@ -2,6 +2,7 @@
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using SharpVE.Blocks;
 using SharpVE.Graphics;
 using SharpVE.WorldSpace;
 
@@ -19,6 +20,8 @@ namespace SharpVE
 
         private Matrix4 ProjectionMatrix;
 
+        public readonly BlockRegistry Blocks;
+
         public Renderer(ushort width, ushort height, Shader projectionShader, World? world = null)
         {
             Width = width;
@@ -29,6 +32,8 @@ namespace SharpVE
             Shaders = new List<Shader>();
 
             ClearColor = new Color4(0.4f, 0.6f, 0.8f, 1f);
+
+            Blocks = new BlockRegistry();
             
             //Matrix Setup
             ProjectionMatrix = MainCamera.GetProjectionMatrix();

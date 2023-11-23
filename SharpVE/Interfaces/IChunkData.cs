@@ -9,5 +9,6 @@ namespace SharpVE.Interfaces
         public byte YLevel { get; }
         public ChunkColumn Chunk { get; }
         public BlockState? GetBlock(Vector3i localPosition);
+        public Vector3i GetGlobalPosition();
     }
 }
