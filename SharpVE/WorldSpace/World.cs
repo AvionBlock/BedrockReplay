@@ -12,7 +12,7 @@ namespace SharpVE.WorldSpace
         public World(BlockState defaultBlock)
         {
             Chunks = new List<ChunkColumn>();
-            for (int x = 0; x < 20; x++)
+            for (int x = 0; x < 1; x++)
             {
                 Chunks.Add(new ChunkColumn(new Vector2i(x, 0), this));
             }

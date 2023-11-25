@@ -59,8 +59,7 @@ namespace SharpVE.Meshes
         public void ClearMesh()
         {
             Vertices.Clear();
-            Indices.Clear();
-            IndexCount = 0;
+            UV.Clear();
         }
 
         private void AddBlockModel(Vector3i bPos, Vector3i cPos, World world, Block block)
@@ -195,8 +194,7 @@ namespace SharpVE.Meshes
 
             ibo = new IBO(Indices);
 
-            Vertices.Clear();
-            UV.Clear();
+            ClearMesh();
         }
 
         public void Draw()

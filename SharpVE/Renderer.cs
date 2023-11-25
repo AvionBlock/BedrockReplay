@@ -6,6 +6,7 @@ using SharpVE.Blocks;
 using SharpVE.Graphics;
 using SharpVE.Meshes;
 using SharpVE.WorldSpace;
+using System.Diagnostics;
 
 namespace SharpVE
 {
@@ -40,7 +41,7 @@ namespace SharpVE
             ClearColor = new Color4(0.4f, 0.6f, 0.8f, 1f);
 
             TextureAtlas = new Texture("atlas.png");
-            
+
             //Matrix Setup
             ProjectionMatrix = MainCamera.GetProjectionMatrix();
             for(int c = 0; c < MainWorld.Chunks.Count; c++)
@@ -48,11 +49,14 @@ namespace SharpVE
                 var chunk = MainWorld.Chunks[c];
                 for (int i = 0; i < chunk.Sections.Length; i++)
                 {
+                    var st = Stopwatch.StartNew();
                     var section = chunk.Sections[i];
                     var mesh = new ChunkMesh(section, Blocks);
                     mesh.GenerateMesh();
                     mesh.BuildMesh();
                     Meshes.Add(mesh);
+                    st.Stop();
+                    Console.WriteLine($"Subchunk mesh build took {st.ElapsedMilliseconds}ms");
                 }
             }
         }
