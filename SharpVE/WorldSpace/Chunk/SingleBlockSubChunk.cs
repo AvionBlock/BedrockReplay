@@ -7,11 +7,11 @@ namespace SharpVE.WorldSpace.Chunk
 {
     public class SingleBlockSubChunk : IChunkData
     {
-        private BlockState? Block;
+        private BlockState Block;
         public ChunkColumn Chunk { get; }
         public byte YLevel { get; }
 
-        public SingleBlockSubChunk(ChunkColumn chunk, byte yLevel, BlockState? block = null)
+        public SingleBlockSubChunk(ChunkColumn chunk, byte yLevel, BlockState block)
         {
             Block = block;
             Chunk = chunk;
@@ -20,7 +20,8 @@ namespace SharpVE.WorldSpace.Chunk
 
         public BlockState? GetBlock(Vector3i localPosition)
         {
-            if (localPosition.X >= ChunkColumn.SIZE || localPosition.Y >= ChunkColumn.SIZE || localPosition.Z >= ChunkColumn.SIZE)
+            if (localPosition.X >= ChunkColumn.SIZE || localPosition.Y >= ChunkColumn.SIZE || localPosition.Z >= ChunkColumn.SIZE || 
+                localPosition.X < 0 || localPosition.Y < 0|| localPosition.Z < 0)
             {
                 return null;
             }
@@ -30,7 +31,7 @@ namespace SharpVE.WorldSpace.Chunk
 
         public Vector3i GetGlobalPosition()
         {
-            return new Vector3i(Chunk.Position.X * ChunkColumn.SIZE, YLevel * ChunkColumn.SIZE, Chunk.Position.X * ChunkColumn.SIZE);
+            return new Vector3i(Chunk.Position.X * ChunkColumn.SIZE, YLevel * ChunkColumn.SIZE, Chunk.Position.Y * ChunkColumn.SIZE);
         }
     }
 }

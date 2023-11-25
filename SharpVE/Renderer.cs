@@ -32,25 +32,28 @@ namespace SharpVE
             Height = height;
             MainCamera = new Camera(Width, Height, new Vector3(0,0,0));
             ProjectionShader = projectionShader;
-            MainWorld = world ?? new World();
+            Blocks = new BlockRegistry();
+            MainWorld = world ?? new World(Blocks.DefaultBlock.GetBlockState());
             Shaders = new List<Shader>();
             Meshes = new List<ChunkMesh>();
 
             ClearColor = new Color4(0.4f, 0.6f, 0.8f, 1f);
 
-            Blocks = new BlockRegistry();
             TextureAtlas = new Texture("atlas.png");
             
             //Matrix Setup
             ProjectionMatrix = MainCamera.GetProjectionMatrix();
-            var chunk = MainWorld.Chunks[0];
-            for(int i = 0; i < 1; i++)
+            for(int c = 0; c < MainWorld.Chunks.Count; c++)
             {
-                var section = chunk.Sections[i];
-                var mesh = new ChunkMesh(section, Blocks);
-                mesh.GenerateMesh();
-                mesh.BuildMesh();
-                Meshes.Add(mesh);
+                var chunk = MainWorld.Chunks[c];
+                for (int i = 0; i < chunk.Sections.Length; i++)
+                {
+                    var section = chunk.Sections[i];
+                    var mesh = new ChunkMesh(section, Blocks);
+                    mesh.GenerateMesh();
+                    mesh.BuildMesh();
+                    Meshes.Add(mesh);
+                }
             }
         }
 
@@ -106,9 +109,6 @@ namespace SharpVE
         public void UpdateFrame(MouseState mouse, KeyboardState keyboard, FrameEventArgs frameEvent)
         {
             MainCamera.Update(keyboard, mouse, frameEvent);
-            Task.Run(() => {
-                Console.WriteLine(MainCamera.Position);
-            });
         }
 
         public void RenderFrame()

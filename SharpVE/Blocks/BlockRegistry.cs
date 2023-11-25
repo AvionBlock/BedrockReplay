@@ -13,12 +13,12 @@
             UnknownBlock = unknownBlock ?? new Block("unknown");
         }
 
-        public Block GetBlock(string? identifier, bool returnDefault = false)
+        public Block GetBlock(string? identifier)
         {
-            if (identifier == null) return returnDefault ? DefaultBlock : UnknownBlock;
+            if (identifier == null) return UnknownBlock;
 
             Blocks.TryGetValue(identifier, out var block);
-            if (block == null) return returnDefault? DefaultBlock : UnknownBlock;
+            if (block == null) return UnknownBlock;
             return block;
         }
     }

@@ -23,7 +23,7 @@ namespace SharpVE.WorldSpace.Chunk
 
         public BlockState? GetBlock(Vector3i localPosition)
         {
-            if (localPosition.Y >= ChunkColumn.SIZE)
+            if (localPosition.Y >= ChunkColumn.SIZE || localPosition.Y < 0)
             {
                 return null;
             }
@@ -37,7 +37,7 @@ namespace SharpVE.WorldSpace.Chunk
 
         public Vector3i GetGlobalPosition()
         {
-            return new Vector3i(Chunk.Position.X * ChunkColumn.SIZE, YLevel * ChunkColumn.SIZE, Chunk.Position.X * ChunkColumn.SIZE);
+            return new Vector3i(Chunk.Position.X * ChunkColumn.SIZE, YLevel * ChunkColumn.SIZE, Chunk.Position.Y * ChunkColumn.SIZE);
         }
     }
 }

@@ -80,7 +80,8 @@ namespace SharpVE.Meshes
                         }
                         else
                         {
-                            if (!Registry.GetBlock(world.GetBlock(new Vector3i(globalBPos.X + 1, globalBPos.Y, globalBPos.Z))?.Name, true).IsOpaque)
+                            var b = world.GetBlock(new Vector3i(globalBPos.X + 1, globalBPos.Y, globalBPos.Z));
+                            if (b == null || !Registry.GetBlock(b?.Name).IsOpaque)
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                         }
                         break;
@@ -92,7 +93,8 @@ namespace SharpVE.Meshes
                         }
                         else
                         {
-                            if (!Registry.GetBlock(world.GetBlock(new Vector3i(globalBPos.X - 1, globalBPos.Y, globalBPos.Z))?.Name, true).IsOpaque)
+                            var b = world.GetBlock(new Vector3i(globalBPos.X - 1, globalBPos.Y, globalBPos.Z));
+                            if (b == null || !Registry.GetBlock(b?.Name).IsOpaque)
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                         }
                         break;
@@ -104,7 +106,8 @@ namespace SharpVE.Meshes
                         }
                         else
                         {
-                            if (!Registry.GetBlock(world.GetBlock(new Vector3i(globalBPos.X, globalBPos.Y, globalBPos.Z + 1))?.Name, true).IsOpaque)
+                            var b = world.GetBlock(new Vector3i(globalBPos.X, globalBPos.Y, globalBPos.Z + 1));
+                            if (b == null || !Registry.GetBlock(b?.Name).IsOpaque)
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                         }
                         break;
@@ -116,7 +119,8 @@ namespace SharpVE.Meshes
                         }
                         else
                         {
-                            if (!Registry.GetBlock(world.GetBlock(new Vector3i(globalBPos.X, globalBPos.Y, globalBPos.Z - 1))?.Name, true).IsOpaque)
+                            var b = world.GetBlock(new Vector3i(globalBPos.X, globalBPos.Y, globalBPos.Z - 1));
+                            if (b == null || !Registry.GetBlock(b?.Name).IsOpaque)
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                         }
                         break;
@@ -128,7 +132,8 @@ namespace SharpVE.Meshes
                         }
                         else
                         {
-                            if (!Registry.GetBlock(world.GetBlock(new Vector3i(globalBPos.X, globalBPos.Y + 1, globalBPos.Z))?.Name, true).IsOpaque)
+                            var b = world.GetBlock(new Vector3i(globalBPos.X, globalBPos.Y + 1, globalBPos.Z));
+                            if (b == null || !Registry.GetBlock(b?.Name).IsOpaque)
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                         }
                         break;
@@ -140,7 +145,8 @@ namespace SharpVE.Meshes
                         }
                         else
                         {
-                            if (!Registry.GetBlock(world.GetBlock(new Vector3i(globalBPos.X, globalBPos.Y - 1, globalBPos.Z))?.Name, true).IsOpaque)
+                            var b = world.GetBlock(new Vector3i(globalBPos.X, globalBPos.Y - 1, globalBPos.Z));
+                            if (b == null || !Registry.GetBlock(b?.Name).IsOpaque)
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                         }
                         break;
@@ -188,6 +194,9 @@ namespace SharpVE.Meshes
             vao.Unbind();
 
             ibo = new IBO(Indices);
+
+            Vertices.Clear();
+            UV.Clear();
         }
 
         public void Draw()

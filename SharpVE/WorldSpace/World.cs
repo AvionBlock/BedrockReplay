@@ -7,12 +7,16 @@ namespace SharpVE.WorldSpace
     public class World
     {
         public List<ChunkColumn> Chunks;
+        public BlockState DefaultBlock;
 
-        public World()
+        public World(BlockState defaultBlock)
         {
             Chunks = new List<ChunkColumn>();
-            var chunk = new ChunkColumn(new Vector2i(0, 0), this);
-            Chunks.Add(chunk);
+            for (int x = 0; x < 20; x++)
+            {
+                Chunks.Add(new ChunkColumn(new Vector2i(x, 0), this));
+            }
+            DefaultBlock = defaultBlock;
         }
 
         public BlockState? GetBlock(Vector3i globalPosition)
@@ -20,12 +24,26 @@ namespace SharpVE.WorldSpace
             foreach(var chunk in Chunks)
             {
                 //Again. vector2i.Y is the Z position
-                if (chunk.Position.X == globalPosition.X / ChunkColumn.SIZE && chunk.Position.Y == globalPosition.Z / ChunkColumn.SIZE)
+                //Console.WriteLine($"Coordinate {globalPosition} is in {Math.Floor((float)globalPosition.X / ChunkColumn.SIZE)}, {Math.Floor((float)globalPosition.Z / ChunkColumn.SIZE)}");
+                if (chunk.Position.X == Math.Floor((float)globalPosition.X / ChunkColumn.SIZE) && chunk.Position.Y == Math.Floor((float)globalPosition.Z / ChunkColumn.SIZE))
                 {
                     //Convert global to local position.
-                    globalPosition.X = Math.Abs(globalPosition.X - (chunk.Position.X * ChunkColumn.SIZE));
-                    globalPosition.Y = Math.Abs(globalPosition.Y - ChunkColumn.MINY);
-                    globalPosition.Z = Math.Abs(globalPosition.Z - (chunk.Position.Y * ChunkColumn.SIZE));
+                    var x = globalPosition.X % ChunkColumn.SIZE;
+                    if(x < 0)
+                    {
+                        x += ChunkColumn.SIZE;
+                    }
+
+                    var z = globalPosition.Z % ChunkColumn.SIZE;
+                    if (z < 0)
+                    {
+                        z += ChunkColumn.SIZE;
+                    }
+                    
+                    globalPosition.X = x;
+                    globalPosition.Y = globalPosition.Y - ChunkColumn.MINY;
+                    globalPosition.Z = z;
+
                     return chunk.GetBlock(globalPosition);
                 }
             }
