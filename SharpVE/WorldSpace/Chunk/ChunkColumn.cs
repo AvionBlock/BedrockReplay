@@ -45,5 +45,28 @@ namespace SharpVE.Worlds.Chunks
             localPosition.Y -= SIZE * yPosSection;
             return Sections[yPosSection].GetBlock(localPosition);
         }
+
+        public void SetBlock(Vector3i localPosition, BlockState block)
+        {
+            int yPosSection = localPosition.Y / SIZE;
+            if (yPosSection < 0 || yPosSection >= Sections.Length)
+            {
+                return;
+            }
+            localPosition.Y -= SIZE * yPosSection;
+            var section = Sections[yPosSection];
+            
+            //if single block. Change to SubChunk else set the block - TEMPORARY
+            if (section is SingleBlockSubChunk)
+            {
+                var newSection = new SubChunk(this, (sbyte)(yPosSection + (MINY / SIZE)));
+                newSection.SetBlock(localPosition, block);
+                Sections[yPosSection] = newSection;
+            }
+            else
+            {
+                section.SetBlock(localPosition, block);
+            }
+        }
     }
 }

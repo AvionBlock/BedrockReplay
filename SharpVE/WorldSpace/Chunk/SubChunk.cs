@@ -35,6 +35,11 @@ namespace SharpVE.WorldSpace.Chunk
             return null;
         }
 
+        public void SetBlock(Vector3i localPosition, BlockState? block)
+        {
+            throw new NotImplementedException();
+        }
+
         public Vector3i GetGlobalPosition()
         {
             return new Vector3i(Chunk.Position.X * ChunkColumn.SIZE, YLevel * ChunkColumn.SIZE, Chunk.Position.Y * ChunkColumn.SIZE);
