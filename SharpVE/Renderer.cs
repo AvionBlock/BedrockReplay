@@ -4,9 +4,9 @@ using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using SharpVE.Blocks;
 using SharpVE.Graphics;
+using SharpVE.Interfaces;
 using SharpVE.Meshes;
 using SharpVE.WorldSpace;
-using System.Diagnostics;
 
 namespace SharpVE
 {
@@ -16,53 +16,44 @@ namespace SharpVE
         public Color4 ClearColor;
 
         public readonly Camera MainCamera;
-        public readonly Shader ProjectionShader;
         public readonly World MainWorld;
-        public readonly List<Shader> Shaders;
+        public readonly List<IShader> Shaders;
         public readonly Texture TextureAtlas;
-
-        private Matrix4 ProjectionMatrix;
 
         public readonly BlockRegistry Blocks;
 
         public List<ChunkMesh> Meshes;
 
-        public Renderer(ushort width, ushort height, Shader projectionShader, World? world = null)
+        public Renderer(ushort width, ushort height, World? world = null)
         {
             Width = width;
             Height = height;
             MainCamera = new Camera(Width, Height, new Vector3(0,0,0));
-            ProjectionShader = projectionShader;
             Blocks = new BlockRegistry();
             MainWorld = world ?? new World(Blocks.DefaultBlock.GetBlockState());
-            Shaders = new List<Shader>();
+            Shaders = new List<IShader>();
             Meshes = new List<ChunkMesh>();
 
             ClearColor = new Color4(0.4f, 0.6f, 0.8f, 1f);
 
             TextureAtlas = new Texture("atlas.png");
 
-            //Matrix Setup
-            ProjectionMatrix = MainCamera.GetProjectionMatrix();
             for(int c = 0; c < MainWorld.Chunks.Count; c++)
             {
                 var chunk = MainWorld.Chunks[c];
                 for (int i = 0; i < chunk.Sections.Length; i++)
                 {
-                    var st = Stopwatch.StartNew();
                     var section = chunk.Sections[i];
                     var mesh = new ChunkMesh(section, Blocks);
                     mesh.GenerateMesh();
                     mesh.BuildMesh();
                     Meshes.Add(mesh);
-                    st.Stop();
-                    Console.WriteLine($"Subchunk mesh build took {st.ElapsedMilliseconds}ms");
                 }
             }
         }
 
         #region Shader Management
-        public void AddShader(Shader shader)
+        public void AddShader(IShader shader)
         {
             //Thread Safety
             lock (Shaders)
@@ -71,7 +62,7 @@ namespace SharpVE
             }
         }
 
-        public bool RemoveShader(Shader shader)
+        public bool RemoveShader(IShader shader)
         {
             //Thread Safety
             lock (Shaders)
@@ -107,6 +98,18 @@ namespace SharpVE
                 }
             }
         }
+
+        public void DeleteShaders()
+        {
+            lock (Shaders)
+            {
+                foreach (var shader in Shaders)
+                {
+                    shader.Delete();
+                }
+                Shaders.Clear();
+            }
+        }
         #endregion
 
         #region Frame Updates
@@ -121,19 +124,7 @@ namespace SharpVE
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
             UseShaders();
-            ProjectionShader.Use();
             TextureAtlas.Bind();
-
-            Matrix4 model = Matrix4.Identity;
-            Matrix4 view = MainCamera.GetViewMatrix();
-
-            int modelLocation = GL.GetUniformLocation(ProjectionShader.ID, "model");
-            int viewLocation = GL.GetUniformLocation(ProjectionShader.ID, "view");
-            int projectionLocation = GL.GetUniformLocation(ProjectionShader.ID, "projection");
-
-            GL.UniformMatrix4(modelLocation, true, ref model);
-            GL.UniformMatrix4(viewLocation, true, ref view);
-            GL.UniformMatrix4(projectionLocation, true, ref ProjectionMatrix);
 
             foreach (var mesh in Meshes)
             {

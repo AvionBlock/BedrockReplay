@@ -9,11 +9,11 @@ namespace SharpVE.WorldSpace.Chunk
     {
         private ILayerData[] Layers;
         public ChunkColumn Chunk { get; }
-        public byte YLevel { get; }
+        public sbyte YLevel { get; }
 
         public readonly Dictionary<ushort, BlockState> BlockStates;
 
-        public SubChunk(ChunkColumn chunk, byte yLevel)
+        public SubChunk(ChunkColumn chunk, sbyte yLevel)
         {
             Layers = new SingleBlockChunkLayer[ChunkColumn.SIZE * ChunkColumn.SIZE * ChunkColumn.SIZE];
             BlockStates = new Dictionary<ushort, BlockState>();

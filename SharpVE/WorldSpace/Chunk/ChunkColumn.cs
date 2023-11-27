@@ -11,7 +11,7 @@ namespace SharpVE.Worlds.Chunks
         #region Constants
         public const ushort SIZE = 16;
         public const ushort HEIGHT = 256;
-        public const short MINY = 0;
+        public const short MINY = -64;
         #endregion;
 
         public readonly Vector2i Position;
@@ -31,7 +31,7 @@ namespace SharpVE.Worlds.Chunks
 
             for (int i = 0; i < HEIGHT / SIZE; i++)
             {
-                Sections[i] = new SingleBlockSubChunk(this, (byte)(i + (MINY / SIZE)), world.DefaultBlock);
+                Sections[i] = new SingleBlockSubChunk(this, (sbyte)(i + (MINY / SIZE)), world.DefaultBlock);
             }
         }
 

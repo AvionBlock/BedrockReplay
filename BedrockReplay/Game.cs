@@ -10,8 +10,6 @@ namespace SharpVE
     public class Game : GameWindow
     {
         //Camera
-        Camera camera;
-        Shader shader;
         Renderer renderer;
 
         int Width, Height;
@@ -26,17 +24,17 @@ namespace SharpVE
         protected override void OnLoad()
         {
             base.OnLoad();
-            shader = new Shader("Default.vert", "Default.frag");
 
             GL.Enable(EnableCap.DepthTest);
             GL.FrontFace(FrontFaceDirection.Cw);
             GL.Enable(EnableCap.CullFace);
             GL.CullFace(CullFaceMode.Back);
 
-            camera = new Camera(Width, Height, Vector3.Zero);
             CursorState = CursorState.Grabbed;
 
-            renderer = new Renderer((ushort)Width, (ushort)Height, shader);
+            renderer = new Renderer((ushort)Width, (ushort)Height);
+            var shader = new ProjectionShader("Default.vert", "Default.frag", renderer.MainCamera);
+            renderer.AddShader(shader);
         }
 
         protected override void OnResize(ResizeEventArgs e)
@@ -65,7 +63,7 @@ namespace SharpVE
         protected override void OnUnload()
         {
             base.OnUnload();
-            shader.Delete();
+            renderer.DeleteShaders();
         }
     }
 }

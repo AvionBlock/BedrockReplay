@@ -1,10 +1,11 @@
 ﻿using OpenTK.Graphics.OpenGL4;
+using SharpVE.Interfaces;
 
 namespace SharpVE.Graphics
 {
-    public class Shader
+    public class Shader : IShader
     {
-        public int ID;
+        public int ID { get; set; }
 
         public Shader(string vertexShaderFilepath, string fragmentShaderFilepath)
         {

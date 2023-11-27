@@ -9,9 +9,9 @@ namespace SharpVE.WorldSpace.Chunk
     {
         private BlockState Block;
         public ChunkColumn Chunk { get; }
-        public byte YLevel { get; }
+        public sbyte YLevel { get; }
 
-        public SingleBlockSubChunk(ChunkColumn chunk, byte yLevel, BlockState block)
+        public SingleBlockSubChunk(ChunkColumn chunk, sbyte yLevel, BlockState block)
         {
             Block = block;
             Chunk = chunk;

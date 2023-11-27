@@ -6,7 +6,7 @@ namespace SharpVE.Interfaces
 {
     public interface IChunkData
     {
-        public byte YLevel { get; }
+        public sbyte YLevel { get; }
         public ChunkColumn Chunk { get; }
         public BlockState? GetBlock(Vector3i localPosition);
         public Vector3i GetGlobalPosition();

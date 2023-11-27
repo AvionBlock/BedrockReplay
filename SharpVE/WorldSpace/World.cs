@@ -12,10 +12,8 @@ namespace SharpVE.WorldSpace
         public World(BlockState defaultBlock)
         {
             Chunks = new List<ChunkColumn>();
-            for (int x = 0; x < 1; x++)
-            {
-                Chunks.Add(new ChunkColumn(new Vector2i(x, 0), this));
-            }
+            Chunks.Add(new ChunkColumn(new Vector2i(0, 0), this));
+            Chunks.Add(new ChunkColumn(new Vector2i(0, -1), this));
             DefaultBlock = defaultBlock;
         }
 
@@ -24,7 +22,6 @@ namespace SharpVE.WorldSpace
             foreach(var chunk in Chunks)
             {
                 //Again. vector2i.Y is the Z position
-                //Console.WriteLine($"Coordinate {globalPosition} is in {Math.Floor((float)globalPosition.X / ChunkColumn.SIZE)}, {Math.Floor((float)globalPosition.Z / ChunkColumn.SIZE)}");
                 if (chunk.Position.X == Math.Floor((float)globalPosition.X / ChunkColumn.SIZE) && chunk.Position.Y == Math.Floor((float)globalPosition.Z / ChunkColumn.SIZE))
                 {
                     //Convert global to local position.
