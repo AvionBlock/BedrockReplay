@@ -12,9 +12,10 @@ namespace SharpVE.WorldSpace
         public World(BlockState defaultBlock)
         {
             Chunks = new List<ChunkColumn>();
+            DefaultBlock = defaultBlock;
+
             Chunks.Add(new ChunkColumn(new Vector2i(0, 0), this));
             Chunks.Add(new ChunkColumn(new Vector2i(0, -1), this));
-            DefaultBlock = defaultBlock;
         }
 
         public BlockState? GetBlock(Vector3i globalPosition)

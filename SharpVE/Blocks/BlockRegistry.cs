@@ -28,6 +28,7 @@ namespace SharpVE.Blocks
         public Block GetBlock(string? identifier)
         {
             if (identifier == null) return UnknownBlock;
+            if (identifier == DefaultBlock.Name) return DefaultBlock;
 
             Blocks.TryGetValue(identifier, out var block);
             if (block == null) return UnknownBlock;
