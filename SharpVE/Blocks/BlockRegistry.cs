@@ -1,4 +1,6 @@
-﻿namespace SharpVE.Blocks
+﻿using OpenTK.Mathematics;
+
+namespace SharpVE.Blocks
 {
     public class BlockRegistry
     {
@@ -10,7 +12,17 @@
         {
             Blocks = new Dictionary<string, Block>();
             DefaultBlock = defaultBlock ?? new Block("air") { IsOpaque = false };
-            UnknownBlock = unknownBlock ?? new Block("unknown");
+            UnknownBlock = unknownBlock ?? new Block("unknown")
+            { UV = new List<Vector2>()
+                {
+                    new Vector2(1,11),
+                    new Vector2(1,12),
+                    new Vector2(1,12),
+                    new Vector2(1,12),
+                    new Vector2(1,12),
+                    new Vector2(1,12)
+                }
+            };
         }
 
         public Block GetBlock(string? identifier)

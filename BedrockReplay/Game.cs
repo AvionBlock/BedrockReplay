@@ -26,6 +26,8 @@ namespace SharpVE
             base.OnLoad();
 
             GL.Enable(EnableCap.DepthTest);
+            GL.Enable(EnableCap.Blend);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
             GL.FrontFace(FrontFaceDirection.Cw);
             GL.Enable(EnableCap.CullFace);
             GL.CullFace(CullFaceMode.Back);

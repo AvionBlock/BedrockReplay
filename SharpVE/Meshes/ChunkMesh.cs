@@ -74,79 +74,121 @@ namespace SharpVE.Meshes
                     case CullCheck.PosX:
                         if (bPos.X < ChunkColumn.SIZE - 1)
                         {
-                            if (!Registry.GetBlock(Chunk.GetBlock(new Vector3i(bPos.X + 1, bPos.Y, bPos.Z))?.Name).IsOpaque)
+                            var testBlock = Registry.GetBlock(Chunk.GetBlock(new Vector3i(bPos.X + 1, bPos.Y, bPos.Z))?.Name);
+                            if (testBlock.Name != block.Name && !testBlock.IsOpaque || !testBlock.IsFullCube)
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                         }
                         else
                         {
                             var b = world.GetBlock(new Vector3i(globalBPos.X + 1, globalBPos.Y, globalBPos.Z));
-                            if (b == null || !Registry.GetBlock(b?.Name).IsOpaque)
+                            if (b == null)
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
+                            else
+                            {
+                                var testBlock = Registry.GetBlock(b?.Name);
+                                if(testBlock.Name != block.Name && !testBlock.IsOpaque || !testBlock.IsFullCube)
+                                    AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
+                            }
                         }
                         break;
                     case CullCheck.NegX:
                         if (bPos.X > 0)
                         {
-                            if (!Registry.GetBlock(Chunk.GetBlock(new Vector3i(bPos.X - 1, bPos.Y, bPos.Z))?.Name).IsOpaque)
+                            var testBlock = Registry.GetBlock(Chunk.GetBlock(new Vector3i(bPos.X - 1, bPos.Y, bPos.Z))?.Name);
+                            if (testBlock.Name != block.Name && !testBlock.IsOpaque || !testBlock.IsFullCube)
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                         }
                         else
                         {
                             var b = world.GetBlock(new Vector3i(globalBPos.X - 1, globalBPos.Y, globalBPos.Z));
-                            if (b == null || !Registry.GetBlock(b?.Name).IsOpaque)
+                            if (b == null)
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
+                            else
+                            {
+                                var testBlock = Registry.GetBlock(b?.Name);
+                                if (testBlock.Name != block.Name && !testBlock.IsOpaque || !testBlock.IsFullCube)
+                                    AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
+                            }
                         }
                         break;
                     case CullCheck.PosZ:
                         if (bPos.Z < ChunkColumn.SIZE - 1)
                         {
-                            if (!Registry.GetBlock(Chunk.GetBlock(new Vector3i(bPos.X, bPos.Y, bPos.Z + 1))?.Name).IsOpaque)
+                            var testBlock = Registry.GetBlock(Chunk.GetBlock(new Vector3i(bPos.X, bPos.Y, bPos.Z + 1))?.Name);
+                            if (testBlock.Name != block.Name && !testBlock.IsOpaque || !testBlock.IsFullCube)
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                         }
                         else
                         {
                             var b = world.GetBlock(new Vector3i(globalBPos.X, globalBPos.Y, globalBPos.Z + 1));
-                            if (b == null || !Registry.GetBlock(b?.Name).IsOpaque)
+                            if (b == null)
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
+                            else
+                            {
+                                var testBlock = Registry.GetBlock(b?.Name);
+                                if (testBlock.Name != block.Name && !testBlock.IsOpaque || !testBlock.IsFullCube)
+                                    AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
+                            }
                         }
                         break;
                     case CullCheck.NegZ:
                         if (bPos.Z > 0)
                         {
-                            if (!Registry.GetBlock(Chunk.GetBlock(new Vector3i(bPos.X, bPos.Y, bPos.Z - 1))?.Name).IsOpaque)
+                            var testBlock = Registry.GetBlock(Chunk.GetBlock(new Vector3i(bPos.X, bPos.Y, bPos.Z - 1))?.Name);
+                            if (testBlock.Name != block.Name && !testBlock.IsOpaque || !testBlock.IsFullCube)
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                         }
                         else
                         {
                             var b = world.GetBlock(new Vector3i(globalBPos.X, globalBPos.Y, globalBPos.Z - 1));
-                            if (b == null || !Registry.GetBlock(b?.Name).IsOpaque)
+                            if (b == null)
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
+                            else
+                            {
+                                var testBlock = Registry.GetBlock(b?.Name);
+                                if (testBlock.Name != block.Name && !testBlock.IsOpaque || !testBlock.IsFullCube)
+                                    AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
+                            }
                         }
                         break;
                     case CullCheck.PosY:
                         if (bPos.Y < ChunkColumn.SIZE - 1)
                         {
-                            if (!Registry.GetBlock(Chunk.GetBlock(new Vector3i(bPos.X, bPos.Y + 1, bPos.Z))?.Name).IsOpaque)
+                            var testBlock = Registry.GetBlock(Chunk.GetBlock(new Vector3i(bPos.X, bPos.Y + 1, bPos.Z))?.Name);
+                            if (testBlock.Name != block.Name && !testBlock.IsOpaque || !testBlock.IsFullCube)
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                         }
                         else
                         {
                             var b = world.GetBlock(new Vector3i(globalBPos.X, globalBPos.Y + 1, globalBPos.Z));
-                            if (b == null || !Registry.GetBlock(b?.Name).IsOpaque)
+                            if (b == null)
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
+                            else
+                            {
+                                var testBlock = Registry.GetBlock(b?.Name);
+                                if (testBlock.Name != block.Name && !testBlock.IsOpaque || !testBlock.IsFullCube)
+                                    AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
+                            }
                         }
                         break;
                     case CullCheck.NegY:
                         if (bPos.Y > 0)
                         {
-                            if (!Registry.GetBlock(Chunk.GetBlock(new Vector3i(bPos.X, bPos.Y - 1, bPos.Z))?.Name).IsOpaque)
+                            var testBlock = Registry.GetBlock(Chunk.GetBlock(new Vector3i(bPos.X, bPos.Y - 1, bPos.Z))?.Name);
+                            if (testBlock.Name != block.Name && !testBlock.IsOpaque || !testBlock.IsFullCube)
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                         }
                         else
                         {
                             var b = world.GetBlock(new Vector3i(globalBPos.X, globalBPos.Y - 1, globalBPos.Z));
-                            if (b == null || !Registry.GetBlock(b?.Name).IsOpaque)
+                            if (b == null)
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
+                            else
+                            {
+                                var testBlock = Registry.GetBlock(b?.Name);
+                                if (testBlock.Name != block.Name && !testBlock.IsOpaque || !testBlock.IsFullCube)
+                                    AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
+                            }
                         }
                         break;
                     case CullCheck.None:
