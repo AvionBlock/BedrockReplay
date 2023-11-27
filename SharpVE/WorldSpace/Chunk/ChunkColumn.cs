@@ -56,7 +56,7 @@ namespace SharpVE.Worlds.Chunks
             localPosition.Y -= SIZE * yPosSection;
             var section = Sections[yPosSection];
             
-            //if single block. Change to SubChunk else set the block - TEMPORARY
+            //if single block subchunk. Change to SubChunk else set the block and if the subchunk contains only 1 block, set to single block subchunk.
             if (section is SingleBlockSubChunk)
             {
                 var newSection = new SubChunk(this, (sbyte)(yPosSection + (MINY / SIZE)));
@@ -65,7 +65,13 @@ namespace SharpVE.Worlds.Chunks
             }
             else
             {
-                section.SetBlock(localPosition, block);
+                var subchunk = section as SubChunk;
+                subchunk?.SetBlock(localPosition, block);
+                if (subchunk?.BlockStates.Count == 1)
+                {
+                    //Set to single block subchunk.
+                    Sections[yPosSection] = new SingleBlockSubChunk(this, (sbyte)(yPosSection + (MINY / SIZE)), subchunk.BlockStates.FirstOrDefault().Value);
+                }
             }
         }
     }
