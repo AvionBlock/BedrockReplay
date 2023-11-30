@@ -31,7 +31,7 @@ namespace SharpVE.Worlds.Chunks
 
             for (int i = 0; i < HEIGHT / SIZE; i++)
             {
-                Sections[i] = new SingleBlockSubChunk(this, (sbyte)(i + (MINY / SIZE)), world.DefaultBlock);
+                Sections[i] = new SubChunk(this, (sbyte)(i + (MINY / SIZE)), world.DefaultBlock);
             }
         }
 
@@ -59,7 +59,7 @@ namespace SharpVE.Worlds.Chunks
             //if single block subchunk. Change to SubChunk else set the block and if the subchunk contains only 1 block, set to single block subchunk.
             if (section is SingleBlockSubChunk)
             {
-                var newSection = new SubChunk(this, (sbyte)(yPosSection + (MINY / SIZE)));
+                var newSection = new SubChunk(this, (sbyte)(yPosSection + (MINY / SIZE)), ParentWorld.DefaultBlock);
                 newSection.SetBlock(localPosition, block);
                 Sections[yPosSection] = newSection;
             }
@@ -70,7 +70,7 @@ namespace SharpVE.Worlds.Chunks
                 if (subchunk?.BlockStates.Count == 1)
                 {
                     //Set to single block subchunk.
-                    Sections[yPosSection] = new SingleBlockSubChunk(this, (sbyte)(yPosSection + (MINY / SIZE)), subchunk.BlockStates.FirstOrDefault().Value);
+                    Sections[yPosSection] = new SingleBlockSubChunk(this, (sbyte)(yPosSection + (MINY / SIZE)), subchunk.BlockStates.FirstOrDefault());
                 }
             }
         }

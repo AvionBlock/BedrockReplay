@@ -18,12 +18,12 @@ namespace SharpVE.Blocks
             Name = identifer;
             UV = new List<Vector2>()
             {
-                new Vector2(0,0),
-                new Vector2(0,0),
-                new Vector2(0,0),
-                new Vector2(0,0),
-                new Vector2(0,0),
-                new Vector2(0,0)
+                new Vector2(12,7),
+                new Vector2(12,7),
+                new Vector2(12,7),
+                new Vector2(12,7),
+                new Vector2(12,7),
+                new Vector2(12,7)
             };
         }
 

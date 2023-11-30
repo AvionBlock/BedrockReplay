@@ -26,13 +26,8 @@ namespace SharpVE.WorldSpace.Chunk
             int idx = (localPosition.X * ChunkColumn.SIZE) + localPosition.Y; //Yes. Y is Z value.
             ushort blockId = Data[idx];
 
-            Chunk.BlockStates.TryGetValue(blockId, out var blockState);
+            var blockState = Chunk.BlockStates.ElementAtOrDefault(blockId);
             return blockState;
-        }
-
-        public byte GetYLevel()
-        {
-            return YLevel;
         }
     }
 }

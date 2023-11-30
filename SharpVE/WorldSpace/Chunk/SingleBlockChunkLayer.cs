@@ -23,13 +23,8 @@ namespace SharpVE.WorldSpace.Chunk
             if (localPosition.X >= ChunkColumn.SIZE || localPosition.Y >= ChunkColumn.SIZE ||
                 localPosition.X < 0 || localPosition.Y < 0) return null;
 
-            Chunk.BlockStates.TryGetValue(BlockId, out var blockState);
+            var blockState = Chunk.BlockStates.ElementAtOrDefault(BlockId);
             return blockState;
-        }
-
-        public byte GetYLevel()
-        {
-            return YLevel;
         }
     }
 }

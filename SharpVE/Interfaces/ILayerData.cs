@@ -8,7 +8,6 @@ namespace SharpVE.Interfaces
     {
         public byte YLevel { get; }
         public SubChunk Chunk { get; }
-        public byte GetYLevel();
         public BlockState? GetBlock(Vector2i localPosition);
     }
 }

@@ -31,7 +31,7 @@ namespace SharpVE.WorldSpace.Chunk
 
         public void SetBlock(Vector3i localPosition, BlockState? block)
         {
-            throw new NotImplementedException();
+            throw new Exception("Cannot set block in a single block sub chunk.");
         }
 
         public Vector3i GetGlobalPosition()

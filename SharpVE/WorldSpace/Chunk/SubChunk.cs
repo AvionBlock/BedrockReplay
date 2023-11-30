@@ -2,6 +2,7 @@
 using SharpVE.Worlds.Chunks;
 using OpenTK.Mathematics;
 using SharpVE.Blocks;
+using System.Drawing;
 
 namespace SharpVE.WorldSpace.Chunk
 {
@@ -11,14 +12,19 @@ namespace SharpVE.WorldSpace.Chunk
         public ChunkColumn Chunk { get; }
         public sbyte YLevel { get; }
 
-        public readonly Dictionary<ushort, BlockState> BlockStates;
+        public readonly List<BlockState> BlockStates;
 
-        public SubChunk(ChunkColumn chunk, sbyte yLevel)
+        public SubChunk(ChunkColumn chunk, sbyte yLevel, BlockState defaultBlock)
         {
             Layers = new SingleBlockChunkLayer[ChunkColumn.SIZE * ChunkColumn.SIZE * ChunkColumn.SIZE];
-            BlockStates = new Dictionary<ushort, BlockState>();
+            BlockStates = new List<BlockState>();
             Chunk = chunk;
             YLevel = yLevel;
+
+            for (int i = 0; i < Layers.Length; i++)
+            {
+                Layers[i] = new SingleBlockChunkLayer(this, (byte)i, 0);
+            }
         }
 
         public BlockState? GetBlock(Vector3i localPosition)
@@ -28,16 +34,16 @@ namespace SharpVE.WorldSpace.Chunk
                 return null;
             }
 
-            foreach(var layer in Layers)
-            {
-                if (layer.GetYLevel() == localPosition.Y) return layer.GetBlock(new Vector2i(localPosition.X, localPosition.Z));
-            }
-            return null;
+            var layer = Layers.FirstOrDefault(x => x.YLevel == localPosition.Y);
+            return layer?.GetBlock(new Vector2i(localPosition.X, localPosition.Z));
         }
 
         public void SetBlock(Vector3i localPosition, BlockState? block)
         {
-            throw new NotImplementedException();
+            if (localPosition.Y >= ChunkColumn.SIZE || localPosition.Y < 0)
+            {
+                return;
+            }
         }
 
         public Vector3i GetGlobalPosition()
