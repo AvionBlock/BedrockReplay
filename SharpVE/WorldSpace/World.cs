@@ -20,11 +20,11 @@ namespace SharpVE.WorldSpace
             var blockState = BlockReg.GetBlock("grass").GetBlockState();
             for (int x = 0; x < ChunkColumn.SIZE; x++)
             {
-                for (int y = 0; y < ChunkColumn.SIZE; y++)
+                for (int y = 0; y < ChunkColumn.SIZE * 8; y++)
                 {
                     for (int z = 0; z < ChunkColumn.SIZE; z++)
                     {
-                        if(new Random().Next(0,5) == 0)
+                        if(new Random().Next(0,2) == 0)
                         {
                             chunk.SetBlock(new Vector3i(x, y, z), blockState);
                         }
