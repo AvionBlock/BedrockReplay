@@ -9,5 +9,6 @@ namespace SharpVE.Interfaces
         public byte YLevel { get; }
         public SubChunk Chunk { get; }
         public BlockState? GetBlock(Vector2i localPosition);
+        public void SetBlock(Vector2i localPosition, BlockState state);
     }
 }

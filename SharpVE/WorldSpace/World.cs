@@ -8,26 +8,42 @@ namespace SharpVE.WorldSpace
     {
         public List<ChunkColumn> Chunks;
         public BlockState DefaultBlock;
+        public BlockRegistry BlockReg;
 
-        public World(BlockState defaultBlock)
+        public World(BlockState defaultBlock, BlockRegistry registry)
         {
             Chunks = new List<ChunkColumn>();
             DefaultBlock = defaultBlock;
+            BlockReg = registry;
 
-            Chunks.Add(new ChunkColumn(new Vector2i(0, 0), this));
-            Chunks.Add(new ChunkColumn(new Vector2i(0, -1), this));
+            var chunk = new ChunkColumn(new Vector2i(0, 0), this);
+            var blockState = BlockReg.GetBlock("grass").GetBlockState();
+            for (int x = 0; x < ChunkColumn.SIZE; x++)
+            {
+                for (int y = 0; y < ChunkColumn.SIZE; y++)
+                {
+                    for (int z = 0; z < ChunkColumn.SIZE; z++)
+                    {
+                        if(new Random().Next(0,5) == 0)
+                        {
+                            chunk.SetBlock(new Vector3i(x, y, z), blockState);
+                        }
+                    }
+                }
+            }
+            Chunks.Add(chunk);
         }
 
         public BlockState? GetBlock(Vector3i globalPosition)
         {
-            foreach(var chunk in Chunks)
+            foreach (var chunk in Chunks)
             {
                 //Again. vector2i.Y is the Z position
                 if (chunk.Position.X == Math.Floor((float)globalPosition.X / ChunkColumn.SIZE) && chunk.Position.Y == Math.Floor((float)globalPosition.Z / ChunkColumn.SIZE))
                 {
                     //Convert global to local position.
                     var x = globalPosition.X % ChunkColumn.SIZE;
-                    if(x < 0)
+                    if (x < 0)
                     {
                         x += ChunkColumn.SIZE;
                     }
@@ -37,7 +53,7 @@ namespace SharpVE.WorldSpace
                     {
                         z += ChunkColumn.SIZE;
                     }
-                    
+
                     globalPosition.X = x;
                     globalPosition.Y = globalPosition.Y - ChunkColumn.MINY;
                     globalPosition.Z = z;

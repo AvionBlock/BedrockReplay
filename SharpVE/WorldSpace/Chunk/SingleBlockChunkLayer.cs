@@ -26,5 +26,10 @@ namespace SharpVE.WorldSpace.Chunk
             var blockState = Chunk.BlockStates.ElementAtOrDefault(BlockId);
             return blockState;
         }
+
+        public void SetBlock(Vector2i localPosition, BlockState state)
+        {
+            throw new Exception("Cannot set block on a single block chunk layer!");
+        }
     }
 }

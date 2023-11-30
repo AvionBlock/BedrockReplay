@@ -2,7 +2,6 @@
 using SharpVE.Worlds.Chunks;
 using OpenTK.Mathematics;
 using SharpVE.Blocks;
-using System.Drawing;
 
 namespace SharpVE.WorldSpace.Chunk
 {
@@ -16,8 +15,8 @@ namespace SharpVE.WorldSpace.Chunk
 
         public SubChunk(ChunkColumn chunk, sbyte yLevel, BlockState defaultBlock)
         {
-            Layers = new SingleBlockChunkLayer[ChunkColumn.SIZE * ChunkColumn.SIZE * ChunkColumn.SIZE];
-            BlockStates = new List<BlockState>();
+            Layers = new ILayerData[ChunkColumn.SIZE];
+            BlockStates = new List<BlockState>() { defaultBlock };
             Chunk = chunk;
             YLevel = yLevel;
 
@@ -34,15 +33,32 @@ namespace SharpVE.WorldSpace.Chunk
                 return null;
             }
 
-            var layer = Layers.FirstOrDefault(x => x.YLevel == localPosition.Y);
-            return layer?.GetBlock(new Vector2i(localPosition.X, localPosition.Z));
+            var layer = Layers[localPosition.Y];
+            return layer.GetBlock(new Vector2i(localPosition.X, localPosition.Z));
         }
 
-        public void SetBlock(Vector3i localPosition, BlockState? block)
+        public void SetBlock(Vector3i localPosition, BlockState block)
         {
             if (localPosition.Y >= ChunkColumn.SIZE || localPosition.Y < 0)
             {
                 return;
+            }
+
+            var layer = Layers[localPosition.Y];
+            if(layer is SingleBlockChunkLayer)
+            {
+                var newLayer = new ChunkLayer(this, (byte)localPosition.Y);
+                newLayer.SetBlock(new Vector2i(localPosition.X, localPosition.Z), block);
+                Layers[localPosition.Y] = newLayer;
+            }
+            else
+            {
+                var chunkLayer = layer as ChunkLayer;
+                chunkLayer?.SetBlock(new Vector2i(localPosition.X, localPosition.Z), block);
+                if (chunkLayer != null && chunkLayer.Data.All(x => x == chunkLayer?.Data[0]))
+                {
+                    Layers[localPosition.Y] = new SingleBlockChunkLayer(this, (byte)localPosition.Y, chunkLayer.Data[0]);
+                }
             }
         }
 

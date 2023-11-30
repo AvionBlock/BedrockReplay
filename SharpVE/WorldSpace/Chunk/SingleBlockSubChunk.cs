@@ -29,7 +29,7 @@ namespace SharpVE.WorldSpace.Chunk
             return Block;
         }
 
-        public void SetBlock(Vector3i localPosition, BlockState? block)
+        public void SetBlock(Vector3i localPosition, BlockState block)
         {
             throw new Exception("Cannot set block in a single block sub chunk.");
         }

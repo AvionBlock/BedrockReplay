@@ -31,7 +31,7 @@ namespace SharpVE.Worlds.Chunks
 
             for (int i = 0; i < HEIGHT / SIZE; i++)
             {
-                Sections[i] = new SubChunk(this, (sbyte)(i + (MINY / SIZE)), world.DefaultBlock);
+                Sections[i] = new SingleBlockSubChunk(this, (sbyte)(i + (MINY / SIZE)), world.DefaultBlock);
             }
         }
 

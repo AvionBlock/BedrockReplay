@@ -30,7 +30,7 @@ namespace SharpVE
             Height = height;
             MainCamera = new Camera(Width, Height, new Vector3(0,0,0));
             Blocks = new BlockRegistry();
-            MainWorld = world ?? new World(Blocks.DefaultBlock.GetBlockState());
+            MainWorld = world ?? new World(Blocks.DefaultBlock.GetBlockState(), Blocks);
             Shaders = new List<IShader>();
             Meshes = new List<ChunkMesh>();
 
@@ -50,6 +50,8 @@ namespace SharpVE
                     Meshes.Add(mesh);
                 }
             }
+
+            Blocks.Blocks.Add("grass", new Block("grass"));
         }
 
         #region Shader Management

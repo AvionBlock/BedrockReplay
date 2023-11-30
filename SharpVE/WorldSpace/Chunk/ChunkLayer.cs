@@ -7,7 +7,7 @@ namespace SharpVE.WorldSpace.Chunk
 {
     public class ChunkLayer : ILayerData
     {
-        private ushort[] Data;
+        public ushort[] Data { get; }
         public SubChunk Chunk { get; }
         public byte YLevel { get; }
 
@@ -28,6 +28,24 @@ namespace SharpVE.WorldSpace.Chunk
 
             var blockState = Chunk.BlockStates.ElementAtOrDefault(blockId);
             return blockState;
+        }
+
+        public void SetBlock(Vector2i localPosition, BlockState state)
+        {
+            for(int i = 0; i < Chunk.BlockStates.Count; i++)
+            {
+                var blockState = Chunk.BlockStates[i];
+                if(blockState.Equals(state))
+                {
+                    int idx = (localPosition.X * ChunkColumn.SIZE) + localPosition.Y; //Yes. Y is Z value.
+                    Data[idx] = (ushort)i;
+                    return;
+                }
+            }
+
+            Chunk.BlockStates.Add(state);
+            int idz = (localPosition.X * ChunkColumn.SIZE) + localPosition.Y; //Yes. Y is Z value.
+            Data[idz] = (ushort)(Chunk.BlockStates.Count - 1);
         }
     }
 }
