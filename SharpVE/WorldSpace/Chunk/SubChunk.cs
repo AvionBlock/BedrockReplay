@@ -60,6 +60,8 @@ namespace SharpVE.WorldSpace.Chunk
                     Layers[localPosition.Y] = new SingleBlockChunkLayer(this, (byte)localPosition.Y, chunkLayer.Data[0]);
                 }
             }
+
+            //I have no idea how to remove unused blockstates...
         }
 
         public Vector3i GetGlobalPosition()
