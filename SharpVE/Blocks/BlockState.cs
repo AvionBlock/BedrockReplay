@@ -2,12 +2,12 @@
 {
     public struct BlockState
     {
-        public string Name;
+        public Block Block;
         public Dictionary<string, dynamic> States;
 
-        public BlockState()
+        public BlockState(Block block)
         {
-            Name = string.Empty;
+            Block = block;
             States = new Dictionary<string, dynamic>();
         }
     }

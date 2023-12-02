@@ -29,7 +29,7 @@ namespace SharpVE.Blocks
 
         public BlockState GetBlockState()
         {
-            return new BlockState() { Name = Name };
+            return new BlockState(this);
         }
 
         public List<Vector2> GetUVsFromCoordinate(Vector2 position)

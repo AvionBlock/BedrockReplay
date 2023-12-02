@@ -1,8 +1,9 @@
 ﻿using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
+using SharpVE.Graphics;
 using SharpVE.Interfaces;
 
-namespace SharpVE.Graphics
+namespace BedrockReplay.Shaders
 {
     public class ProjectionShader : IShader
     {

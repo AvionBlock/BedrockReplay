@@ -2,7 +2,6 @@
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
-using SharpVE.Blocks;
 using SharpVE.Graphics;
 using SharpVE.Interfaces;
 using SharpVE.Meshes;
@@ -20,17 +19,14 @@ namespace SharpVE
         public readonly List<IShader> Shaders;
         public readonly Texture TextureAtlas;
 
-        public readonly BlockRegistry Blocks;
-
         public List<ChunkMesh> Meshes;
 
-        public Renderer(ushort width, ushort height, World? world = null)
+        public Renderer(ushort width, ushort height, World world)
         {
             Width = width;
             Height = height;
             MainCamera = new Camera(Width, Height, new Vector3(0,0,0));
-            Blocks = new BlockRegistry();
-            MainWorld = world ?? new World(Blocks.DefaultBlock.GetBlockState(), Blocks);
+            MainWorld = world;
             Shaders = new List<IShader>();
             Meshes = new List<ChunkMesh>();
 
@@ -44,14 +40,12 @@ namespace SharpVE
                 for (int i = 0; i < chunk.Sections.Length; i++)
                 {
                     var section = chunk.Sections[i];
-                    var mesh = new ChunkMesh(section, Blocks);
+                    var mesh = new ChunkMesh(section);
                     mesh.GenerateMesh();
                     mesh.BuildMesh();
                     Meshes.Add(mesh);
                 }
             }
-
-            Blocks.Blocks.Add("grass", new Block("grass"));
         }
 
         #region Shader Management

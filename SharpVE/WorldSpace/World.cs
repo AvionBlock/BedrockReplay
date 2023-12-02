@@ -7,17 +7,15 @@ namespace SharpVE.WorldSpace
     public class World
     {
         public List<ChunkColumn> Chunks;
-        public BlockState DefaultBlock;
-        public BlockRegistry BlockReg;
+        public BlockRegistry BlockRegistry;
 
-        public World(BlockState defaultBlock, BlockRegistry registry)
+        public World(BlockRegistry registry)
         {
             Chunks = new List<ChunkColumn>();
-            DefaultBlock = defaultBlock;
-            BlockReg = registry;
+            BlockRegistry = registry;
 
             var chunk = new ChunkColumn(new Vector2i(0, 0), this);
-            var blockState = BlockReg.GetBlock("grass").GetBlockState();
+            var blockState = BlockRegistry.GetBlock("grass").GetBlockState();
             for (int x = 0; x < ChunkColumn.SIZE; x++)
             {
                 for (int y = 0; y < ChunkColumn.SIZE * 8; y++)
@@ -62,6 +60,35 @@ namespace SharpVE.WorldSpace
                 }
             }
             return null;
+        }
+
+        public void SetBlock(Vector3i globalPosition, BlockState block)
+        {
+            foreach (var chunk in Chunks)
+            {
+                //Again. vector2i.Y is the Z position
+                if (chunk.Position.X == Math.Floor((float)globalPosition.X / ChunkColumn.SIZE) && chunk.Position.Y == Math.Floor((float)globalPosition.Z / ChunkColumn.SIZE))
+                {
+                    //Convert global to local position.
+                    var x = globalPosition.X % ChunkColumn.SIZE;
+                    if (x < 0)
+                    {
+                        x += ChunkColumn.SIZE;
+                    }
+
+                    var z = globalPosition.Z % ChunkColumn.SIZE;
+                    if (z < 0)
+                    {
+                        z += ChunkColumn.SIZE;
+                    }
+
+                    globalPosition.X = x;
+                    globalPosition.Y = globalPosition.Y - ChunkColumn.MINY;
+                    globalPosition.Z = z;
+
+                    chunk.SetBlock(globalPosition, block);
+                }
+            }
         }
     }
 }

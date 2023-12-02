@@ -3,7 +3,9 @@ using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.GraphicsLibraryFramework;
-using SharpVE.Graphics;
+using BedrockReplay.Shaders;
+using SharpVE.WorldSpace;
+using SharpVE.Blocks;
 
 namespace SharpVE
 {
@@ -11,6 +13,8 @@ namespace SharpVE
     {
         //Camera
         Renderer renderer;
+        World world;
+        BlockRegistry blockRegistry;
 
         int Width, Height;
         public Game(int width, int height) : base(GameWindowSettings.Default, NativeWindowSettings.Default)
@@ -19,6 +23,8 @@ namespace SharpVE
             this.Height = height;
 
             CenterWindow(new Vector2i(width, height));
+            blockRegistry = new BlockRegistry();
+            world = new World(blockRegistry);  
         }
 
         protected override void OnLoad()
@@ -26,15 +32,15 @@ namespace SharpVE
             base.OnLoad();
 
             GL.Enable(EnableCap.DepthTest);
-            GL.Enable(EnableCap.Blend);
-            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
             GL.FrontFace(FrontFaceDirection.Cw);
             GL.Enable(EnableCap.CullFace);
+            GL.Enable(EnableCap.Blend);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
             GL.CullFace(CullFaceMode.Back);
 
             CursorState = CursorState.Grabbed;
 
-            renderer = new Renderer((ushort)Width, (ushort)Height);
+            renderer = new Renderer((ushort)Width, (ushort)Height, world);
             var shader = new ProjectionShader("Default.vert", "Default.frag", renderer.MainCamera);
             renderer.AddShader(shader);
         }

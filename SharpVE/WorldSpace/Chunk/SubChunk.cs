@@ -13,10 +13,10 @@ namespace SharpVE.WorldSpace.Chunk
 
         public readonly List<BlockState> BlockStates;
 
-        public SubChunk(ChunkColumn chunk, sbyte yLevel, BlockState defaultBlock)
+        public SubChunk(ChunkColumn chunk, sbyte yLevel)
         {
             Layers = new ILayerData[ChunkColumn.SIZE];
-            BlockStates = new List<BlockState>() { defaultBlock };
+            BlockStates = new List<BlockState>() { chunk.ParentWorld.BlockRegistry.DefaultBlock.GetBlockState() };
             Chunk = chunk;
             YLevel = yLevel;
 
