@@ -8,6 +8,7 @@ namespace SharpVE.Blocks
         public readonly string Name;
         public bool IsOpaque = true;
         public bool IsFullCube => Model == null;
+        public bool IsAir = false; //Basically no model
 
         public CustomModel? Model = null;
         public List<Vector2> UV;

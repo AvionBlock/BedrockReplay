@@ -49,7 +49,7 @@ namespace SharpVE.Meshes
                     {
                         var blockState = Chunk.GetBlock(new Vector3i(x, y, z));
                         var block = Registry.GetBlock(blockState?.Block.Name);
-
+                        if (block.IsAir) continue;
                         AddBlockModel(new Vector3i(x, y, z), chunkPosition, Chunk.Chunk.ParentWorld, block);
                     }
                 }
@@ -74,7 +74,7 @@ namespace SharpVE.Meshes
                     case CullCheck.PosX:
                         if (bPos.X < ChunkColumn.SIZE - 1)
                         {
-                            var testBlock = Registry.GetBlock(Chunk.GetBlock(new Vector3i(bPos.X + 1, bPos.Y, bPos.Z))?.Block.Name);
+                            var testBlock = Chunk.GetBlock(new Vector3i(bPos.X + 1, bPos.Y, bPos.Z))?.Block ?? Registry.UnknownBlock;
                             if (testBlock.Name != block.Name && !testBlock.IsOpaque || !testBlock.IsFullCube)
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                         }
@@ -85,7 +85,7 @@ namespace SharpVE.Meshes
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                             else
                             {
-                                var testBlock = Registry.GetBlock(b?.Block.Name);
+                                var testBlock = b.Value.Block;
                                 if(testBlock.Name != block.Name && !testBlock.IsOpaque || !testBlock.IsFullCube)
                                     AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                             }
@@ -94,7 +94,7 @@ namespace SharpVE.Meshes
                     case CullCheck.NegX:
                         if (bPos.X > 0)
                         {
-                            var testBlock = Registry.GetBlock(Chunk.GetBlock(new Vector3i(bPos.X - 1, bPos.Y, bPos.Z))?.Block.Name);
+                            var testBlock = Chunk.GetBlock(new Vector3i(bPos.X - 1, bPos.Y, bPos.Z))?.Block ?? Registry.UnknownBlock;
                             if (testBlock.Name != block.Name && !testBlock.IsOpaque || !testBlock.IsFullCube)
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                         }
@@ -105,7 +105,7 @@ namespace SharpVE.Meshes
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                             else
                             {
-                                var testBlock = Registry.GetBlock(b?.Block.Name);
+                                var testBlock = b.Value.Block;
                                 if (testBlock.Name != block.Name && !testBlock.IsOpaque || !testBlock.IsFullCube)
                                     AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                             }
@@ -114,7 +114,7 @@ namespace SharpVE.Meshes
                     case CullCheck.PosZ:
                         if (bPos.Z < ChunkColumn.SIZE - 1)
                         {
-                            var testBlock = Registry.GetBlock(Chunk.GetBlock(new Vector3i(bPos.X, bPos.Y, bPos.Z + 1))?.Block.Name);
+                            var testBlock = Chunk.GetBlock(new Vector3i(bPos.X, bPos.Y, bPos.Z + 1))?.Block ?? Registry.UnknownBlock;
                             if (testBlock.Name != block.Name && !testBlock.IsOpaque || !testBlock.IsFullCube)
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                         }
@@ -125,7 +125,7 @@ namespace SharpVE.Meshes
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                             else
                             {
-                                var testBlock = Registry.GetBlock(b?.Block.Name);
+                                var testBlock = b.Value.Block;
                                 if (testBlock.Name != block.Name && !testBlock.IsOpaque || !testBlock.IsFullCube)
                                     AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                             }
@@ -134,7 +134,7 @@ namespace SharpVE.Meshes
                     case CullCheck.NegZ:
                         if (bPos.Z > 0)
                         {
-                            var testBlock = Registry.GetBlock(Chunk.GetBlock(new Vector3i(bPos.X, bPos.Y, bPos.Z - 1))?.Block.Name);
+                            var testBlock = Chunk.GetBlock(new Vector3i(bPos.X, bPos.Y, bPos.Z - 1))?.Block ?? Registry.UnknownBlock;
                             if (testBlock.Name != block.Name && !testBlock.IsOpaque || !testBlock.IsFullCube)
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                         }
@@ -145,7 +145,7 @@ namespace SharpVE.Meshes
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                             else
                             {
-                                var testBlock = Registry.GetBlock(b?.Block.Name);
+                                var testBlock = b.Value.Block;
                                 if (testBlock.Name != block.Name && !testBlock.IsOpaque || !testBlock.IsFullCube)
                                     AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                             }
@@ -154,7 +154,7 @@ namespace SharpVE.Meshes
                     case CullCheck.PosY:
                         if (bPos.Y < ChunkColumn.SIZE - 1)
                         {
-                            var testBlock = Registry.GetBlock(Chunk.GetBlock(new Vector3i(bPos.X, bPos.Y + 1, bPos.Z))?.Block.Name);
+                            var testBlock = Chunk.GetBlock(new Vector3i(bPos.X, bPos.Y + 1, bPos.Z))?.Block ?? Registry.UnknownBlock;
                             if (testBlock.Name != block.Name && !testBlock.IsOpaque || !testBlock.IsFullCube)
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                         }
@@ -165,7 +165,7 @@ namespace SharpVE.Meshes
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                             else
                             {
-                                var testBlock = Registry.GetBlock(b?.Block.Name);
+                                var testBlock = b.Value.Block;
                                 if (testBlock.Name != block.Name && !testBlock.IsOpaque || !testBlock.IsFullCube)
                                     AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                             }
@@ -174,7 +174,7 @@ namespace SharpVE.Meshes
                     case CullCheck.NegY:
                         if (bPos.Y > 0)
                         {
-                            var testBlock = Registry.GetBlock(Chunk.GetBlock(new Vector3i(bPos.X, bPos.Y - 1, bPos.Z))?.Block.Name);
+                            var testBlock = Chunk.GetBlock(new Vector3i(bPos.X, bPos.Y - 1, bPos.Z))?.Block ?? Registry.UnknownBlock;
                             if (testBlock.Name != block.Name && !testBlock.IsOpaque || !testBlock.IsFullCube)
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                         }
@@ -185,7 +185,7 @@ namespace SharpVE.Meshes
                                 AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                             else
                             {
-                                var testBlock = Registry.GetBlock(b?.Block.Name);
+                                var testBlock = b.Value.Block;
                                 if (testBlock.Name != block.Name && !testBlock.IsOpaque || !testBlock.IsFullCube)
                                     AddFace(face, globalBPos, block.GetUVsFromCoordinate(uv));
                             }
