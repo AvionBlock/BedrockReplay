@@ -19,5 +19,10 @@
         /// The default value of the property as passed in by the type.
         /// </summary>
         T Default { get; set; }
+
+        /// <summary>
+        /// The identifier of the property.
+        /// </summary>
+        int PropertyId { get; }
     }
 }
