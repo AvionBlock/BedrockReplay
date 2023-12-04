@@ -2,9 +2,9 @@
 
 namespace SharpVE.Blocks.Properties
 {
-    public class DirectionProperty<T> : IProperty<EnumProperty<Direction>>
+    public class DirectionProperty : Property<Direction>
     {
-        public string Name { get; }
+
     }
 
     public enum Direction

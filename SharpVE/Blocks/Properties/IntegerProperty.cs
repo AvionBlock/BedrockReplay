@@ -2,8 +2,7 @@
 
 namespace SharpVE.Blocks.Properties
 {
-    public class IntegerProperty<T> : IProperty<int>
+    public class IntegerProperty : Property<int>
     {
-        public string Name { get; }
     }
 }

@@ -2,8 +2,7 @@
 
 namespace SharpVE.Blocks.Properties
 {
-    public class EnumProperty<E> : IProperty<Enum>
+    public class EnumProperty<T> : Property<T> where T : struct
     {
-        public string Name { get; }
     }
 }

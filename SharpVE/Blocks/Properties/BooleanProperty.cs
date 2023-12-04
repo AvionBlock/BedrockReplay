@@ -2,8 +2,7 @@
 
 namespace SharpVE.Blocks.Properties
 {
-    public class BooleanProperty<T> : IProperty<bool>
+    public class BooleanProperty : Property<bool>
     {
-        public string Name { get; }
     }
 }
