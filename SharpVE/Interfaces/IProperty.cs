@@ -1,7 +1,11 @@
 ﻿namespace SharpVE.Interfaces
 {
-    public interface IProperty<T>
+    public interface IProperty
     {
         string Name { get; }
+    }
+
+    public interface IProperty<T> : IProperty
+    {
     }
 }

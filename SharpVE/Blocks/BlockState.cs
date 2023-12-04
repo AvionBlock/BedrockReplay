@@ -10,21 +10,20 @@ namespace SharpVE.Blocks
         public BlockState(Block block)
         {
             Block = block;
-            States = new Dictionary<string, dynamic>();
+            Properties = new HashSet<IProperty>();
+        }
+        
+        public IProperty GetProperty(IProperty property)
+        {
+            foreach(var prop in Properties)
+            {
+                if(prop.Name == property.Name)
+                    return prop;
+            }
+            return property;
         }
 
         /*
-        public T GetValue<T>(string property, T defaultValue)
-        {
-            if(States.TryGetValue(property, out var value))
-            {
-                var result = (T)value;
-                if(result != null)
-                    return result;
-            }
-            return defaultValue;
-        }
-
         public void SetValue(string property, dynamic value)
         {
             if (States.TryGetValue(property, out var result))
