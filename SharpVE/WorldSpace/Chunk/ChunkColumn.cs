@@ -2,7 +2,7 @@
 using OpenTK.Mathematics;
 using SharpVE.WorldSpace;
 using SharpVE.WorldSpace.Chunk;
-using SharpVE.Blocks.States;
+using SharpVE.Blocks;
 
 namespace SharpVE.Worlds.Chunks
 {

@@ -1,5 +1,4 @@
 ﻿using OpenTK.Mathematics;
-using SharpVE.Blocks.States;
 using SharpVE.Models;
 
 namespace SharpVE.Blocks
