@@ -23,18 +23,20 @@ namespace SharpVE.Blocks
             return property;
         }
 
-        /*
-        public void SetValue(string property, dynamic value)
+        public void SetProperty(IProperty property)
         {
-            if (States.TryGetValue(property, out var result))
+            foreach (var prop in Properties)
             {
-                if(result.GetType() == value.GetType())
+                if (prop.Name == property.Name && prop.GetType() == property.GetType())
                 {
-                    States[property] = value;
+                    Properties.Remove(prop);
+                    Properties.Add(property);
+                    return;
                 }
             }
         }
 
+        /*
         public override bool Equals(object? obj)
         {
             if(ReferenceEquals(null, obj)) return false;
