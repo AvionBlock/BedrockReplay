@@ -1,8 +1,8 @@
 ﻿using SharpVE.Interfaces;
 using OpenTK.Mathematics;
-using SharpVE.Blocks;
 using SharpVE.WorldSpace;
 using SharpVE.WorldSpace.Chunk;
+using SharpVE.Blocks.States;
 
 namespace SharpVE.Worlds.Chunks
 {
@@ -70,7 +70,7 @@ namespace SharpVE.Worlds.Chunks
                 if (subchunk?.BlockStates.Count == 1)
                 {
                     //Set to single block subchunk.
-                    Sections[yPosSection] = new SingleBlockSubChunk(this, (sbyte)(yPosSection + (MINY / SIZE)), subchunk.BlockStates.FirstOrDefault());
+                    Sections[yPosSection] = new SingleBlockSubChunk(this, (sbyte)(yPosSection + (MINY / SIZE)), subchunk.BlockStates.FirstOrDefault().Value);
                 }
             }
         }

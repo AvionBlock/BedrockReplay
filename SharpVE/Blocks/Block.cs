@@ -1,4 +1,5 @@
 ﻿using OpenTK.Mathematics;
+using SharpVE.Blocks.States;
 using SharpVE.Models;
 
 namespace SharpVE.Blocks
@@ -13,6 +14,7 @@ namespace SharpVE.Blocks
         public CustomModel? Model = null;
         public List<Vector2> UV;
         public uint TextureSize = 16;
+        public Dictionary<string, dynamic> States;
 
         public Block(string identifer)
         {
@@ -26,11 +28,15 @@ namespace SharpVE.Blocks
                 new Vector2(12,7),
                 new Vector2(12,7)
             };
+            States = new Dictionary<string, dynamic>();
         }
 
         public BlockState GetBlockState()
         {
-            return new BlockState(this);
+            return new BlockState(this)
+            {
+                States = new Dictionary<string, dynamic>(States)
+            };
         }
 
         public List<Vector2> GetUVsFromCoordinate(Vector2 position)

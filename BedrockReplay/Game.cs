@@ -24,6 +24,24 @@ namespace SharpVE
 
             CenterWindow(new Vector2i(width, height));
             blockRegistry = new BlockRegistry();
+            blockRegistry.Blocks.Add(new Block("grass") {
+                States = new Dictionary<string, dynamic>()
+                {
+                    {
+                        "hello",
+                        0
+                    }
+                },
+                UV = new List<Vector2>
+                { 
+                    new Vector2(12, 1),
+                    new Vector2(12, 1),
+                    new Vector2(12, 1),
+                    new Vector2(12, 1),
+                    new Vector2(12, 1),
+                    new Vector2(12, 1)
+                }
+            });
             world = new World(blockRegistry);  
         }
 

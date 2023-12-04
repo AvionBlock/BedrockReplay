@@ -1,5 +1,5 @@
 ﻿using OpenTK.Mathematics;
-using SharpVE.Blocks;
+using SharpVE.Blocks.States;
 using SharpVE.Worlds.Chunks;
 
 namespace SharpVE.Interfaces

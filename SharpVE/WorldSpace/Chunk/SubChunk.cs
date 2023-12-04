@@ -1,7 +1,7 @@
 ﻿using SharpVE.Interfaces;
 using SharpVE.Worlds.Chunks;
 using OpenTK.Mathematics;
-using SharpVE.Blocks;
+using SharpVE.Blocks.States;
 
 namespace SharpVE.WorldSpace.Chunk
 {
@@ -11,12 +11,17 @@ namespace SharpVE.WorldSpace.Chunk
         public ChunkColumn Chunk { get; }
         public sbyte YLevel { get; }
 
-        public readonly List<BlockState> BlockStates;
+        public readonly Dictionary<ushort, BlockState> BlockStates;
 
         public SubChunk(ChunkColumn chunk, sbyte yLevel)
         {
             Layers = new ILayerData[ChunkColumn.SIZE];
-            BlockStates = new List<BlockState>() { chunk.ParentWorld.BlockRegistry.DefaultBlock.GetBlockState() };
+            BlockStates = new Dictionary<ushort, BlockState>() {
+                {
+                    0,
+                    chunk.ParentWorld.BlockRegistry.DefaultBlock.GetBlockState()
+                }
+            };
             Chunk = chunk;
             YLevel = yLevel;
 

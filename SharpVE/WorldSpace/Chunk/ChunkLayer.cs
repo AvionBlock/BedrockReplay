@@ -1,7 +1,7 @@
 ﻿using SharpVE.Interfaces;
 using SharpVE.Worlds.Chunks;
 using OpenTK.Mathematics;
-using SharpVE.Blocks;
+using SharpVE.Blocks.States;
 
 namespace SharpVE.WorldSpace.Chunk
 {
@@ -26,7 +26,7 @@ namespace SharpVE.WorldSpace.Chunk
             int idx = (localPosition.X * ChunkColumn.SIZE) + localPosition.Y; //Yes. Y is Z value.
             ushort blockId = Data[idx];
 
-            var blockState = Chunk.BlockStates.ElementAtOrDefault(blockId);
+            Chunk.BlockStates.TryGetValue(blockId, out var blockState);
             return blockState;
         }
 
@@ -34,8 +34,8 @@ namespace SharpVE.WorldSpace.Chunk
         {
             for(int i = 0; i < Chunk.BlockStates.Count; i++)
             {
-                var blockState = Chunk.BlockStates[i];
-                if(blockState.Equals(state))
+                var blockState = Chunk.BlockStates.ElementAt(i).Value;
+                if (blockState.Block.Equals(state.Block) && blockState.States.OrderBy(x => x.Key).SequenceEqual(state.States.OrderBy(x => x.Key)))
                 {
                     int idx = (localPosition.X * ChunkColumn.SIZE) + localPosition.Y; //Yes. Y is Z value.
                     Data[idx] = (ushort)i;
@@ -43,9 +43,19 @@ namespace SharpVE.WorldSpace.Chunk
                 }
             }
 
-            Chunk.BlockStates.Add(state);
+            Chunk.BlockStates.Add(GetLowestAvailableId(), state);
             int idz = (localPosition.X * ChunkColumn.SIZE) + localPosition.Y; //Yes. Y is Z value.
             Data[idz] = (ushort)(Chunk.BlockStates.Count - 1);
+        }
+
+        private ushort GetLowestAvailableId()
+        {
+            for(ushort i = 0; i < ushort.MaxValue; i++)
+            {
+                if (!Chunk.BlockStates.ContainsKey(i))
+                    return i;
+            }
+            return 0;
         }
     }
 }

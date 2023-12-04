@@ -1,7 +1,7 @@
 ﻿using SharpVE.Interfaces;
 using OpenTK.Mathematics;
-using SharpVE.Blocks;
 using SharpVE.Worlds.Chunks;
+using SharpVE.Blocks.States;
 
 namespace SharpVE.WorldSpace.Chunk
 {
@@ -23,7 +23,7 @@ namespace SharpVE.WorldSpace.Chunk
             if (localPosition.X >= ChunkColumn.SIZE || localPosition.Y >= ChunkColumn.SIZE ||
                 localPosition.X < 0 || localPosition.Y < 0) return null;
 
-            var blockState = Chunk.BlockStates.ElementAtOrDefault(BlockId);
+            Chunk.BlockStates.TryGetValue(BlockId, out var blockState);
             return blockState;
         }
 

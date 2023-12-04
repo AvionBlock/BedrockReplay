@@ -1,6 +1,7 @@
 ﻿using SharpVE.Worlds.Chunks;
 using OpenTK.Mathematics;
 using SharpVE.Blocks;
+using SharpVE.Blocks.States;
 
 namespace SharpVE.WorldSpace
 {
@@ -18,7 +19,7 @@ namespace SharpVE.WorldSpace
             var blockState = BlockRegistry.GetBlock("grass").GetBlockState();
             for (int x = 0; x < ChunkColumn.SIZE; x++)
             {
-                for (int y = 0; y < ChunkColumn.SIZE * 8; y++)
+                for (int y = 0; y < ChunkColumn.SIZE; y++)
                 {
                     for (int z = 0; z < ChunkColumn.SIZE; z++)
                     {
