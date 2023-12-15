@@ -1,0 +1,3 @@
+[submodule "SharpVE"]
+	path = SharpVE
+	url = https://github.com/AvionBlock/SharpVE.git
