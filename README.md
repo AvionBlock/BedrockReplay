@@ -1,4 +1,4 @@
 # BedrockReplay
 Replay mod for Minecraft Bedrock Edition. This is still a work in progress!
 
-Current aim is to create the voxel engine.
+The voxel engine is available over at [SharpVE](https://github.com/AvionBlock/SharpVE)
