@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BedrockReplay", "BedrockRep
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpVE", "..\SharpVE\SharpVE\SharpVE.csproj", "{56318247-ED04-4B54-91F9-45CCAA372EB2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BedrockReplay.OpenGL", "BedrockReplay.OpenGL\BedrockReplay.OpenGL.csproj", "{0388D48E-7A9D-47B8-AD54-3FD39E5AD87D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BedrockReplay.Core", "BedrockReplay.Core\BedrockReplay.Core.csproj", "{DB234506-2833-4E48-95C0-8C7177752BDD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{56318247-ED04-4B54-91F9-45CCAA372EB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{56318247-ED04-4B54-91F9-45CCAA372EB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{56318247-ED04-4B54-91F9-45CCAA372EB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0388D48E-7A9D-47B8-AD54-3FD39E5AD87D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0388D48E-7A9D-47B8-AD54-3FD39E5AD87D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0388D48E-7A9D-47B8-AD54-3FD39E5AD87D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0388D48E-7A9D-47B8-AD54-3FD39E5AD87D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB234506-2833-4E48-95C0-8C7177752BDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB234506-2833-4E48-95C0-8C7177752BDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB234506-2833-4E48-95C0-8C7177752BDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB234506-2833-4E48-95C0-8C7177752BDD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
