@@ -1,6 +1,4 @@
-﻿using BedrockReplay.Core.Rendering;
-using BedrockReplay.OpenGL.Rendering;
-using Silk.NET.OpenGL;
+﻿using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
 using System;
 using System.Collections.Generic;
@@ -10,70 +8,60 @@ namespace BedrockReplay.OpenGL
 {
     public class Renderer
     {
-        public IWindow window { get; }
-        private GL? openGL;
+        public Color ClearColor = Color.MediumAquamarine;
+
+        private IWindow window;
+        private GL glInstance;
 
         private uint shaderProgram;
-        List<GLMesh> meshes;
+        private List<Rendering.Shader> shaders = new List<Rendering.Shader>();
 
-        public Renderer(WindowOptions options)
+        public Renderer(IWindow window)
         {
-            window = Window.Create(options);
+            this.window = window;
+            glInstance = window.CreateOpenGL();
 
-            window.Load += OnLoad;
             window.Update += OnUpdate;
             window.Render += OnRender;
 
-            meshes = new List<GLMesh>();
+            glInstance.ClearColor(ClearColor);
         }
 
-        public void Run()
+        public Core.Rendering.IShader CreateShader(string vertexCode, string fragmentShader)
         {
-            window.Run();
+            return new Rendering.Shader(glInstance, vertexCode, fragmentShader);
         }
 
-        public void AddShader(Core.Rendering.Shader shader)
+        public void AddShader(Core.Rendering.IShader shader)
         {
-            if (openGL == null) return;
-
-            var glShader = new GLShader(openGL, shader);
-            glShader.AttachShader(shaderProgram);
-            glShader.DetachShader(shaderProgram);
-            glShader.DeleteShader();
+            if(shader is Rendering.Shader shaderInstance)
+            {
+                shaders.Add(shaderInstance);
+                return;
+            }
+            throw new ArgumentException($"{nameof(shader)} is not an instance of {typeof(Rendering.Shader)}");
         }
 
-        public void RenderMesh(Mesh mesh)
+        public void RemoveShader(Core.Rendering.IShader shader)
         {
-            if (openGL == null) return;
-
-            meshes.Add(new GLMesh(openGL, mesh));
-        }
-
-        private unsafe void OnLoad()
-        {
-            openGL = window.CreateOpenGL();
-            openGL.ClearColor(Color.Aqua);
-            shaderProgram = openGL.CreateProgram();
-
-            const uint positionLoc = 0;
-            openGL.EnableVertexAttribArray(positionLoc);
-            openGL.VertexAttribPointer(positionLoc, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), (void*)0);
-            openGL.BindBuffer(BufferTargetARB.ElementArrayBuffer, 0);
+            if (shader is Rendering.Shader shaderInstance)
+            {
+                shaders.Remove(shaderInstance);
+                return;
+            }
+            throw new ArgumentException($"{nameof(shader)} is not an instance of {typeof(Rendering.Shader)}");
         }
 
         private void OnUpdate(double obj)
         {
-            openGL?.Clear(ClearBufferMask.ColorBufferBit);
+            glInstance.Clear(ClearBufferMask.ColorBufferBit);
         }
 
-        private unsafe void OnRender(double obj)
+        private void OnRender(double obj)
         {
-            for (int i = 0; i < meshes.Count; i++)
+            for (int i = 0; i < shaders.Count; i++)
             {
-                var mesh = meshes[i];
-                openGL?.BindVertexArray(mesh.VAO);
-                openGL?.UseProgram(shaderProgram);
-                openGL?.DrawElements(PrimitiveType.Triangles, 6, DrawElementsType.UnsignedInt, (void*)0);
+                shaders[i].Use();
             }
         }
     }

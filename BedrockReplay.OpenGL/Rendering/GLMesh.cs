@@ -40,7 +40,7 @@ namespace BedrockReplay.OpenGL.Rendering
             glInstance.BindVertexArray(0);
         }
 
-        public unsafe void Draw(GLShader shader)
+        public unsafe void Draw(Shader shader)
         {
             glInstance.BindVertexArray(VAO);
             glInstance.DrawElements(GLEnum.Triangles, (uint)mesh.Indices.Length, DrawElementsType.UnsignedInt, (void*)0);

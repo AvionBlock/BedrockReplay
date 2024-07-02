@@ -1,5 +1,6 @@
 ﻿using BedrockReplay.Core.Rendering;
 using BedrockReplay.OpenGL;
+using BedrockReplay.OpenGL.Rendering;
 using Silk.NET.Maths;
 using Silk.NET.Windowing;
 
@@ -7,23 +8,24 @@ namespace SharpVE
 {
     public class Game
     {
-        private Renderer renderer;
+        private IWindow window;
+        private Renderer? renderer;
         
         public Game()
         {
             var options = WindowOptions.Default;
             options.Size = new Vector2D<int>(800, 600);
-            renderer = new Renderer(options);
+            window = Window.Create(options);
+            window.Load += OnLoad;
 
-            renderer.window.Load += OnLoad;
-
-            renderer.Run();
+            window.Run();
         }
 
         private void OnLoad()
         {
-            renderer.AddShader(new Shader());
-            renderer.RenderMesh(new Mesh());
+            renderer = new Renderer(window);
+
+            renderer.AddShader(renderer.CreateShader(Shader.basicVertexCode, Shader.basicFragmentCode));
         }
     }
 }
