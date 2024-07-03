@@ -6,14 +6,13 @@ using System.Drawing;
 
 namespace BedrockReplay.OpenGL
 {
-    public class Renderer
+    public class Renderer : Core.Rendering.IRenderer
     {
         public Color ClearColor = Color.MediumAquamarine;
 
         private IWindow window;
         private GL glInstance;
 
-        private uint shaderProgram;
         private List<Rendering.Shader> shaders = new List<Rendering.Shader>();
         private List<Rendering.Mesh> meshes = new List<Rendering.Mesh>();
 

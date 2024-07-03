@@ -1,6 +1,8 @@
 ﻿using BedrockReplay.Core.Rendering;
 using Silk.NET.OpenGL;
 using System;
+using System.Numerics;
+using System.Runtime.InteropServices;
 
 namespace BedrockReplay.OpenGL.Rendering
 {
@@ -64,6 +66,11 @@ void main()
         public void SetFloat(string name, float value)
         {
             glInstance.Uniform1(glInstance.GetUniformLocation(id, name), value);
+        }
+
+        public void SetMatrix4(string name, Matrix4x4 matrix)
+        {
+            //glInstance.UniformMatrix4(glInstance.GetUniformLocation(id, name), true, span);
         }
 
         public static void Compile(GL glInstance, uint shader)

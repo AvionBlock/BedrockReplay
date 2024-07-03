@@ -8,14 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Shaders\ProjectionShader.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Shaders\ProjectionShader.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Silk.NET.Core" Version="2.21.0" />
     <PackageReference Include="StbImageSharp" Version="2.27.14" />
   </ItemGroup>
