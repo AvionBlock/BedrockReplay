@@ -15,6 +15,7 @@ namespace BedrockReplay.OpenGL
 
         private uint shaderProgram;
         private List<Rendering.Shader> shaders = new List<Rendering.Shader>();
+        private List<Rendering.Mesh> meshes = new List<Rendering.Mesh>();
 
         public Renderer(IWindow window)
         {
@@ -30,6 +31,11 @@ namespace BedrockReplay.OpenGL
         public Core.Rendering.IShader CreateShader(string vertexCode, string fragmentShader)
         {
             return new Rendering.Shader(glInstance, vertexCode, fragmentShader);
+        }
+
+        public Core.Rendering.IMesh CreateMesh(Core.Rendering.Vertex[] vertices, uint[] indices)
+        {
+            return new Rendering.Mesh(glInstance, vertices, indices);
         }
 
         public void AddShader(Core.Rendering.IShader shader)
@@ -52,6 +58,16 @@ namespace BedrockReplay.OpenGL
             throw new ArgumentException($"{nameof(shader)} is not an instance of {typeof(Rendering.Shader)}");
         }
 
+        public void AddMesh(Core.Rendering.IMesh mesh)
+        {
+            if(mesh is Rendering.Mesh meshInstance)
+            {
+                meshes.Add(meshInstance);
+                return;
+            }
+            throw new ArgumentException($"{nameof(mesh)} is not an instance of {typeof(Rendering.Mesh)}");
+        }
+
         private void OnUpdate(double obj)
         {
             glInstance.Clear(ClearBufferMask.ColorBufferBit);
@@ -62,6 +78,11 @@ namespace BedrockReplay.OpenGL
             for (int i = 0; i < shaders.Count; i++)
             {
                 shaders[i].Use();
+            }
+
+            for (int i = 0; i < meshes.Count; i++)
+            {
+                meshes[i].Draw();
             }
         }
     }

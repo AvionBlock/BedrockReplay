@@ -1,28 +1,27 @@
 ﻿using BedrockReplay.Core.Rendering;
 using Silk.NET.OpenGL;
 using System;
-using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace BedrockReplay.OpenGL.Rendering
 {
     public class Mesh : IMesh
     {
         public static Vertex[] basicTriangleVertices = new Vertex[] {
-            new Vertex(0.5f, 0.5f, 0.0f),
-            new Vertex(0.5f, -0.5f, 0.0f),
-            new Vertex(-0.5f, -0.5f, 0.0f),
-            new Vertex(-0.5f,  0.5f, 0.0f)
+            new Vertex(-0.5f, 0.5f, 0f), // top left vertex - 0
+            new Vertex(0.5f, 0.5f, 0f), // top right vertex - 1
+            new Vertex(0.5f, -0.5f, 0f), // bottom right - 2
+            new Vertex(-0.5f, -0.5f, 0f) // bottom left - 3
         };
 
         public static uint[] basicTriangleIndices =
             {
-                0u, 1u, 3u,
-                1u, 2u, 3u
+                0, 1, 2,
+                2, 3, 0
             };
 
-        public Vertex[] Vertices { get; set; }
-        public uint[] Indices { get; set; }
         private GL glInstance;
+        public uint[] Indices { get; }
 
         private uint VBO;
         private uint VAO;
@@ -31,7 +30,6 @@ namespace BedrockReplay.OpenGL.Rendering
         public unsafe Mesh(GL glInstance, Vertex[] vertices, uint[] indices)
         {
             this.glInstance = glInstance;
-            Vertices = vertices;
             Indices = indices;
 
             //Create Buffers and Arrays
@@ -43,23 +41,32 @@ namespace BedrockReplay.OpenGL.Rendering
 
             //Load data
             glInstance.BindBuffer(BufferTargetARB.ArrayBuffer, VBO);
-            fixed (float* verticesPtr = Vertices.SelectMany(x => new float[] { x.Position.X, x.Position.Y, x.Position.Z }).ToArray())
-                glInstance.BufferData(BufferTargetARB.ArrayBuffer, (UIntPtr)(Vertices.Length * sizeof(Vertex)), verticesPtr, BufferUsageARB.StaticDraw);
+            var vertexes = vertices.AsSpan();
+            fixed (float* verticesPtr = MemoryMarshal.Cast<Vertex, float>(vertexes))
+                glInstance.BufferData(BufferTargetARB.ArrayBuffer, (UIntPtr)(vertices.Length * sizeof(Vertex)), verticesPtr, BufferUsageARB.StaticDraw);
 
             glInstance.BindBuffer(BufferTargetARB.ElementArrayBuffer, EBO);
-            fixed (uint* indicesPtr = Indices)
-                glInstance.BufferData(BufferTargetARB.ArrayBuffer, (UIntPtr)(Indices.Length * sizeof(uint)), indicesPtr, BufferUsageARB.StaticDraw);
+            fixed (uint* indicesPtr = indices)
+                glInstance.BufferData(BufferTargetARB.ElementArrayBuffer, (UIntPtr)(indices.Length * sizeof(uint)), indicesPtr, BufferUsageARB.StaticDraw);
 
             glInstance.EnableVertexAttribArray(0);
-            glInstance.VertexAttribPointer(0, 3, GLEnum.Float, false, (uint)sizeof(Vertex), (void*)0);
+            glInstance.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, (uint)sizeof(Vertex), (void*)0);
+
+            glInstance.EnableVertexAttribArray(1);
+            glInstance.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, (uint)sizeof(Vertex), (void*)Marshal.OffsetOf<Vertex>(nameof(Vertex.Position)));
+            
+            glInstance.EnableVertexAttribArray(2);
+            glInstance.VertexAttribPointer(2, 2, VertexAttribPointerType.Float, false, (uint)sizeof(Vertex), (void*)Marshal.OffsetOf<Vertex>(nameof(Vertex.TexPosition)));
 
             glInstance.BindVertexArray(0);
+            glInstance.BindBuffer(BufferTargetARB.ArrayBuffer, 0);
+            glInstance.BindBuffer(BufferTargetARB.ElementArrayBuffer, 0);
         }
 
-        public unsafe void Draw(Shader shader)
+        public unsafe void Draw()
         {
             glInstance.BindVertexArray(VAO);
-            glInstance.DrawElements(GLEnum.Triangles, (uint)Indices.Length, DrawElementsType.UnsignedInt, (void*)0);
+            glInstance.DrawElements(PrimitiveType.Triangles, (uint)Indices.Length, DrawElementsType.UnsignedInt, (void*)0);
             glInstance.BindVertexArray(0);
         }
     }

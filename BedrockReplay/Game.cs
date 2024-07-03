@@ -1,5 +1,4 @@
-﻿using BedrockReplay.Core.Rendering;
-using BedrockReplay.OpenGL;
+﻿using BedrockReplay.OpenGL;
 using BedrockReplay.OpenGL.Rendering;
 using Silk.NET.Maths;
 using Silk.NET.Windowing;
@@ -26,6 +25,7 @@ namespace SharpVE
             renderer = new Renderer(window);
 
             renderer.AddShader(renderer.CreateShader(Shader.basicVertexCode, Shader.basicFragmentCode));
+            renderer.AddMesh(renderer.CreateMesh(Mesh.basicTriangleVertices, Mesh.basicTriangleIndices));
         }
     }
 }
