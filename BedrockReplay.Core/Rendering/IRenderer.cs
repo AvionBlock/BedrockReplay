@@ -2,6 +2,6 @@
 {
     public interface IRenderer
     {
-        Core.Rendering.IShader CreateShader(string vertexCode, string fragmentShader);
+        IShader CreateShader(string vertexCode, string fragmentShader);
     }
 }
