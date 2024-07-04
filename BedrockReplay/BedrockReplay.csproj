@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Silk.NET.Core" Version="2.21.0" />
+    <PackageReference Include="Silk.NET" Version="2.21.0" />
     <PackageReference Include="StbImageSharp" Version="2.27.14" />
   </ItemGroup>
 

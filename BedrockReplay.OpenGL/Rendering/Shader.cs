@@ -1,33 +1,11 @@
-﻿using BedrockReplay.Core.Rendering;
-using Silk.NET.OpenGL;
+﻿using Silk.NET.OpenGL;
 using System;
 using System.Numerics;
-using System.Runtime.InteropServices;
 
 namespace BedrockReplay.OpenGL.Rendering
 {
-    public class Shader : IShader
+    public class Shader : Core.Rendering.Shader
     {
-        public const string basicVertexCode = @"
-#version 330 core
-
-layout (location = 0) in vec3 aPosition;
-
-void main()
-{
-    gl_Position = vec4(aPosition, 1.0);
-}";
-
-        public const string basicFragmentCode = @"
-#version 330 core
-
-out vec4 out_color;
-
-void main()
-{
-    out_color = vec4(1.0, 0.5, 0.2, 1.0);
-}";
-
         private GL glInstance;
         private uint id;
 
@@ -37,40 +15,40 @@ void main()
             Load(vertexCode, fragmentCode);
         }
 
-        public void Use()
+        public override void Bind()
         {
             glInstance.UseProgram(id);
         }
 
-        public void Reload(string vertexCode, string fragmentCode)
+        public override void Reload(string vertexCode, string fragmentCode)
         {
             glInstance.DeleteProgram(id);
             Load(vertexCode, fragmentCode);
         }
 
-        public void SetBool(string name, bool value)
+        public override void SetBool(string name, bool value)
         {
             glInstance.Uniform1(glInstance.GetUniformLocation(id, name), value ? 1 : 0);
         }
 
-        public void SetInt(string name, int value)
+        public override void SetInt(string name, int value)
         {
             glInstance.Uniform1(glInstance.GetUniformLocation(id, name), value);
         }
 
-        public void SetUInt(string name, uint value)
+        public override void SetUInt(string name, uint value)
         {
             glInstance.Uniform1(glInstance.GetUniformLocation(id, name), value);
         }
 
-        public void SetFloat(string name, float value)
+        public override void SetFloat(string name, float value)
         {
             glInstance.Uniform1(glInstance.GetUniformLocation(id, name), value);
         }
 
-        public void SetMatrix4(string name, Matrix4x4 matrix)
+        public override unsafe void SetUniform4(string name, Matrix4x4 value)
         {
-            //glInstance.UniformMatrix4(glInstance.GetUniformLocation(id, name), true, span);
+            glInstance.UniformMatrix4(glInstance.GetUniformLocation(id, name), 1, true, (float*)&value);
         }
 
         public static void Compile(GL glInstance, uint shader)

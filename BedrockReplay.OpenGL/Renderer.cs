@@ -13,7 +13,7 @@ namespace BedrockReplay.OpenGL
         private IWindow window;
         private GL glInstance;
 
-        private List<Rendering.Shader> shaders = new List<Rendering.Shader>();
+        private List<Core.Rendering.Shader> shaders = new List<Core.Rendering.Shader>();
         private List<Rendering.Mesh> meshes = new List<Rendering.Mesh>();
 
         public Renderer(IWindow window)
@@ -27,7 +27,7 @@ namespace BedrockReplay.OpenGL
             glInstance.ClearColor(ClearColor);
         }
 
-        public Core.Rendering.IShader CreateShader(string vertexCode, string fragmentShader)
+        public Core.Rendering.Shader CreateShader(string vertexCode, string fragmentShader)
         {
             return new Rendering.Shader(glInstance, vertexCode, fragmentShader);
         }
@@ -37,24 +37,14 @@ namespace BedrockReplay.OpenGL
             return new Rendering.Mesh(glInstance, vertices, indices);
         }
 
-        public void AddShader(Core.Rendering.IShader shader)
+        public void AddShader(Core.Rendering.Shader shader)
         {
-            if(shader is Rendering.Shader shaderInstance)
-            {
-                shaders.Add(shaderInstance);
-                return;
-            }
-            throw new ArgumentException($"{nameof(shader)} is not an instance of {typeof(Rendering.Shader)}");
+            shaders.Add(shader);
         }
 
-        public void RemoveShader(Core.Rendering.IShader shader)
+        public void RemoveShader(Core.Rendering.Shader shader)
         {
-            if (shader is Rendering.Shader shaderInstance)
-            {
-                shaders.Remove(shaderInstance);
-                return;
-            }
-            throw new ArgumentException($"{nameof(shader)} is not an instance of {typeof(Rendering.Shader)}");
+            shaders.Remove(shader);
         }
 
         public void AddMesh(Core.Rendering.IMesh mesh)
@@ -62,6 +52,16 @@ namespace BedrockReplay.OpenGL
             if(mesh is Rendering.Mesh meshInstance)
             {
                 meshes.Add(meshInstance);
+                return;
+            }
+            throw new ArgumentException($"{nameof(mesh)} is not an instance of {typeof(Rendering.Mesh)}");
+        }
+
+        public void RemoveMesh(Core.Rendering.IMesh mesh)
+        {
+            if (mesh is Rendering.Mesh meshInstance)
+            {
+                meshes.Remove(meshInstance);
                 return;
             }
             throw new ArgumentException($"{nameof(mesh)} is not an instance of {typeof(Rendering.Mesh)}");
@@ -76,7 +76,7 @@ namespace BedrockReplay.OpenGL
         {
             for (int i = 0; i < shaders.Count; i++)
             {
-                shaders[i].Use();
+                shaders[i].Bind();
             }
 
             for (int i = 0; i < meshes.Count; i++)

@@ -5,16 +5,17 @@ namespace BedrockReplay.Core
 {
     public class Camera
     {
-        public float Speed = 8f;
-        public float Sensitivity = 360f;
+        public float Speed = 0.1f;
+        public float Sensitivity = 20f;
         public float FOV = 45.0f;
         public Vector3 Position;
+        public Matrix4x4 ProjectionMatrix { get; private set; }
 
         private float screenWidth;
         private float screenHeight;
-        private float pitch;
-        private float yaw;
-        private Matrix4x4 projectionMatrix;
+        public float pitch;
+        public float yaw;
+        private Vector2 lastPos;
 
         Vector3 up = Vector3.UnitY;
         Vector3 front = -Vector3.UnitZ;
@@ -25,7 +26,7 @@ namespace BedrockReplay.Core
             this.screenWidth = screenWidth;
             this.screenHeight = screenHeight;
             Position = position;
-            projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView(FOV * (MathF.PI / 180), screenWidth / screenHeight, 0.1f, 100.0f);
+            ProjectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView(FOV * (MathF.PI / 180), screenWidth / screenHeight, 0.1f, 100.0f);
         }
 
         public Matrix4x4 GetViewMatrix()
@@ -52,6 +53,45 @@ namespace BedrockReplay.Core
 
             right = Vector3.Normalize(Vector3.Cross(front, Vector3.UnitY));
             up = Vector3.Normalize(Vector3.Cross(right, front));
+        }
+
+        public void Update(bool forward, bool backward, bool left, bool right, bool up, bool down, Vector2 mouse, double deltaTime)
+        {
+
+            if (forward)
+            {
+                Position += front * Speed * (float)deltaTime;
+            }
+            if (left)
+            {
+                Position -= this.right * Speed * (float)deltaTime;
+            }
+            if (backward)
+            {
+                Position -= front * Speed * (float)deltaTime;
+            }
+            if (right)
+            {
+                Position += this.right * Speed * (float)deltaTime;
+            }
+
+            if (up)
+            {
+                Position.Y += Speed * (float)deltaTime;
+            }
+            if (down)
+            {
+                Position.Y -= Speed * (float)deltaTime;
+            }
+
+            var deltaX = mouse.X - lastPos.X;
+            var deltaY = mouse.Y - lastPos.Y;
+            lastPos = new Vector2(mouse.X, mouse.Y);
+
+            yaw += deltaX * Sensitivity * (float)deltaTime;
+            pitch -= deltaY * Sensitivity * (float)deltaTime;
+
+            UpdateVectors();
         }
     }
 }
