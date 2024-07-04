@@ -59,13 +59,18 @@ void main() {
             for (int i = 0; i < input.Keyboards.Count; i++)
                 input.Keyboards[i].KeyUp += KeyUp;
             for (int i = 0; i < input.Mice.Count; i++)
+            {
                 input.Mice[i].MouseMove += MouseMove;
+                input.Mice[i].Cursor.CursorMode = CursorMode.Raw;
+            }
 
             var shader = renderer.CreateShader(projVert, projFrag);
             var projShader = new ProjectionShader(shader, camera);
 
             renderer.AddShader(projShader);
             renderer.AddMesh(renderer.CreateMesh(Mesh.basicTriangleVertices, Mesh.basicTriangleIndices));
+            renderer.AddMesh(renderer.CreateMesh(new Vertex[] { new Vertex(1, 0, 0), new Vertex(1, 0.5f, 1), new Vertex(1, 0, 1) }, new uint[] { 0, 1, 2 }));
+            renderer.AddMesh(renderer.CreateMesh(new Vertex[] { new Vertex(2, 0, 0), new Vertex(2, 0.5f, 1), new Vertex(0.5f, 0, 1) }, new uint[] { 0, 1, 2 }));
         }
 
         private void OnUpdate(double obj)
