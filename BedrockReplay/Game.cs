@@ -42,9 +42,9 @@ void main() {
             var options = WindowOptions.Default;
             options.Size = new Vector2D<int>(800, 600);
             window = Window.Create(options);
+            
             window.Load += OnLoad;
             window.Update += OnUpdate;
-
             camera = new Camera(window.Size.X, window.Size.Y, new Vector3(0,0,0));
 
             window.Run();
@@ -64,14 +64,14 @@ void main() {
             var shader = renderer.CreateShader(projVert, projFrag);
             var projShader = new ProjectionShader(shader, camera);
 
-            renderer.AddShader(shader);
+            renderer.AddShader(projShader);
             renderer.AddMesh(renderer.CreateMesh(Mesh.basicTriangleVertices, Mesh.basicTriangleIndices));
         }
 
         private void OnUpdate(double obj)
         {
             camera.Update(forward, backward, left, right, up, down, mouseVector, obj);
-            Console.WriteLine($"{camera.Position} {camera.yaw} {camera.pitch}");
+            //Console.WriteLine($"{camera.Position} {camera.yaw} {camera.pitch}");
         }
 
         private void MouseMove(IMouse mouse, Vector2 dir)
@@ -95,6 +95,12 @@ void main() {
                 case Key.D:
                     right = true;
                     break;
+                case Key.Space:
+                    up = true;
+                    break;
+                case Key.ShiftLeft:
+                    down = true;
+                    break;
 
             }
 
@@ -117,6 +123,12 @@ void main() {
                     break;
                 case Key.D:
                     right = false;
+                    break;
+                case Key.Space:
+                    up = false;
+                    break;
+                case Key.ShiftLeft:
+                    down = false;
                     break;
 
             }

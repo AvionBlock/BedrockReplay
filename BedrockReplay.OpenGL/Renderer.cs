@@ -69,7 +69,7 @@ namespace BedrockReplay.OpenGL
 
         private void OnUpdate(double obj)
         {
-            glInstance.Clear(ClearBufferMask.ColorBufferBit);
+            glInstance.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
         }
 
         private void OnRender(double obj)

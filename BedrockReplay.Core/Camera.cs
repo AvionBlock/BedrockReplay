@@ -5,8 +5,8 @@ namespace BedrockReplay.Core
 {
     public class Camera
     {
-        public float Speed = 0.1f;
-        public float Sensitivity = 20f;
+        public float Speed = 0.5f;
+        public float Sensitivity = 0.1f;
         public float FOV = 45.0f;
         public Vector3 Position;
         public Matrix4x4 ProjectionMatrix { get; private set; }
@@ -14,7 +14,7 @@ namespace BedrockReplay.Core
         private float screenWidth;
         private float screenHeight;
         public float pitch;
-        public float yaw;
+        public float yaw = 90;
         private Vector2 lastPos;
 
         Vector3 up = Vector3.UnitY;
@@ -31,7 +31,7 @@ namespace BedrockReplay.Core
 
         public Matrix4x4 GetViewMatrix()
         {
-            return Matrix4x4.CreateLookAt(Position, Position + front, front);
+            return Matrix4x4.CreateLookAt(Position, Position + front, up);
         }
 
         private void UpdateVectors()
@@ -74,7 +74,6 @@ namespace BedrockReplay.Core
             {
                 Position += this.right * Speed * (float)deltaTime;
             }
-
             if (up)
             {
                 Position.Y += Speed * (float)deltaTime;
@@ -88,8 +87,8 @@ namespace BedrockReplay.Core
             var deltaY = mouse.Y - lastPos.Y;
             lastPos = new Vector2(mouse.X, mouse.Y);
 
-            yaw += deltaX * Sensitivity * (float)deltaTime;
-            pitch -= deltaY * Sensitivity * (float)deltaTime;
+            yaw += deltaX * Sensitivity;
+            pitch -= deltaY * Sensitivity;
 
             UpdateVectors();
         }
