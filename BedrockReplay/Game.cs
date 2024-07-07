@@ -1,5 +1,6 @@
 ﻿using BedrockReplay;
 using BedrockReplay.Core;
+using BedrockReplay.Core.Interfaces;
 using BedrockReplay.Core.Rendering;
 using BedrockReplay.OpenGL;
 using BedrockReplay.OpenGL.Rendering;

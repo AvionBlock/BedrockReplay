@@ -1,10 +1,11 @@
-﻿using Silk.NET.OpenGL;
+﻿using BedrockReplay.Core.Interfaces;
+using Silk.NET.OpenGL;
 using System;
 using System.Numerics;
 
 namespace BedrockReplay.OpenGL.Rendering
 {
-    public class Shader : Core.Rendering.Shader
+    public class Shader : IShader
     {
         private GL glInstance;
         private uint id;
@@ -15,38 +16,38 @@ namespace BedrockReplay.OpenGL.Rendering
             Load(vertexCode, fragmentCode);
         }
 
-        public override void Bind()
+        public void Bind()
         {
             glInstance.UseProgram(id);
         }
 
-        public override void Reload(string vertexCode, string fragmentCode)
+        public void Reload(string vertexCode, string fragmentCode)
         {
             glInstance.DeleteProgram(id);
             Load(vertexCode, fragmentCode);
         }
 
-        public override void SetBool(string name, bool value)
+        public void SetBool(string name, bool value)
         {
             glInstance.Uniform1(glInstance.GetUniformLocation(id, name), value ? 1 : 0);
         }
 
-        public override void SetInt(string name, int value)
+        public void SetInt(string name, int value)
         {
             glInstance.Uniform1(glInstance.GetUniformLocation(id, name), value);
         }
 
-        public override void SetUInt(string name, uint value)
+        public void SetUInt(string name, uint value)
         {
             glInstance.Uniform1(glInstance.GetUniformLocation(id, name), value);
         }
 
-        public override void SetFloat(string name, float value)
+        public void SetFloat(string name, float value)
         {
             glInstance.Uniform1(glInstance.GetUniformLocation(id, name), value);
         }
 
-        public override unsafe void SetUniform4(string name, Matrix4x4 value)
+        public unsafe void SetUniform4(string name, Matrix4x4 value)
         {
             glInstance.UniformMatrix4(glInstance.GetUniformLocation(id, name), 1, true, (float*)&value);
         }

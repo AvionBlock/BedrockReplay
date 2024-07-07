@@ -1,43 +1,49 @@
-﻿using System;
+﻿using BedrockReplay.Core.Interfaces;
 using System.Numerics;
 
 namespace BedrockReplay.Core.Rendering
 {
-    public abstract class Shader
+    public abstract class Shader : IShader
     {
+        public readonly IShader NativeShader;
+        public Shader(IShader nativeShader)
+        {
+            NativeShader = nativeShader;
+        }
+
         public virtual void Reload(string vertex, string fragment)
         {
-            throw new NotImplementedException();
+            NativeShader.Reload(vertex, fragment);
         }
 
         public virtual void SetBool(string name, bool value)
         {
-            throw new NotImplementedException();
+            NativeShader.SetBool(name, value);
         }
 
         public virtual void SetInt(string name, int value)
         {
-            throw new NotImplementedException();
+            NativeShader.SetInt(name, value);
         }
 
         public virtual void SetUInt(string name, uint value)
         {
-            throw new NotImplementedException();
+            NativeShader.SetUInt(name, value);
         }
 
         public virtual void SetFloat(string name, float value)
         {
-            throw new NotImplementedException();
+            NativeShader.SetFloat(name, value);
         }
 
         public virtual void SetUniform4(string name, Matrix4x4 value)
         {
-            throw new NotImplementedException();
+            NativeShader.SetUniform4(name, value);
         }
 
         public virtual void Bind()
         {
-            throw new NotImplementedException();
+            NativeShader.Bind();
         }
 
         //may add Vec's

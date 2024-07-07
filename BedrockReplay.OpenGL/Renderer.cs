@@ -1,4 +1,5 @@
-﻿using Silk.NET.OpenGL;
+﻿using BedrockReplay.Core.Interfaces;
+using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
 using System;
 using System.Collections.Generic;
@@ -6,14 +7,14 @@ using System.Drawing;
 
 namespace BedrockReplay.OpenGL
 {
-    public class Renderer : Core.Rendering.IRenderer
+    public class Renderer : IRenderer
     {
         public Color ClearColor = Color.MediumAquamarine;
 
         private IWindow window;
         private GL glInstance;
 
-        private List<Core.Rendering.Shader> shaders = new List<Core.Rendering.Shader>();
+        private List<Core.Interfaces.IShader> shaders = new List<Core.Interfaces.IShader>();
         private List<Rendering.Mesh> meshes = new List<Rendering.Mesh>();
 
         public Renderer(IWindow window)
@@ -27,7 +28,7 @@ namespace BedrockReplay.OpenGL
             glInstance.ClearColor(ClearColor);
         }
 
-        public Core.Rendering.Shader CreateShader(string vertexCode, string fragmentShader)
+        public Core.Interfaces.IShader CreateShader(string vertexCode, string fragmentShader)
         {
             return new Rendering.Shader(glInstance, vertexCode, fragmentShader);
         }
@@ -37,12 +38,12 @@ namespace BedrockReplay.OpenGL
             return new Rendering.Mesh(glInstance, vertices, indices);
         }
 
-        public void AddShader(Core.Rendering.Shader shader)
+        public void AddShader(Core.Interfaces.IShader shader)
         {
             shaders.Add(shader);
         }
 
-        public void RemoveShader(Core.Rendering.Shader shader)
+        public void RemoveShader(Core.Interfaces.IShader shader)
         {
             shaders.Remove(shader);
         }
