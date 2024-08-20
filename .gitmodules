@@ -1,3 +1,6 @@
 [submodule "SharpVE"]
 	path = SharpVE
 	url = https://github.com/AvionBlock/SharpVE.git
+[submodule "AvionEngine"]
+	path = AvionEngine
+	url = https://github.com/AvionBlock/AvionEngine.git
