@@ -13,7 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BedrockReplay.OpenGL\BedrockReplay.OpenGL.csproj" />
+    <ProjectReference Include="..\..\SharpVE\SharpVE\SharpVE.csproj" />
+    <ProjectReference Include="..\AvionEngine\AvionEngine\AvionEngine.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BedrockReplay", "BedrockRep
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpVE", "..\SharpVE\SharpVE\SharpVE.csproj", "{56318247-ED04-4B54-91F9-45CCAA372EB2}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvionEngine", "AvionEngine\AvionEngine\AvionEngine.csproj", "{FDDA5DD2-8392-4B69-99EC-0D9B02F6748A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{56318247-ED04-4B54-91F9-45CCAA372EB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{56318247-ED04-4B54-91F9-45CCAA372EB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{56318247-ED04-4B54-91F9-45CCAA372EB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDDA5DD2-8392-4B69-99EC-0D9B02F6748A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDDA5DD2-8392-4B69-99EC-0D9B02F6748A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDDA5DD2-8392-4B69-99EC-0D9B02F6748A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDDA5DD2-8392-4B69-99EC-0D9B02F6748A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
