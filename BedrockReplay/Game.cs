@@ -1,9 +1,4 @@
 ﻿using BedrockReplay;
-using BedrockReplay.Core;
-using BedrockReplay.Core.Interfaces;
-using BedrockReplay.Core.Rendering;
-using BedrockReplay.OpenGL;
-using BedrockReplay.OpenGL.Rendering;
 using Silk.NET.Input;
 using Silk.NET.Maths;
 using Silk.NET.Windowing;
@@ -13,30 +8,11 @@ namespace SharpVE
 {
     public class Game
     {
-        private string projFrag = @"#version 330 core
-out vec4 out_color;
-
-void main() {
-	out_color = vec4(1.0,0.5,0.2,1.0);
-}";
-        private string projVert = @"#version 330 core
-layout (location = 0) in vec3 aPosition; //vertex coordinates
-
-//uniform variables
-uniform mat4 model;
-uniform mat4 view;
-uniform mat4 projection;
-
-void main() {
-	gl_Position = vec4(aPosition, 1.0) * model * view * projection; //Coordinates
-}";
 
         private IWindow window;
         private IInputContext? input;
-        private Camera camera;
         private bool forward = false, backward = false, left = false, right = false, up = false, down = false;
         private Vector2 mouseVector;
-        public static IRenderer? renderer;
         
         public Game()
         {
