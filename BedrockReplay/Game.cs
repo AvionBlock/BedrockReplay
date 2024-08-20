@@ -1,27 +1,20 @@
-﻿using AvionEngine.Interfaces;
-using Silk.NET.Windowing;
-using System.Drawing;
+﻿using BedrockReplay.Managers;
 
 namespace SharpVE
 {
     public class Game
     {
-        static IEngine Engine { get; set; }
+        static WindowManager WindowManager = new WindowManager();
 
         public Game()
         {
-            var windowOptions = WindowOptions.Default;
-            var window = Window.Create(windowOptions);
+        }
 
-            window.Load += WindowLoad;
-            window.Run();
-
-            void WindowLoad()
-            {
-                var renderer = new AvionEngine.OpenGL.Renderer(window);
-                Engine = new AvionEngine.AvionEngine(renderer);
-                renderer.SetClearColor(Color.Aqua);
-            }
+        public async Task Run()
+        {
+            await WindowManager.CreateOpenGLWindow();
+            await WindowManager.CreateOpenGLWindow();
+            WindowManager.BlockingOpenWindows();
         }
     }
 }
