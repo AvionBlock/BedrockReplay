@@ -1,20 +1,27 @@
 ﻿using BedrockReplay.Managers;
+using Silk.NET.Windowing;
+using System.Drawing;
 
 namespace SharpVE
 {
     public class Game
     {
-        static WindowManager WindowManager = new WindowManager();
-
         public Game()
         {
         }
 
-        public async Task Run()
+        public void Run()
         {
-            await WindowManager.CreateOpenGLWindow();
-            await WindowManager.CreateOpenGLWindow();
+            var window = WindowManager.CreateWindow(WindowOptions.Default);
+            window.OnWindowLoad += Load;
+            _ = Task.Run(window.Window.Run);
             WindowManager.BlockingOpenWindows();
+        }
+
+        private static void Load(WindowInstance window)
+        {
+            window.SetOpenGL();
+            window.Engine.SetClearColor(Color.Aqua);
         }
     }
 }

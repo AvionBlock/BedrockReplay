@@ -1,57 +1,91 @@
-﻿using AvionEngine.Interfaces;
+﻿using Silk.NET.Maths;
 using Silk.NET.Windowing;
-using System.Drawing;
 
 namespace BedrockReplay.Managers
 {
-    public class WindowManager
+    public static class WindowManager
     {
-        public List<IEngine> Windows;
+        public static List<WindowInstance> Windows = new List<WindowInstance>();
 
-        public WindowManager()
-        {
-            Windows = new List<IEngine>();
-        }
+        public delegate void WindowEvent(WindowInstance window);
+        public delegate void WindowResizeEvent(WindowInstance window, Vector2D<int> newSize);
+        public delegate void WindowFocusChangedEvent(WindowInstance window, bool focused);
+        public delegate void WindowUpdateEvent(WindowInstance window, double delta);
 
-        public void BlockingOpenWindows()
-        {
-            while(Windows.Count > 0)
-            {
-                Task.Delay(1);
-            }
-        }
+        public static event WindowEvent? OnWindowClosing;
+        public static event WindowEvent? OnWindowLoad;
+        public static event WindowResizeEvent? OnWindowResize;
+        public static event WindowResizeEvent? OnWindowFramebufferResize;
+        public static event WindowFocusChangedEvent? OnWindowFocusChanged;
+        public static event WindowUpdateEvent? OnWindowUpdate;
+        public static event WindowUpdateEvent? OnWindowRender;
 
-        public async Task<IEngine> CreateOpenGLWindow()
+        public static WindowInstance CreateWindow(WindowOptions windowOptions)
         {
-            var windowOptions = WindowOptions.Default;
             var window = Window.Create(windowOptions);
-            IEngine? engine = null;
+            var windowInstance = new WindowInstance(window);
 
-            window.Load += WindowLoad;
-            _ = Task.Run(window.Run);
+            windowInstance.OnWindowResize += WindowResize;
+            windowInstance.OnWindowFramebufferResize += WindowFramebufferResize;
+            windowInstance.OnWindowClosing += WindowClosing;
+            windowInstance.OnWindowFocusChanged += WindowFocusChanged;
+            windowInstance.OnWindowLoad += WindowLoad;
+            windowInstance.OnWindowUpdate += WindowUpdate;
+            windowInstance.OnWindowRender += WindowRender;
 
-            while (engine == null)
+            Windows.Add(windowInstance);
+            return windowInstance;
+        }
+
+        public static void BlockingOpenWindows()
+        {
+            while (Windows.Count > 0)
             {
-                await Task.Delay(1); //1ms delay so we don't burn the CPU.
+                Task.Delay(1).Wait();
             }
+        }
 
-            return engine;
+        private static void WindowResize(WindowInstance window, Vector2D<int> newSize)
+        {
+            OnWindowResize?.Invoke(window, newSize);
+        }
 
-            void WindowLoad()
-            {
-                var renderer = new AvionEngine.OpenGL.Renderer(window);
-                engine = new AvionEngine.AvionEngine(renderer);
-                renderer.SetClearColor(Color.Aqua);
-                Windows.Add(engine);
-                window.Load -= WindowLoad;
-                window.Closing += WindowClose;
+        private static void WindowFramebufferResize(WindowInstance window, Vector2D<int> newSize)
+        {
+            OnWindowFramebufferResize?.Invoke(window, newSize);
+        }
 
-                void WindowClose()
-                {
-                    Windows.Remove(engine);
-                    window.Closing -= WindowClose;
-                }
-            }
+        private static void WindowClosing(WindowInstance window)
+        {
+            Windows.Remove(window);
+            window.OnWindowResize -= WindowResize;
+            window.OnWindowFramebufferResize -= WindowFramebufferResize;
+            window.OnWindowClosing -= WindowClosing;
+            window.OnWindowFocusChanged -= WindowFocusChanged;
+            window.OnWindowLoad -= WindowLoad;
+            window.OnWindowUpdate -= WindowUpdate;
+            window.OnWindowRender -= WindowRender;
+            OnWindowClosing?.Invoke(window);
+        }
+
+        private static void WindowFocusChanged(WindowInstance window, bool focused)
+        {
+            OnWindowFocusChanged?.Invoke(window, focused);
+        }
+
+        private static void WindowLoad(WindowInstance window)
+        {
+            OnWindowLoad?.Invoke(window);
+        }
+
+        private static void WindowUpdate(WindowInstance window, double delta)
+        {
+            OnWindowUpdate?.Invoke(window, delta);
+        }
+
+        private static void WindowRender(WindowInstance window, double delta)
+        {
+            OnWindowRender?.Invoke(window, delta);
         }
     }
 }
