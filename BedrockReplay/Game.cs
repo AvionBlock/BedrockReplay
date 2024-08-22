@@ -10,15 +10,42 @@ namespace SharpVE
         {
         }
 
-        public void Run()
+        public async Task Run()
         {
             var window = WindowManager.CreateWindow(WindowOptions.Default);
             window.OnWindowLoad += Load;
-            _ = Task.Run(window.Window.Run);
-            WindowManager.BlockingOpenWindows();
+            _ = Task.Run(() => 
+            {
+                try
+                {
+                    window.Window.Run();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
+            });
+
+            await window.WaitForInitialization();
+
+            var window2 = WindowManager.CreateWindow(WindowOptions.Default);
+            window2.OnWindowLoad += Load;
+            _ = Task.Run(() =>
+                {
+                    try
+                    {
+                        window2.Window.Run();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.ToString());
+                    }
+                }
+            );
+            await WindowManager.BlockingOpenWindows();
         }
 
-        private static void Load(WindowInstance window)
+        private void Load(WindowInstance window)
         {
             window.SetOpenGL();
             window.Engine.SetClearColor(Color.Aqua);

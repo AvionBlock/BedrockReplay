@@ -4,7 +4,7 @@
     {
         public static void Main(string[] args)
         {
-            new Game().Run();
+            new Game().Run().GetAwaiter().GetResult();
         }
     }
 }

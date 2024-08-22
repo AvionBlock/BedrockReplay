@@ -1,7 +1,6 @@
 ﻿using AvionEngine.Interfaces;
 using Silk.NET.Maths;
 using Silk.NET.Windowing;
-using System.Drawing;
 
 namespace BedrockReplay.Managers
 {
@@ -46,6 +45,14 @@ namespace BedrockReplay.Managers
             Window.Render += WindowRender;
         }
 
+        public async Task WaitForInitialization()
+        {
+            while(!Window.IsInitialized)
+            {
+                await Task.Delay(1);
+            }
+        }
+
         public void SetOpenGL()
         {
             var renderer = new AvionEngine.OpenGL.Renderer(Window);
@@ -75,6 +82,13 @@ namespace BedrockReplay.Managers
 
         private void WindowClosing()
         {
+            Window.Resize -= WindowResize;
+            Window.FramebufferResize -= WindowFramebufferResize;
+            Window.Closing -= WindowClosing;
+            Window.FocusChanged -= WindowFocusChanged;
+            Window.Load -= WindowLoad;
+            Window.Update -= WindowUpdate;
+            Window.Render -= WindowRender;
             OnWindowClosing?.Invoke(this);
         }
 

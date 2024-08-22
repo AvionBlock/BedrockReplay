@@ -37,11 +37,11 @@ namespace BedrockReplay.Managers
             return windowInstance;
         }
 
-        public static void BlockingOpenWindows()
+        public static async Task BlockingOpenWindows()
         {
             while (Windows.Count > 0)
             {
-                Task.Delay(1).Wait();
+                await Task.Delay(1);
             }
         }
 
