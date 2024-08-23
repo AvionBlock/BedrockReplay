@@ -1,9 +1,0 @@
-﻿using AvionEngine.Rendering;
-
-namespace BedrockReplay.Components
-{
-    public struct MeshRendererComponent
-    {
-        public required BaseMesh Mesh;
-    }
-}

@@ -11,7 +11,7 @@ namespace BedrockReplay.ComponentSystems
         public CameraSystem(World world) : base(world)
         {
             query = new QueryDescription().WithAll<TransformComponent, CameraComponent>();
-            meshQuery = new QueryDescription().WithAll<TransformComponent, MeshRendererComponent>();
+            meshQuery = new QueryDescription().WithAll<TransformComponent, SubChunkMeshComponent>();
         }
 
         //Redelegate AfterUpdate to RenderUpdate.
@@ -23,7 +23,7 @@ namespace BedrockReplay.ComponentSystems
                 var camera = cam;
                 var transform = transf;
 
-                World.Query(in meshQuery, (ref TransformComponent meshTransform, ref MeshRendererComponent mesh) =>
+                World.Query(in meshQuery, (ref TransformComponent meshTransform, ref SubChunkMeshComponent mesh) =>
                 {
                     camera.ProjectionShader.BaseShader.NativeShader.SetUniform4("model", transform.Model);
                     //camera.ProjectionShader.BaseShader.NativeShader.SetUniform4("view", camera.View);
