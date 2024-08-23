@@ -3,7 +3,7 @@ using AvionEngine.Rendering;
 
 namespace BedrockReplay.Shaders
 {
-    public class Shader : IDisposable
+    public class ProjectionShader : IDisposable
     {
         private readonly FileSystemWatcher vertexWatcher;
         private readonly FileSystemWatcher fragmentWatcher;
@@ -14,7 +14,7 @@ namespace BedrockReplay.Shaders
         public readonly BaseShader BaseShader;
         public bool IsDisposed { get; private set; }
 
-        public Shader(IEngine engine, string vertexPath, string fragmentPath)
+        public ProjectionShader(IEngine engine, string vertexPath, string fragmentPath)
         {
             this.vertexPath = vertexPath;
             this.fragmentPath = fragmentPath;
@@ -58,7 +58,7 @@ namespace BedrockReplay.Shaders
             IsDisposed = true;
         }
 
-        ~Shader()
+        ~ProjectionShader()
         {
             Dispose(false);
         }

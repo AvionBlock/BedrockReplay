@@ -1,5 +1,4 @@
-﻿using Arch.Core;
-using Arch.System;
+﻿using Arch.System;
 using BedrockReplay.Components;
 using BedrockReplay.ComponentSystems;
 using BedrockReplay.Managers;
@@ -33,7 +32,7 @@ namespace SharpVE
         {
             window.SetOpenGL();
             window.Engine.SetClearColor(Color.Aqua);
-            var projShader = new Shader(window.Engine, "./Shaders/Default.vert", "./Shaders/Default.frag");
+            var projShader = new ProjectionShader(window.Engine, "./Shaders/Default.vert", "./Shaders/Default.frag");
 
             ECSWorld.Create(new CameraComponent() { ProjectionShader = projShader }, new TransformComponent());
             //ECSWorld.Create(new MeshRendererComponent(), new TransformComponent());

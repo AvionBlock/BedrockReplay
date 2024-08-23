@@ -4,6 +4,6 @@ namespace BedrockReplay.Components
 {
     public struct CameraComponent
     {
-        public required Shader ProjectionShader;
+        public required ProjectionShader ProjectionShader;
     }
 }
