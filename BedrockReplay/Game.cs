@@ -36,7 +36,7 @@ namespace SharpVE
             var projShader = new Shader(window.Engine, "./Shaders/Default.vert", "./Shaders/Default.frag");
 
             ECSWorld.Create(new CameraComponent() { ProjectionShader = projShader }, new TransformComponent());
-            ECSWorld.Create(new MeshRendererComponent(), new TransformComponent());
+            //ECSWorld.Create(new MeshRendererComponent(), new TransformComponent());
 
             Systems.Initialize();
         }
@@ -47,6 +47,7 @@ namespace SharpVE
             Systems.Update(delta);
         }
 
+        //Redelegate AfterUpdate to RenderUpdate.
         private void WindowRender(WindowInstance window, double delta)
         {
             Systems.AfterUpdate(delta);

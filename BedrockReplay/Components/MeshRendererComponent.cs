@@ -4,6 +4,6 @@ namespace BedrockReplay.Components
 {
     public struct MeshRendererComponent
     {
-        public BaseMesh Mesh;
+        public required BaseMesh Mesh;
     }
 }
