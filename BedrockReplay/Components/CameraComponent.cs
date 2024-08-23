@@ -1,7 +1,9 @@
-﻿namespace BedrockReplay.Components
+﻿using BedrockReplay.Shaders;
+
+namespace BedrockReplay.Components
 {
     public struct CameraComponent
     {
-        public Arch.Core.World ECSWorld;
+        public Shader ProjectionShader;
     }
 }

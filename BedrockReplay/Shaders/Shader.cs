@@ -5,13 +5,13 @@ namespace BedrockReplay.Shaders
 {
     public class Shader : IDisposable
     {
-        private FileSystemWatcher vertexWatcher;
-        private FileSystemWatcher fragmentWatcher;
+        private readonly FileSystemWatcher vertexWatcher;
+        private readonly FileSystemWatcher fragmentWatcher;
 
         private string vertexPath;
         private string fragmentPath;
 
-        public readonly BaseShader NativeShader;
+        public readonly BaseShader BaseShader;
         public bool IsDisposed { get; private set; }
 
         public Shader(IEngine engine, string vertexPath, string fragmentPath)
@@ -28,15 +28,14 @@ namespace BedrockReplay.Shaders
             vertexWatcher.Changed += VertexFileChanged;
             fragmentWatcher.Changed += FragmentFileChanged;
 
+            BaseShader = engine.CreateShader(File.ReadAllText(vertexPath), File.ReadAllText(fragmentPath));
             vertexWatcher.EnableRaisingEvents = true;
             fragmentWatcher.EnableRaisingEvents = true;
-
-            NativeShader = engine.CreateShader(File.ReadAllText(vertexPath), File.ReadAllText(fragmentPath));
         }
 
         public void Render(double delta)
         {
-            NativeShader.Render(delta);
+            BaseShader.Render(delta);
         }
 
         public void Dispose()
@@ -53,7 +52,7 @@ namespace BedrockReplay.Shaders
             {
                 vertexWatcher.Dispose();
                 fragmentWatcher.Dispose();
-                NativeShader.NativeShader.Dispose();
+                BaseShader.NativeShader.Dispose();
             }
 
             IsDisposed = true;
@@ -69,7 +68,7 @@ namespace BedrockReplay.Shaders
             vertexPath = e.FullPath;
             var vertexCode = File.ReadAllText(vertexPath);
             var fragmentCode = File.ReadAllText(fragmentPath);
-            NativeShader.NativeShader.Renderer.Execute(() => NativeShader.Reload(vertexCode, fragmentCode));
+            BaseShader.NativeShader.Renderer.Execute(() => BaseShader.Reload(vertexCode, fragmentCode));
         }
 
         private void FragmentFileChanged(object sender, FileSystemEventArgs e)
@@ -77,7 +76,7 @@ namespace BedrockReplay.Shaders
             fragmentPath = e.FullPath;
             var vertexCode = File.ReadAllText(vertexPath);
             var fragmentCode = File.ReadAllText(fragmentPath);
-            NativeShader.NativeShader.Renderer.Execute(() => NativeShader.Reload(vertexCode, fragmentCode));
+            BaseShader.NativeShader.Renderer.Execute(() => BaseShader.Reload(vertexCode, fragmentCode));
         }
     }
 }
