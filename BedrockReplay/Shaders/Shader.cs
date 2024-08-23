@@ -5,7 +5,6 @@ namespace BedrockReplay.Shaders
 {
     public class Shader : IDisposable
     {
-        private readonly IEngine engine;
         private FileSystemWatcher vertexWatcher;
         private FileSystemWatcher fragmentWatcher;
 
@@ -19,7 +18,6 @@ namespace BedrockReplay.Shaders
         {
             this.vertexPath = vertexPath;
             this.fragmentPath = fragmentPath;
-            this.engine = engine;
 
             vertexWatcher = new FileSystemWatcher(Path.GetDirectoryName(vertexPath) ?? "", Path.GetFileName(vertexPath));
             fragmentWatcher = new FileSystemWatcher(Path.GetDirectoryName(fragmentPath) ?? "", Path.GetFileName(fragmentPath));
@@ -71,7 +69,7 @@ namespace BedrockReplay.Shaders
             vertexPath = e.FullPath;
             var vertexCode = File.ReadAllText(vertexPath);
             var fragmentCode = File.ReadAllText(fragmentPath);
-            engine.Execute(() => NativeShader.Reload(vertexCode, fragmentCode));
+            NativeShader.NativeShader.Renderer.Execute(() => NativeShader.Reload(vertexCode, fragmentCode));
         }
 
         private void FragmentFileChanged(object sender, FileSystemEventArgs e)
@@ -79,7 +77,7 @@ namespace BedrockReplay.Shaders
             fragmentPath = e.FullPath;
             var vertexCode = File.ReadAllText(vertexPath);
             var fragmentCode = File.ReadAllText(fragmentPath);
-            engine.Execute(() => NativeShader.Reload(vertexCode, fragmentCode));
+            NativeShader.NativeShader.Renderer.Execute(() => NativeShader.Reload(vertexCode, fragmentCode));
         }
     }
 }
