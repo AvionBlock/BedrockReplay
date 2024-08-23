@@ -1,4 +1,5 @@
 ﻿using BedrockReplay.Managers;
+using BedrockReplay.Shaders;
 using Silk.NET.Windowing;
 using System.Drawing;
 
@@ -6,6 +7,7 @@ namespace SharpVE
 {
     public class Game
     {
+        public static Arch.Core.World ECSWorld = Arch.Core.World.Create();
         public Game()
         {
         }
@@ -14,41 +16,15 @@ namespace SharpVE
         {
             var window = WindowManager.CreateWindow(WindowOptions.Default);
             window.OnWindowLoad += Load;
-            _ = Task.Run(() => 
-            {
-                try
-                {
-                    window.Window.Run();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.ToString());
-                }
-            });
-
-            await window.WaitForInitialization();
-
-            var window2 = WindowManager.CreateWindow(WindowOptions.Default);
-            window2.OnWindowLoad += Load;
-            _ = Task.Run(() =>
-                {
-                    try
-                    {
-                        window2.Window.Run();
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex.ToString());
-                    }
-                }
-            );
-            await WindowManager.BlockingOpenWindows();
+            window.Window.Run();
         }
 
         private void Load(WindowInstance window)
         {
             window.SetOpenGL();
             window.Engine.SetClearColor(Color.Aqua);
+
+            new Shader(window.Engine, "./Shaders/Default.vert", "./Shaders/Default.frag");
         }
     }
 }
