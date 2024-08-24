@@ -52,7 +52,7 @@ namespace BedrockReplay.Shaders
             {
                 vertexWatcher.Dispose();
                 fragmentWatcher.Dispose();
-                BaseShader.NativeShader.Dispose();
+                BaseShader.Dispose();
             }
 
             IsDisposed = true;
@@ -68,7 +68,7 @@ namespace BedrockReplay.Shaders
             vertexPath = e.FullPath;
             var vertexCode = File.ReadAllText(vertexPath);
             var fragmentCode = File.ReadAllText(fragmentPath);
-            BaseShader.NativeShader.Renderer.Execute(() => BaseShader.Reload(vertexCode, fragmentCode));
+            BaseShader.Renderer.Execute(() => BaseShader.Reload(vertexCode, fragmentCode));
         }
 
         private void FragmentFileChanged(object sender, FileSystemEventArgs e)
@@ -76,7 +76,7 @@ namespace BedrockReplay.Shaders
             fragmentPath = e.FullPath;
             var vertexCode = File.ReadAllText(vertexPath);
             var fragmentCode = File.ReadAllText(fragmentPath);
-            BaseShader.NativeShader.Renderer.Execute(() => BaseShader.Reload(vertexCode, fragmentCode));
+            BaseShader.Renderer.Execute(() => BaseShader.Reload(vertexCode, fragmentCode));
         }
     }
 }

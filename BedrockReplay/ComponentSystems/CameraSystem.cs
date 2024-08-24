@@ -25,7 +25,7 @@ namespace BedrockReplay.ComponentSystems
 
                 World.Query(in meshQuery, (ref TransformComponent meshTransform, ref SubChunkMeshComponent mesh) =>
                 {
-                    camera.ProjectionShader.BaseShader.NativeShader.SetUniform4("model", transform.Model);
+                    camera.ProjectionShader.BaseShader.SetUniform4("model", transform.Model);
                     //camera.ProjectionShader.BaseShader.NativeShader.SetUniform4("view", camera.View);
                     //camera.ProjectionShader.BaseShader.NativeShader.SetUniform4("projection", camera.View);
                     camera.ProjectionShader.Render(delta);
