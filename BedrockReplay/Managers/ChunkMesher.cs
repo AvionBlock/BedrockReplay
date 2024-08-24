@@ -19,12 +19,8 @@ namespace BedrockReplay.Managers
 
         public static void MeshLogic()
         {
-            //At least allocate enough for 1 cube
             var vertices = ArrayPool<Vertex>.Shared.Rent(0);
             var indices = ArrayPool<uint>.Shared.Rent(0);
-
-            var verticesLoc = 0;
-            var indicesLoc = 0;
 
             while(QueuedMeshes.Any())
             {
