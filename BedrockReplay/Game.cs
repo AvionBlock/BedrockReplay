@@ -44,9 +44,11 @@ namespace SharpVE
 
             Systems.Initialize();
             BlockRegistry.Register(new Block("minecraft:grass", new Dictionary<string, Interfaces.IProperty>()));
+            BlockRegistry.Register(new Block("minecraft:air", new Dictionary<string, Interfaces.IProperty>()));
             var b = BlockRegistry.Get("minecraft:grass");
+            var b2 = BlockRegistry.Get("minecraft:air");
             World.ChunkManager.CreateChunk(new Data.BlockPosition(0, 0, 0), b.GetDefaultBlockState());
-            var chunk = World.ChunkManager.GetChunk(new Data.BlockPosition(0, 0, 0));
+            var chunk = World.ChunkManager.GetChunk(new Data.BlockPosition(0, 0, 0)).SetBlockState(b2.GetDefaultBlockState(), 0, 1, 0);
             var block = chunk.GetBlockState(0, 0, 0);
             Console.WriteLine(chunk);
             Console.WriteLine(block);
