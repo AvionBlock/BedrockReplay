@@ -4,6 +4,7 @@ using BedrockReplay.ComponentSystems;
 using BedrockReplay.Managers;
 using BedrockReplay.Shaders;
 using SharpVE.Blocks;
+using SharpVE.Registries;
 using Silk.NET.Windowing;
 using System.Drawing;
 
@@ -12,6 +13,8 @@ namespace SharpVE
     public class Game
     {
         public static World<BlockState> World { get; private set; } = new World<BlockState>();
+        public static BlockRegistry BlockRegistry { get; private set; } = new BlockRegistry();
+
         public static Arch.Core.World ECSWorld = Arch.Core.World.Create();
         public static Group<double> Systems = new Group<double>("systems",
             new CameraSystem(ECSWorld)
@@ -40,7 +43,9 @@ namespace SharpVE
             //ECSWorld.Create(new MeshRendererComponent(), new TransformComponent());
 
             Systems.Initialize();
-            World.ChunkManager.CreateChunk(new Data.BlockPosition(0, 0, 0), new BlockState(new Block("minecraft:grass")));
+            BlockRegistry.Register(new Block("minecraft:grass", new Dictionary<string, Interfaces.IProperty>()));
+            var b = BlockRegistry.Get("minecraft:grass");
+            World.ChunkManager.CreateChunk(new Data.BlockPosition(0, 0, 0), b.GetDefaultBlockState());
             var chunk = World.ChunkManager.GetChunk(new Data.BlockPosition(0, 0, 0));
             var block = chunk.GetBlockState(0, 0, 0);
             Console.WriteLine(chunk);
