@@ -1,12 +1,13 @@
-﻿using Arch.System;
+﻿using Arch.Core;
+using Arch.System;
 using BedrockReplay.Components;
 using BedrockReplay.ComponentSystems;
 using BedrockReplay.Managers;
-using BedrockReplay.Primitives;
 using BedrockReplay.Shaders;
 using BedrockReplay.Utils;
 using SharpVE.Blocks;
 using Silk.NET.Input;
+using Silk.NET.Maths;
 using Silk.NET.Windowing;
 using System.Drawing;
 
@@ -39,22 +40,30 @@ namespace SharpVE
         {
             window.SetOpenGL();
             window.Engine.SetClearColor(Color.Aqua);
+            window.Engine.Renderer.SetDepthTest(true);
+            //window.Engine.Renderer.SetWireframe(true);
+
             var projShader = new ProjectionShader(window.Engine, "./Shaders/Default.vert", "./Shaders/Default.frag");
-            var plane = new Plane();
+            var plane = new BedrockReplay.Primitives.Plane();
             var input = window.Window.CreateInput();
             var keyboard = input.Keyboards.FirstOrDefault();
             var mouse = input.Mice.FirstOrDefault();
             mouse.Cursor.CursorMode = CursorMode.Raw;
 
             ECSWorld.Create(new CameraComponent(projShader, window), new TransformComponent(0, 0, 0), new FPSController(keyboard, mouse));
-            ECSWorld.Create(new ChunkMeshComponent() { Mesh = window.Engine.CreateMesh(plane.vertices, plane.Indices)}, new TransformComponent(0, 1, 1));
-            ECSWorld.Create(new ChunkMeshComponent() { Mesh = window.Engine.CreateMesh(plane.vertices, plane.Indices) }, new TransformComponent(0, 0, -1) { EulerAngles = new Silk.NET.Maths.Vector3D<float>(0,0,MathHelper.DegreesToRadians(90))});
+            ECSWorld.Create(new ChunkMeshComponent() { Mesh = window.Engine.CreateMesh(plane.vertices, plane.Indices) }, new TransformComponent(0, 1, 1));
 
             Systems.Initialize();
 ;       }
 
         private void WindowUpdate(WindowInstance window, double delta)
         {
+            var query = new QueryDescription()
+                .WithAll<TransformComponent, ChunkMeshComponent>();
+            ECSWorld.Query(in query, (ref TransformComponent transform, ref ChunkMeshComponent chunkMesh) =>
+            {
+                transform.Rotation *= Quaternion<float>.CreateFromAxisAngle(new Vector3D<float>(0,0,0.5f), MathHelper.DegreesToRadians(1f));
+            });
             Systems.BeforeUpdate(delta);
             Systems.Update(delta);
         }

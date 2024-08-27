@@ -1,7 +1,9 @@
 ﻿using Arch.Core;
 using Arch.System;
 using BedrockReplay.Components;
+using BedrockReplay.Managers;
 using BedrockReplay.Utils;
+using SharpVE;
 using Silk.NET.Maths;
 
 namespace BedrockReplay.ComponentSystems
