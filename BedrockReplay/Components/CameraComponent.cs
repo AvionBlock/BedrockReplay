@@ -22,7 +22,7 @@ namespace BedrockReplay.Components
             Far = far;
         }
 
-        public Matrix4X4<float> GetView(TransformComponent transform) => Matrix4X4.CreateLookAt(transform.Position, transform.Position + transform.Forward, transform.Up);
+        public Matrix4X4<float> GetView(TransformComponent transform) => Matrix4X4.CreateLookAt(transform.Position, transform.Position -transform.Forward, transform.Up);
         public Matrix4X4<float> GetProjection() => Matrix4X4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(FOV), WindowInstance.Window.Size.X / (float)WindowInstance.Window.Size.Y, Near, Far);
     }
 }
