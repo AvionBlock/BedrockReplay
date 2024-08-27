@@ -47,7 +47,8 @@ namespace SharpVE
             mouse.Cursor.CursorMode = CursorMode.Raw;
 
             ECSWorld.Create(new CameraComponent(projShader, window), new TransformComponent(0, 0, 0), new FPSController(keyboard, mouse));
-            ECSWorld.Create(new ChunkMeshComponent() { Mesh = window.Engine.CreateMesh(plane.vertices, plane.Indices)}, new TransformComponent(0,0,0));
+            ECSWorld.Create(new ChunkMeshComponent() { Mesh = window.Engine.CreateMesh(plane.vertices, plane.Indices)}, new TransformComponent(0, 1, 1));
+            ECSWorld.Create(new ChunkMeshComponent() { Mesh = window.Engine.CreateMesh(plane.vertices, plane.Indices) }, new TransformComponent(0, 0, -1) { EulerAngles = new Silk.NET.Maths.Vector3D<float>(0,0,MathHelper.DegreesToRadians(90))});
 
             Systems.Initialize();
 ;       }
