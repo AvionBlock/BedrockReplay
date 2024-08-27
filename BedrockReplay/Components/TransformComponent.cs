@@ -12,8 +12,8 @@ namespace BedrockReplay.Components
 
         public Vector3D<float> Forward => Vector3D.Multiply(Vector3D<float>.UnitZ, RotationMatrix);
         public Vector3D<float> Backward => Vector3D.Multiply(-Vector3D<float>.UnitZ, RotationMatrix);
-        public Vector3D<float> Right => Vector3D.Multiply(-Vector3D<float>.UnitX, RotationMatrix);
-        public Vector3D<float> Left => Vector3D.Multiply(Vector3D<float>.UnitX, RotationMatrix);
+        public Vector3D<float> Right => Vector3D.Multiply(Vector3D<float>.UnitX, RotationMatrix);
+        public Vector3D<float> Left => Vector3D.Multiply(-Vector3D<float>.UnitX, RotationMatrix);
         public Vector3D<float> Up => Vector3D.Multiply(Vector3D<float>.UnitY, RotationMatrix);
         public Vector3D<float> Down => Vector3D.Multiply(-Vector3D<float>.UnitY, RotationMatrix);
 
@@ -48,17 +48,7 @@ namespace BedrockReplay.Components
             }
             set
             {
-                float cy = MathF.Cos(value.Z * 0.5f);
-                float sy = MathF.Sin(value.Z * 0.5f);
-                float cp = MathF.Cos(value.Y * 0.5f);
-                float sp = MathF.Sin(value.Y * 0.5f);
-                float cr = MathF.Cos(value.X * 0.5f);
-                float sr = MathF.Sin(value.X * 0.5f);
-
-                Rotation.W = cr * cp * cy + sr * sp * sy;
-                Rotation.X = sr * cp * cy - cr * sp * sy;
-                Rotation.Y = cr * sp * cy + sr * cp * sy;
-                Rotation.Z = cr * cp * sy - sr * sp * cy;
+                Rotation = Quaternion<float>.CreateFromYawPitchRoll(value.X, value.Y, value.Z);
             }
         }
 

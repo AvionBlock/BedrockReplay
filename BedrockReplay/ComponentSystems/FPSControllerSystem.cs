@@ -1,9 +1,7 @@
 ﻿using Arch.Core;
 using Arch.System;
 using BedrockReplay.Components;
-using BedrockReplay.Managers;
 using BedrockReplay.Utils;
-using SharpVE;
 using Silk.NET.Maths;
 
 namespace BedrockReplay.ComponentSystems
@@ -32,11 +30,11 @@ namespace BedrockReplay.ComponentSystems
                 if (fps.Keyboard.IsKeyPressed(Silk.NET.Input.Key.W))
                     transform.Position += Vector3D.Multiply(transform.Forward, moveSpeed);
                 if (fps.Keyboard.IsKeyPressed(Silk.NET.Input.Key.A))
-                    transform.Position += Vector3D.Multiply(transform.Left, moveSpeed);
+                    transform.Position -= Vector3D.Multiply(transform.Left, moveSpeed);
                 if (fps.Keyboard.IsKeyPressed(Silk.NET.Input.Key.S))
                     transform.Position += Vector3D.Multiply(transform.Backward, moveSpeed);
                 if (fps.Keyboard.IsKeyPressed(Silk.NET.Input.Key.D))
-                    transform.Position += Vector3D.Multiply(transform.Right, moveSpeed);
+                    transform.Position -= Vector3D.Multiply(transform.Right, moveSpeed);
                 if (fps.Keyboard.IsKeyPressed(Silk.NET.Input.Key.E))
                     transform.Rotation *= Quaternion<float>.CreateFromAxisAngle(Vector3D<float>.UnitZ, MathHelper.DegreesToRadians(moveSpeed * 200));
                 if (fps.Keyboard.IsKeyPressed(Silk.NET.Input.Key.Q))
