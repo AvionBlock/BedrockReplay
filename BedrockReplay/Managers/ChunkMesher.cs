@@ -8,9 +8,9 @@ namespace BedrockReplay.Managers
     public static class ChunkMesher
     {
         private static Thread MesherThread = new Thread(MeshLogic);
-        private static ConcurrentQueue<SubChunkMeshComponent> QueuedMeshes = new ConcurrentQueue<SubChunkMeshComponent>();
+        private static ConcurrentQueue<ChunkMeshComponent> QueuedMeshes = new ConcurrentQueue<ChunkMeshComponent>();
 
-        public static void QueueMesh(SubChunkMeshComponent chunkMesh)
+        public static void QueueMesh(ChunkMeshComponent chunkMesh)
         {
             QueuedMeshes.Enqueue(chunkMesh);
             if (!MesherThread.IsAlive)

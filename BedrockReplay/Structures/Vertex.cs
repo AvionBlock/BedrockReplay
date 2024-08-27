@@ -11,6 +11,6 @@ namespace BedrockReplay.Structures
         [VertexField(FieldType.Single)]
         public Vector3D<float> Normal;
         [VertexField(FieldType.Single)]
-        public Vector3D<float> TexCoord;
+        public Vector2D<float> TexCoord;
     }
 }

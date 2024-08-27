@@ -2,7 +2,7 @@
 
 namespace BedrockReplay.Components
 {
-    public struct SubChunkMeshComponent
+    public struct ChunkMeshComponent
     {
         public required BaseMesh Mesh;
         //public required SubChunk<T> SubChunk;

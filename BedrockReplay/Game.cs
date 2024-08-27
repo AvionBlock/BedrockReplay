@@ -2,9 +2,11 @@
 using BedrockReplay.Components;
 using BedrockReplay.ComponentSystems;
 using BedrockReplay.Managers;
+using BedrockReplay.Primitives;
 using BedrockReplay.Shaders;
+using BedrockReplay.Utils;
 using SharpVE.Blocks;
-using SharpVE.Registries;
+using Silk.NET.Input;
 using Silk.NET.Windowing;
 using System.Drawing;
 
@@ -13,11 +15,11 @@ namespace SharpVE
     public class Game
     {
         public static World<BlockState> World { get; private set; } = new World<BlockState>();
-        public static BlockRegistry BlockRegistry { get; private set; } = new BlockRegistry();
 
         public static Arch.Core.World ECSWorld = Arch.Core.World.Create();
         public static Group<double> Systems = new Group<double>("systems",
-            new CameraSystem(ECSWorld)
+            new CameraSystem(ECSWorld),
+            new FPSControllerSystem(ECSWorld)
         );
         public Game()
         {
@@ -38,20 +40,16 @@ namespace SharpVE
             window.SetOpenGL();
             window.Engine.SetClearColor(Color.Aqua);
             var projShader = new ProjectionShader(window.Engine, "./Shaders/Default.vert", "./Shaders/Default.frag");
+            var plane = new Plane();
+            var input = window.Window.CreateInput();
+            var keyboard = input.Keyboards.FirstOrDefault();
+            var mouse = input.Mice.FirstOrDefault();
+            mouse.Cursor.CursorMode = CursorMode.Raw;
 
-            ECSWorld.Create(new CameraComponent() { ProjectionShader = projShader }, new TransformComponent());
-            //ECSWorld.Create(new MeshRendererComponent(), new TransformComponent());
+            ECSWorld.Create(new CameraComponent(projShader, window), new TransformComponent(0, 0, 0), new FPSController(keyboard, mouse));
+            ECSWorld.Create(new ChunkMeshComponent() { Mesh = window.Engine.CreateMesh(plane.vertices, plane.Indices)}, new TransformComponent(0,0,0));
 
             Systems.Initialize();
-            BlockRegistry.Register(new Block("minecraft:grass", new Dictionary<string, Interfaces.IProperty>()));
-            BlockRegistry.Register(new Block("minecraft:air", new Dictionary<string, Interfaces.IProperty>()));
-            var b = BlockRegistry.Get("minecraft:grass");
-            var b2 = BlockRegistry.Get("minecraft:air");
-            World.ChunkManager.CreateChunk(new Data.BlockPosition(0, 0, 0), b.GetDefaultBlockState());
-            var chunk = World.ChunkManager.GetChunk(new Data.BlockPosition(0, 0, 0)).SetBlockState(b2.GetDefaultBlockState(), 0, 1, 0);
-            var block = chunk.GetBlockState(0, 0, 0);
-            Console.WriteLine(chunk);
-            Console.WriteLine(block);
 ;       }
 
         private void WindowUpdate(WindowInstance window, double delta)
