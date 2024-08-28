@@ -40,7 +40,7 @@ namespace SharpVE
             window.SetOpenGL();
             window.Engine.SetClearColor(Color.Aqua);
             window.Engine.Renderer.SetDepthTest(true);
-            //window.Engine.Renderer.SetWireframe(true);
+            window.Engine.Renderer.SetWireframe(true);
 
             var projShader = new ProjectionShader(window.Engine, "./Shaders/Default.vert", "./Shaders/Default.frag");
             var plane = new BedrockReplay.Primitives.Plane();
