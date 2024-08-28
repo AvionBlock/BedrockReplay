@@ -5,11 +5,11 @@ namespace BedrockReplay.Components
 {
     public struct FPSController
     {
-        public float Speed = 0.25f;
-        public float Sensitivity = 2.0f;
+        public readonly float Speed = 0.25f;
+        public readonly float Sensitivity = 2.0f;
         public Vector2D<float> LastMousePos = new Vector2D<float>();
-        public IKeyboard Keyboard;
-        public IMouse Mouse;
+        public readonly IKeyboard Keyboard;
+        public readonly IMouse Mouse;
 
         public FPSController(IKeyboard keyboard, IMouse mouse)
         {
