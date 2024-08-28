@@ -15,7 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\SharpVE\SharpVE\SharpVE.csproj" />
     <ProjectReference Include="..\AvionEngine\AvionEngine.OpenGL\AvionEngine.OpenGL.csproj" />
     <ProjectReference Include="..\AvionEngine\AvionEngine\AvionEngine.csproj" />
     <ProjectReference Include="..\SharpVE\SharpVE\SharpVE.csproj" />

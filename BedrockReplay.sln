@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvionEngine", "AvionEngine\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvionEngine.OpenGL", "AvionEngine\AvionEngine.OpenGL\AvionEngine.OpenGL.csproj", "{39C50883-77BE-4018-ADDA-E124435EEBCC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpVE", "SharpVE\SharpVE\SharpVE.csproj", "{415355A1-EF15-4673-B26F-DA3BA8D6582F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpVE", "SharpVE\SharpVE\SharpVE.csproj", "{D2EB5524-00A0-484A-AFAE-CDB23DC22EE2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{39C50883-77BE-4018-ADDA-E124435EEBCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39C50883-77BE-4018-ADDA-E124435EEBCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39C50883-77BE-4018-ADDA-E124435EEBCC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{415355A1-EF15-4673-B26F-DA3BA8D6582F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{415355A1-EF15-4673-B26F-DA3BA8D6582F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{415355A1-EF15-4673-B26F-DA3BA8D6582F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{415355A1-EF15-4673-B26F-DA3BA8D6582F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2EB5524-00A0-484A-AFAE-CDB23DC22EE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2EB5524-00A0-484A-AFAE-CDB23DC22EE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2EB5524-00A0-484A-AFAE-CDB23DC22EE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2EB5524-00A0-484A-AFAE-CDB23DC22EE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
