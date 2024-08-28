@@ -23,18 +23,16 @@ namespace BedrockReplay.ComponentSystems
                 var mVector = Vector2D.Subtract(fps.LastMousePos, new Vector2D<float>(fps.Mouse.Position.X, fps.Mouse.Position.Y));
                 fps.LastMousePos = new Vector2D<float>(fps.Mouse.Position.X, fps.Mouse.Position.Y);
 
-                Console.WriteLine(transform.Position);
-
                 if (fps.Keyboard.IsKeyPressed(Silk.NET.Input.Key.Space))
                     transform.Position += Vector3D.Multiply(transform.Up, moveSpeed);
                 if (fps.Keyboard.IsKeyPressed(Silk.NET.Input.Key.ShiftLeft))
                     transform.Position += Vector3D.Multiply(transform.Down, moveSpeed);
                 if (fps.Keyboard.IsKeyPressed(Silk.NET.Input.Key.W))
-                    transform.Position -= Vector3D.Multiply(transform.Forward, moveSpeed);
+                    transform.Position += Vector3D.Multiply(transform.Forward, moveSpeed);
                 if (fps.Keyboard.IsKeyPressed(Silk.NET.Input.Key.A))
                     transform.Position += Vector3D.Multiply(transform.Left, moveSpeed);
                 if (fps.Keyboard.IsKeyPressed(Silk.NET.Input.Key.S))
-                    transform.Position -= Vector3D.Multiply(transform.Backward, moveSpeed);
+                    transform.Position += Vector3D.Multiply(transform.Backward, moveSpeed);
                 if (fps.Keyboard.IsKeyPressed(Silk.NET.Input.Key.D))
                     transform.Position += Vector3D.Multiply(transform.Right, moveSpeed);
                 if (fps.Keyboard.IsKeyPressed(Silk.NET.Input.Key.Q))

@@ -18,16 +18,15 @@ namespace BedrockReplay.ComponentSystems
         public override void AfterUpdate(in double d)
         {
             var delta = d;
-            World.Query(in query, (ref TransformComponent transf, ref CameraComponent cam) =>
+            World.Query(in query, (ref TransformComponent transform, ref CameraComponent cam) =>
             {
                 var camera = cam;
-                var transform = transf;
+                camera.ProjectionShader.BaseShader.SetUniform4("view", camera.GetView(transform));
+                camera.ProjectionShader.BaseShader.SetUniform4("projection", camera.GetProjection());
 
                 World.Query(in meshQuery, (ref TransformComponent meshTransform, ref ChunkMeshComponent mesh) =>
                 {
                     camera.ProjectionShader.BaseShader.SetUniform4("model", meshTransform.ModelMatrix);
-                    camera.ProjectionShader.BaseShader.SetUniform4("view", camera.GetView(transform));
-                    camera.ProjectionShader.BaseShader.SetUniform4("projection", camera.GetProjection());
                     camera.ProjectionShader.Render(delta);
                     mesh.Mesh.Render(delta);
                 });
