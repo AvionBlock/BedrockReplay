@@ -1,4 +1,4 @@
-﻿using AvionEngine.Interfaces;
+﻿using AvionEngine;
 using Silk.NET.Maths;
 using Silk.NET.Windowing;
 
@@ -6,16 +6,16 @@ namespace BedrockReplay.Managers
 {
     public class WindowInstance
     {
-        private IEngine? engine;
+        private AVRenderer? renderer;
 
         public readonly IWindow Window;
-        public IEngine Engine 
+        public AVRenderer Renderer 
         { 
             get
             {
-                if (engine == null)
-                    throw new InvalidOperationException("Engine has not been set!");
-                return engine;
+                if (renderer == null)
+                    throw new InvalidOperationException("Renderer has not been set!");
+                return renderer;
             }
         }
 
@@ -55,9 +55,7 @@ namespace BedrockReplay.Managers
 
         public void SetOpenGL()
         {
-            var renderer = new AvionEngine.OpenGL.Renderer(Window);
-            var engine = new AvionEngine.AvionEngine(renderer);
-            this.engine = engine;
+            renderer = new AvionEngine.OpenGL.Renderer(Window);
         }
 
         public void SetD3D11()
