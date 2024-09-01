@@ -1,14 +1,5 @@
-﻿using Arch.Core;
-using Arch.System;
-using BedrockReplay.Components;
-using BedrockReplay.ComponentSystems;
-using BedrockReplay.Managers;
-using BedrockReplay.Shaders;
-using BedrockReplay.Utils;
-using SharpVE.Blocks;
-using Silk.NET.Input;
+﻿using BedrockReplay.Managers;
 using Silk.NET.Windowing;
-using System.Drawing;
 using AvionEngine.Graphics;
 
 namespace BedrockReplay
