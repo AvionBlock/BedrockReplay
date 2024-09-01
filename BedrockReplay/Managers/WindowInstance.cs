@@ -55,7 +55,7 @@ namespace BedrockReplay.Managers
 
         public void SetOpenGL()
         {
-            renderer = new AvionEngine.OpenGL.Renderer(Window);
+            renderer = new AvionEngine.OpenGL.GLRenderer(Window);
         }
 
         public void SetD3D11()
